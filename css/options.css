@@ -15,7 +15,6 @@ table td {
 
 td.top {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
   font-size: 22px;
   color: #555555;
   text-align: center;
@@ -26,7 +25,6 @@ input {
   width: 200px;
   padding: 9px 3px;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
   font-size: 12px;
   margin: 0px 0px 5px;
   border-radius: 4px;
@@ -38,7 +36,6 @@ input[type='submit'] {
   height: 30px;
   padding: 3px;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
   font-size: 12px;
   background: #ffffff;
   border: 1px solid #aaaaaa;
@@ -81,6 +78,5 @@ div.selection-row.selected {
 
 @font-face {
   font-family: 'Montserrat';
-  src: url('../fonts/Montserrat-Light.ttf')  format('truetype');
-  font-weight: 300;
+  src: url('../fonts/Montserrat-Regular.ttf')  format('truetype');
 }
