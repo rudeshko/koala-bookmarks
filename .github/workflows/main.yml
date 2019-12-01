@@ -1,0 +1,11 @@
+name: Chrome-Bookmarks-CICD
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Testing on push
+      run: ls -lA
