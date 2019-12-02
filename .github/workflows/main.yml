@@ -7,13 +7,12 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v1
-    - name: Install Dependancies
-      run: sudo apt install jq
     - name: Prepare the zip file for the extension
       run: zip -r extension.zip .
     - name: Get Access Token to upload to the Web Store
       run: |
-        REFRESH_TOKEN_RESPONSE=$(curl "https://accounts.google.com/o/oauth2/token" -d "refresh_token=$REFRESH_TOKEN&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&grant_type=refresh_token")
+        REFRESH_TOKEN_RESPONSE=$(curl "https://accounts.google.com/o/oauth2/token" --silent -d "refresh_token=$REFRESH_TOKEN&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&grant_type=refresh_token")
         ACCESS_TOKEN=$(echo $REFRESH_TOKEN_RESPONSE | jq --raw-output .access_token)
-    - name: Get current directory path
-      run: pwd
+    - name: Upload the extension to Google Web Store
+      run: |
+        curl -H "Authorization: Bearer $ACCESS_TOKEN" --silent -H "x-goog-api-version: 2" -X PUT -T $(pwd)extension.zip -v https://www.googleapis.com/upload/chromewebstore/v1.1/items/$APP_ID
