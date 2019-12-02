@@ -5,10 +5,13 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-18.04
+    env:
+      APP_ID: ${{ secrets.APP_ID }}
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
     steps:
     - uses: actions/checkout@v1
-    - name: Testing env var
-      run: echo $TEST
     - name: Prepare the zip file for the extension
       run: zip -r extension.zip .
     - name: Get Access Token for the Google Web Store
