@@ -15,4 +15,4 @@ jobs:
         ACCESS_TOKEN=$(echo $REFRESH_TOKEN_RESPONSE | jq --raw-output .access_token)
     - name: Upload the extension to Google Web Store
       run: |
-        curl -H "Authorization: Bearer $ACCESS_TOKEN" --silent -H "x-goog-api-version: 2" -X PUT -T $(pwd)extension.zip -v https://www.googleapis.com/upload/chromewebstore/v1.1/items/$APP_ID
+        curl -H "Authorization: Bearer $ACCESS_TOKEN" --silent -H "x-goog-api-version: 2" -X PUT -T $(pwd)/extension.zip -v https://www.googleapis.com/upload/chromewebstore/v1.1/items/$APP_ID
