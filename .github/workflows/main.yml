@@ -19,7 +19,7 @@ jobs:
       - name: Get Access Token for the Google Web Store
         run: |
           export REFRESH_TOKEN_RESPONSE=$(curl "https://accounts.google.com/o/oauth2/token" --silent -d "refresh_token=$REFRESH_TOKEN&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&grant_type=refresh_token")
-          echo "::set-env name=ACCESS_TOKEN::$(echo $REFRESH_TOKEN_RESPONSE | jq --raw-output .access_token)"
+          echo "::set-env name=ACCESS_TOKEN::$(echo $REFRESH_TOKEN_RESPONSE | jq --raw-output .access_token)" >> /dev/null
       - name: Upload to the Google Web Store
         run: |
           curl -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -X PUT -T "./extension.zip" --silent https://www.googleapis.com/upload/chromewebstore/v1.1/items/$APP_ID
