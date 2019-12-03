@@ -4,11 +4,6 @@ on: [push]
 
 jobs:
   build:
-    env:
-      APP_ID: ${{ secrets.APP_ID }}
-      CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
@@ -20,6 +15,11 @@ jobs:
         run: |
           REFRESH_TOKEN_RESPONSE=$(curl "https://accounts.google.com/o/oauth2/token" --silent -d "refresh_token=$REFRESH_TOKEN&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&grant_type=refresh_token")
           ACCESS_TOKEN=$(echo $REFRESH_TOKEN_RESPONSE | jq --raw-output .access_token)
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
       - name: Upload to the Google Web Store
         run: |
           curl -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -X PUT -T "./extension.zip" --silent https://www.googleapis.com/upload/chromewebstore/v1.1/items/$APP_ID
