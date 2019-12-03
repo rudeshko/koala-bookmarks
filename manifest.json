@@ -1,19 +1,28 @@
 {
-	"name":"Desktop Bookmarks",
-	"version":"0.2.7",
-	"manifest_version": 2,
-	"description":"Desktop Bookmarks for easier access to the websites.",
-	"icons":{"128":"images/icon_128.png"},
-	"options_page": "options.html",
-	"permissions":[
-	    "storage"
-    ],
-	"browser_action":{
-		"default_icon":"images/icon.png",
-		"default_popup":"index.html"
-	},
-	"content_scripts":[{
-		"matches":["http://*/*"],
-		"js":["js/jquery-1.11.0.min.js"]
-	}]
+  "name": "Desktop Bookmarks",
+  "version": "0.2.8",
+  "manifest_version": 2,
+  "description": "Desktop Bookmarks for easier access to the websites.",
+  "icons": { "128": "images/icon_128.png" },
+  "options_page": "options.html",
+  "permissions": [
+	  "storage",
+	  "https://www.googleapis.com/"
+  ],
+  "oauth2": {
+    "client_id": "136776124756-pvjjqoua8e86tj56l4gq92j8ovvlihnv.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/chromewebstore.readonly"
+    ]
+  },
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["js/jquery-1.11.0.min.js"]
+    }
+  ]
 }
