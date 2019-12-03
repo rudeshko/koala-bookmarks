@@ -4,20 +4,16 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v1
-      - name: Prepare the zip file for the extension
-        run: zip -r extension.zip .
-  deploy:
-    runs-on: ubuntu-18.04
-    needs: build
     env:
       APP_ID: ${{ secrets.APP_ID }}
       CLIENT_ID: ${{ secrets.CLIENT_ID }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+    runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@v1
+      - name: Prepare the zip file for the extension
+        run: zip -rq extension.zip .
       - name: Test
         run: ls -lA
       - name: Get Access Token for the Google Web Store
