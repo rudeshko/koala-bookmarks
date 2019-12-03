@@ -1,6 +1,9 @@
 name: Chrome-Bookmarks-CICD
 
-on: [push]
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -12,12 +15,19 @@ jobs:
       REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
     steps:
       - uses: actions/checkout@v1
+      - name: Get new package version
+        run: |
+          echo -e "NEW_VERSION=$(cat manifest.json | jq --raw-output .version)\n" >> .vars
+      - name: Get published package version from the current tag (if exists)
+        run: |
+          echo "Placeholder for now..."
       - name: Prepare the zip file for the extension
-        run: zip -rq extension.zip .
+        run: |
+          zip -rq extension.zip .
       - name: Get Access Token for the Google Web Store
         run: |
           REFRESH_TOKEN_RESPONSE=$(curl "https://accounts.google.com/o/oauth2/token" --silent -d "refresh_token=$REFRESH_TOKEN&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&grant_type=refresh_token")
-          echo "ACCESS_TOKEN=$(echo $REFRESH_TOKEN_RESPONSE | jq --raw-output .access_token)" > .vars
+          echo -e "ACCESS_TOKEN=$(echo $REFRESH_TOKEN_RESPONSE | jq --raw-output .access_token)\n" >> .vars
       - name: Upload to the Google Web Store
         run: |
           source .vars
