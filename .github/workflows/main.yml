@@ -21,7 +21,9 @@ jobs:
           TAG_VERSION=$(git tag --points-at HEAD)
 
           if [ "$MANIFEST_VERSION" != "$TAG_VERSION" ]; then
-            echo "Manifest and Branch tag versions do not match, skipping the publishing..."
+            echo "**************************************************************************"
+            echo "* Manifest and Git tag versions do not match, skipping the publishing... *"
+            echo "**************************************************************************"
             exit 1
           fi
       - name: Prepare the zip file for the extension
