@@ -6,7 +6,7 @@ on:
       - '*.*.*'
 
 jobs:
-  build:
+  cicd:
     runs-on: ubuntu-18.04
     env:
       APP_ID: ${{ secrets.APP_ID }}
