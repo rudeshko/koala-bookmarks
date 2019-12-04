@@ -3,7 +3,7 @@ name: Chrome-Bookmarks-CICD
 on:
   push:
     tags:
-      - '*'
+      - '*.*.*'
 
 jobs:
   build:
@@ -15,12 +15,15 @@ jobs:
       REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
     steps:
       - uses: actions/checkout@v1
-      - name: Get new package version
+      - name: Ensure that the branch is tagged, and matches the manifest version
         run: |
-          echo -e "NEW_VERSION=$(cat manifest.json | jq --raw-output .version)\n" >> .vars
-      - name: Get published package version from the current tag (if exists)
-        run: |
-          echo "Placeholder for now..."
+          MANIFEST_VERSION=$(cat manifest.json | jq --raw-output .version)
+          TAG_VERSION=$(git tag --points-at HEAD)
+
+          if [ "$MANIFEST_VERSION" != "$TAG_VERSION" ]; then
+            echo "Manifest and Branch tag versions do not match, skipping the publishing..."
+            exit 1
+          fi
       - name: Prepare the zip file for the extension
         run: |
           zip -rq extension.zip .
