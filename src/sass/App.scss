@@ -1,0 +1,13 @@
+@import '_variables';
+
+body {
+  width: $extension_width;
+  height: $extension_height;
+  background: url("/images/bg.png") #000000;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+}
