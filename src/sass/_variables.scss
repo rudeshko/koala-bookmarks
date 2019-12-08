@@ -8,3 +8,7 @@ $extension_height: 600px;
   font-family: "Montserrat";
   src: url("/fonts/Montserrat-Regular.ttf") format("truetype");
 }
+
+* {
+  box-sizing: border-box;
+}
