@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getStoredBookmarks, updateStoredBookmarks } from "./chromeHelper";
+import { getStoredBookmarks } from "./chromeHelper";
 import "../sass/App.scss";
 
 const App = () => {
@@ -21,24 +21,26 @@ const App = () => {
    * On mount effect
    */
   useEffect(() => {
-    const stored_bookmarks = getStoredBookmarks();
+    const getBookmarks = async () => {
+      const stored_bookmarks = await getStoredBookmarks();
 
-    if (!stored_bookmarks || stored_bookmarks.length === 0) {
-      console.log("No bookmarks found, setting empty bookmarks...");
-      console.log("Layout:", currentLayout.x, "x", currentLayout.y);
+      if (!stored_bookmarks || stored_bookmarks.length === 0) {
+        console.log("No bookmarks found, setting empty bookmarks...");
+        console.log("Layout:", currentLayout.x, "x", currentLayout.y);
 
-      const emptyBookmark = {
-        name: "",
-        url: ""
-      };
+        const list = [];
+        for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
+          list.push({
+            name: "",
+            url: ""
+          });
+        }
 
-      const list = [];
-      for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
-        list.push(emptyBookmark);
+        setBookmarks(list);
       }
+    };
 
-      setBookmarks(list);
-    }
+    getBookmarks();
   }, [lastUpdated, currentLayout.x, currentLayout.y]);
 
   /**
