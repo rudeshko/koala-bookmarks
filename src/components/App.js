@@ -28,15 +28,17 @@ const App = () => {
         console.log("No bookmarks found, setting empty bookmarks...");
         console.log("Layout:", currentLayout.x, "x", currentLayout.y);
 
-        const list = [];
+        const emptyList = [];
         for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
-          list.push({
+          emptyList.push({
             name: "",
             url: ""
           });
         }
 
-        setBookmarks(list);
+        setBookmarks(emptyList);
+      } else {
+        setBookmarks(stored_bookmarks);
       }
     };
 
@@ -53,11 +55,24 @@ const App = () => {
         {bookmarks.map((value, index) => (
           <div className="bookmark" key={index}>
             {value.name && value.url ? (
-              <div className="tab"></div>
+              <a href={value.url} target="_blank" rel="noopener noreferrer">
+                <div className="tab">
+                  <div className="icon">
+                    <img
+                      src={`http://www.google.com/s2/favicons?domain=${value.url}`}
+                      alt={value.name}
+                    />
+                  </div>
+                  <div className="name">{value.name}</div>
+                </div>
+              </a>
             ) : (
-              <div className="blank">
-                <div className="add">+</div>
-              </div>
+              <a href={`#${index}`}>
+                <div className="tab blank">
+                  <div className="icon">+</div>
+                  <div className="name">Add New</div>
+                </div>
+              </a>
             )}
           </div>
         ))}
