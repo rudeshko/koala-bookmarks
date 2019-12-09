@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getStoredBookmarks } from "../chromeHelper";
+import { getStoredBookmarks, deleteStoredBookmark } from "../chromeHelper";
 import "../sass/App.scss";
+import { emptyBookmark } from "../variables";
 
 const App = () => {
   /**
@@ -28,6 +29,14 @@ const App = () => {
     setEditMode(!editMode);
   };
 
+  const deleteBookmark = async (event, index) => {
+    const updatedBookmarks = deleteStoredBookmark(index);
+
+    setBookmarks(updatedBookmarks);
+
+    event.preventDefault();
+  };
+
   /**
    * On mount effect
    */
@@ -41,10 +50,7 @@ const App = () => {
 
         const emptyList = [];
         for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
-          emptyList.push({
-            name: "",
-            url: ""
-          });
+          emptyList.push(emptyBookmark);
         }
 
         setBookmarks(emptyList);
@@ -76,6 +82,15 @@ const App = () => {
                       src={`http://www.google.com/s2/favicons?domain=${value.url}`}
                       alt={value.name}
                     />
+                    {editMode && (
+                      <div
+                        className="delete"
+                        title="Delete"
+                        onClick={event => deleteBookmark(event, index)}
+                      >
+                        <div className="icon">x</div>
+                      </div>
+                    )}
                   </div>
                   <div className="name">{value.name}</div>
                 </div>

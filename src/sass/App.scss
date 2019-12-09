@@ -62,7 +62,7 @@ body {
     &.editMode {
       .tab:not(.blank) {
         .icon {
-          animation: shake 0.5s;
+          animation: shake 0.3s;
           animation-iteration-count: infinite;
         }
       }
@@ -89,7 +89,7 @@ body {
           flex-direction: column;
           justify-content: center;
 
-          .icon {
+          & > .icon {
             width: $icon_size;
             height: $icon_size;
             line-height: $icon_size + 5px;
@@ -105,7 +105,7 @@ body {
           }
 
           &.blank {
-            .icon {
+            & > .icon {
               background: rgba(255, 255, 255, 0.05);
               color: rgba(0, 0, 0, 0.25);
               font-size: 28px;
@@ -134,12 +134,34 @@ body {
               cursor: pointer;
             }
 
-            .icon {
+            & > .icon {
               box-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
+              position: relative;
 
               img {
                 width: 16px;
                 height: 16px;
+              }
+
+              .delete {
+                width: 30px;
+                height: 30px;
+                padding: 5px;
+                position: absolute;
+                top: -12px;
+                right: -12px;
+
+                & > .icon {
+                  width: 20px;
+                  height: 20px;
+                  line-height: 18px;
+                  border-radius: 50%;
+                  font-size: 17px;
+                  background: rgb(255, 79, 79);
+                  color: rgb(104, 0, 0);
+                  font-weight: bold;
+                  border: 1px solid rgb(187, 0, 0);
+                }
               }
             }
           }
