@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { getStoredBookmarks } from "./chromeHelper";
+import { getStoredBookmarks } from "../chromeHelper";
 import "../sass/App.scss";
 
 const App = () => {
+  /**
+   * Layout Types
+   */
   const layout = {
     LAYOUT_4x4: {
       x: 4,
@@ -14,8 +17,16 @@ const App = () => {
    * Define Hooks
    */
   const [lastUpdated] = useState(new Date());
+  const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
+
+  /**
+   * Methods
+   */
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+  };
 
   /**
    * On mount effect
@@ -50,8 +61,11 @@ const App = () => {
    */
   return (
     <div className="container">
-      <div className="controls"></div>
-      <div className="bookmarks">
+      <div className="controls">
+        <button onClick={toggleEditMode}>Edit</button>
+        <button onClick={() => {}}>Settings</button>
+      </div>
+      <div className={`bookmarks${editMode ? " editMode" : ""}`}>
         {bookmarks.map((value, index) => (
           <div className="bookmark" key={index}>
             {value.name && value.url ? (
