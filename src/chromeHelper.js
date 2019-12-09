@@ -31,4 +31,10 @@ export const deleteStoredBookmark = async index => {
   }
 };
 
+export const addStoredBookmark = async index => updateStoredBookmark(index);
+
+export const updateStoredBookmark = async index => {
+  console.log("Changing", index);
+};
+
 export default {};

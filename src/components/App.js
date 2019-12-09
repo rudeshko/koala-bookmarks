@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { getStoredBookmarks, deleteStoredBookmark } from "../chromeHelper";
-import "../sass/App.scss";
+import {
+  getStoredBookmarks,
+  deleteStoredBookmark,
+  addStoredBookmark,
+  updateStoredBookmark
+} from "../chromeHelper";
 import { emptyBookmark } from "../variables";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPencilAlt,
+  faCog,
+  faTimes,
+  faPlus
+} from "@fortawesome/free-solid-svg-icons";
+import "../sass/App.scss";
 
 const App = () => {
   /**
@@ -21,6 +33,7 @@ const App = () => {
   const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
+  const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
 
   /**
    * Methods
@@ -30,11 +43,16 @@ const App = () => {
   };
 
   const deleteBookmark = async (event, index) => {
-    const updatedBookmarks = deleteStoredBookmark(index);
-
-    setBookmarks(updatedBookmarks);
-
     event.preventDefault();
+
+    const updatedBookmarks = await deleteStoredBookmark(index);
+    setBookmarks(updatedBookmarks);
+  };
+
+  const openAddBookmarkPopup = (event, index) => {
+    event.preventDefault();
+
+    setAddBookmarkAtIndex(index);
   };
 
   /**
@@ -67,9 +85,37 @@ const App = () => {
    */
   return (
     <div className="container">
+      {addBookmarkAtIndex !== null && (
+        // TODO: Make into a component
+        <div className="popup">
+          <div className="window">
+            <h1>Add New Bookmark</h1>
+            <form onSubmit={event => event.preventDefault()}>
+              <div>
+                <input type="text" placeholder="Title" autoFocus />
+              </div>
+              <div>
+                <input type="text" placeholder="URL" />
+              </div>
+              <div>
+                <button>
+                  <FontAwesomeIcon icon={faPlus} />
+                  Add
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       <div className="controls">
-        <button onClick={toggleEditMode}>Edit</button>
-        <button onClick={() => {}}>Settings</button>
+        <button onClick={toggleEditMode}>
+          <FontAwesomeIcon icon={faPencilAlt} />
+          Edit
+        </button>
+        <button onClick={() => {}}>
+          <FontAwesomeIcon icon={faCog} />
+          Settings
+        </button>
       </div>
       <div className={`bookmarks${editMode ? " editMode" : ""}`}>
         {bookmarks.map((value, index) => (
@@ -88,7 +134,9 @@ const App = () => {
                         title="Delete"
                         onClick={event => deleteBookmark(event, index)}
                       >
-                        <div className="icon">x</div>
+                        <div className="icon">
+                          <FontAwesomeIcon icon={faTimes} />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -97,8 +145,13 @@ const App = () => {
               </a>
             ) : (
               <a href={`#${index}`}>
-                <div className="tab blank">
-                  <div className="icon">+</div>
+                <div className="tab add">
+                  <div
+                    className="icon"
+                    onClick={event => openAddBookmarkPopup(event, index)}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </div>
                   <div className="name">Add New</div>
                 </div>
               </a>
