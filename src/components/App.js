@@ -9,11 +9,11 @@ import { emptyBookmark } from "../variables";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPencilAlt,
+  faTimesCircle,
   faCog,
-  faTimes,
+  faMinus,
   faPlus,
   faArrowsAlt,
-  faEdit,
   faLock,
   faLockOpen
 } from "@fortawesome/free-solid-svg-icons";
@@ -35,6 +35,7 @@ const App = () => {
    */
   const [lastUpdated] = useState(new Date());
   const [editMode, setEditMode] = useState(false);
+  const [dragEnabled] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
@@ -73,6 +74,21 @@ const App = () => {
     setAddBookmarkAtIndex(index);
   };
 
+  const openEditBookmarkPopup = (event, index) => {
+    event.preventDefault();
+
+    console.log("TODO: Open Edit Bookmark Popup");
+    // setEditBookmarkAtIndex(index);
+  };
+
+  const handleBookmarkClick = async (event, index) => {
+    if (editMode) {
+      openEditBookmarkPopup(event, index);
+    } else {
+      return true;
+    }
+  };
+
   /**
    * On mount effect
    */
@@ -84,6 +100,7 @@ const App = () => {
         console.log("No bookmarks found, setting empty bookmarks...");
         console.log("Layout:", currentLayout.x, "x", currentLayout.y);
 
+        // TODO: Separate this into a "starter" function and enable a few links by default for the users
         const emptyList = [];
         for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
           emptyList.push(emptyBookmark);
@@ -107,18 +124,18 @@ const App = () => {
         // TODO: Make into a component
         <div className="popup">
           <div className="window">
-            <div
-              className="close"
-              onClick={() => {
-                setAddBookmarkAtIndex(null);
-              }}
-            >
-              <div className="icon">
-                <FontAwesomeIcon icon={faTimes} />
+            <div className="header">
+              <div className="title">Add New Bookmark</div>
+              <div
+                className="close"
+                onClick={() => {
+                  setAddBookmarkAtIndex(null);
+                }}
+              >
+                <FontAwesomeIcon icon={faTimesCircle} />
               </div>
             </div>
             <div className="content">
-              <h1>Add New Bookmark</h1>
               <form onSubmit={event => addNewBookmark(event)}>
                 <div>
                   <input
@@ -131,7 +148,7 @@ const App = () => {
                 </div>
                 <div>
                   <input
-                    type="text"
+                    type="url"
                     placeholder="URL"
                     required
                     onChange={e => setNewUrl(e.target.value)}
@@ -149,11 +166,11 @@ const App = () => {
         </div>
       )}
       <div className="controls">
-        <button onClick={toggleEditMode}>
+        <button onClick={toggleEditMode} title="Turn on Edit Mode">
           <FontAwesomeIcon icon={editMode ? faLockOpen : faLock} />
           Edit
         </button>
-        <button onClick={() => {}}>
+        <button onClick={() => {}} title="Open Settings">
           <FontAwesomeIcon icon={faCog} />
           Settings
         </button>
@@ -162,23 +179,46 @@ const App = () => {
         {bookmarks.map((value, index) => (
           <div className="bookmark" key={index}>
             {value.name && value.url ? (
-              <a href={value.url} target="_blank" rel="noopener noreferrer">
+              <a
+                href={value.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={event => handleBookmarkClick(event, index)}
+              >
                 <div className="tab">
+                  {editMode && dragEnabled && (
+                    <div className="drag">
+                      <FontAwesomeIcon icon={faArrowsAlt} />
+                    </div>
+                  )}
+                  {index < 9 && !editMode && (
+                    <div
+                      className="hotkey"
+                      title={`Press ${index +
+                        1} on the keyboard to open the link`}
+                    >
+                      <div className="key">{index + 1}</div>
+                    </div>
+                  )}
                   <div className="icon">
-                    <img
-                      src={`http://www.google.com/s2/favicons?domain=${value.url}`}
-                      alt={value.name}
-                    />
-                    {editMode && (
-                      <div
-                        className="delete"
-                        title="Delete"
-                        onClick={event => deleteBookmark(event, index)}
-                      >
-                        <div className="icon">
-                          <FontAwesomeIcon icon={faTimes} />
+                    {editMode ? (
+                      <>
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                        <div
+                          className="delete"
+                          title="Delete"
+                          onClick={event => deleteBookmark(event, index)}
+                        >
+                          <div className="icon">
+                            <FontAwesomeIcon icon={faMinus} />
+                          </div>
                         </div>
-                      </div>
+                      </>
+                    ) : (
+                      <img
+                        src={`http://www.google.com/s2/favicons?domain=${value.url}`}
+                        alt={value.name}
+                      />
                     )}
                   </div>
                   <div className="name">{value.name}</div>

@@ -46,45 +46,48 @@ body {
       max-width: $extension_width - 40px;
       max-height: $extension_height - 40px;
       background: #fff;
-      padding: 50px;
-      border-radius: 4px;
       box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.75);
       position: relative;
+      border-radius: 5px;
+      overflow: hidden;
 
       &.wide {
         width: 100%;
       }
 
-      .close {
-        padding: 5px;
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        text-align: center;
+      .header {
+        background: darken(#fff, 15%);
+        border-bottom: 1px solid darken(#fff, 75%);
+        display: flex;
+        flex-direction: row;
+        padding: 15px 20px;
+        justify-content: space-between;
+        align-items: center;
 
-        &:hover,
-        &:focus {
-          cursor: pointer;
-
-          & > .icon {
-            background: #db3b21;
-          }
+        .title {
+          font-size: 18px;
+          font-weight: bold;
+          color: darken(#fff, 75%);
         }
 
-        & > .icon {
-          width: 30px;
-          height: 30px;
-          line-height: 30px;
-          border-radius: 50%;
-          font-size: 18px;
-          background: $dark_grey;
-          color: #fff;
+        .close {
+          font-size: 23px;
+          color: darken(#fff, 50%);
+
+          &:hover,
+          &:focus {
+            cursor: pointer;
+            color: $dark_grey;
+          }
         }
       }
 
       .content {
+        padding: 30px 40px;
+
         h1 {
-          font-size: 19px;
+          color: $dark_grey;
+          font-size: 17px;
           font-weight: bold;
           padding-bottom: 7px;
           margin-bottom: 17px;
@@ -109,7 +112,7 @@ body {
           padding: 15px;
           outline: none;
           border-radius: 4px;
-          border: 0;
+          border: 1px solid darken($button_bg, 10%);
           font-size: 17px;
           background: $button_bg;
           color: #fff;
@@ -168,6 +171,8 @@ body {
     &.editMode {
       .tab:not(.add) {
         .icon {
+          color: $dark_grey;
+          line-height: 50px;
           animation: shake 0.3s;
           animation-iteration-count: infinite;
         }
@@ -199,6 +204,7 @@ body {
           align-items: center;
           flex-direction: column;
           justify-content: center;
+          position: relative;
 
           & > .icon {
             width: $icon_size;
@@ -241,12 +247,47 @@ body {
             }
           }
 
-          // TODO: Remove cursor on Add tab
           &:not(.add) {
             &:hover,
             &:focus {
               background: rgba(0, 0, 0, 0.4);
               cursor: pointer;
+
+              .drag {
+                display: block;
+              }
+            }
+
+            .hotkey {
+              position: absolute;
+              top: 5px;
+              right: 10px;
+
+              .key {
+                width: 20px;
+                text-align: center;
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                background: rgba(255, 255, 255, 0.15);
+                color: rgba(255, 255, 255, 0.75);
+                font-size: 12px;
+                line-height: 18px;
+                border-radius: 2px;
+                box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+              }
+            }
+
+            .drag {
+              position: absolute;
+              top: 5px;
+              left: 10px;
+              color: rgba(255, 255, 255, 0.75);
+              font-size: 18px;
+              display: none;
+
+              &:hover,
+              &:focus {
+                cursor: move;
+              }
             }
 
             & > .icon {
@@ -277,9 +318,9 @@ body {
                 & > .icon {
                   width: 20px;
                   height: 20px;
-                  line-height: 20px;
+                  line-height: 18px;
                   border-radius: 50%;
-                  font-size: 14px;
+                  font-size: 13px;
                   background: $dark_grey;
                   color: #fff;
                 }
