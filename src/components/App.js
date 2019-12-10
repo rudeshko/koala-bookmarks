@@ -11,7 +11,11 @@ import {
   faPencilAlt,
   faCog,
   faTimes,
-  faPlus
+  faPlus,
+  faArrowsAlt,
+  faEdit,
+  faLock,
+  faLockOpen
 } from "@fortawesome/free-solid-svg-icons";
 import "../sass/App.scss";
 
@@ -34,12 +38,26 @@ const App = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
+  const [newName, setNewName] = useState("");
+  const [newUrl, setNewUrl] = useState("");
 
   /**
    * Methods
    */
   const toggleEditMode = () => {
     setEditMode(!editMode);
+  };
+
+  const addNewBookmark = async event => {
+    event.preventDefault();
+
+    const newBookmarks = await addStoredBookmark(addBookmarkAtIndex, {
+      name: newName,
+      url: newUrl
+    });
+
+    setBookmarks(newBookmarks);
+    setAddBookmarkAtIndex(null);
   };
 
   const deleteBookmark = async (event, index) => {
@@ -89,27 +107,50 @@ const App = () => {
         // TODO: Make into a component
         <div className="popup">
           <div className="window">
-            <h1>Add New Bookmark</h1>
-            <form onSubmit={event => event.preventDefault()}>
-              <div>
-                <input type="text" placeholder="Title" autoFocus />
+            <div
+              className="close"
+              onClick={() => {
+                setAddBookmarkAtIndex(null);
+              }}
+            >
+              <div className="icon">
+                <FontAwesomeIcon icon={faTimes} />
               </div>
-              <div>
-                <input type="text" placeholder="URL" />
-              </div>
-              <div>
-                <button>
-                  <FontAwesomeIcon icon={faPlus} />
-                  Add
-                </button>
-              </div>
-            </form>
+            </div>
+            <div className="content">
+              <h1>Add New Bookmark</h1>
+              <form onSubmit={event => addNewBookmark(event)}>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    onChange={e => setNewName(e.target.value)}
+                    required
+                    autoFocus
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="URL"
+                    required
+                    onChange={e => setNewUrl(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <button>
+                    <FontAwesomeIcon icon={faPlus} />
+                    Add
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
       <div className="controls">
         <button onClick={toggleEditMode}>
-          <FontAwesomeIcon icon={faPencilAlt} />
+          <FontAwesomeIcon icon={editMode ? faLockOpen : faLock} />
           Edit
         </button>
         <button onClick={() => {}}>

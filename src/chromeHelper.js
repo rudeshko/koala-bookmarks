@@ -2,7 +2,8 @@ import {
   emptyBookmark,
   getLocalJson,
   saveLocalJson,
-  getChromeJson
+  getChromeJson,
+  setChromeJson
 } from "./variables";
 
 export const getStoredBookmarks = async () => {
@@ -24,17 +25,25 @@ export const deleteStoredBookmark = async index => {
 
     return localBookmarks;
   } else {
-    // chrome.storage.sync.set({ bookmarks: [] }, function() {
-    //   // TODO: Return promise
-    // });
-    // await set ...
+    // await setChromeJson("bookmarks", ...);
   }
 };
 
-export const addStoredBookmark = async index => updateStoredBookmark(index);
+export const addStoredBookmark = async (index, bookmark) =>
+  updateStoredBookmark(index, bookmark);
 
-export const updateStoredBookmark = async index => {
-  console.log("Changing", index);
+export const updateStoredBookmark = async (index, bookmark) => {
+  console.log("Changing bookmark at index", index);
+
+  const bookmarks = await getStoredBookmarks();
+  bookmarks[index] = bookmark;
+
+  if (process.env.NODE_ENV === "development") {
+    saveLocalJson("bookmarks", bookmarks);
+  } else {
+  }
+
+  return bookmarks;
 };
 
 export default {};

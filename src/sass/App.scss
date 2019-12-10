@@ -41,45 +41,89 @@ body {
     z-index: 100;
 
     .window {
-      width: 450px;
+      width: 500px;
       height: auto;
+      max-width: $extension_width - 40px;
       max-height: $extension_height - 40px;
       background: #fff;
-      padding: 30px 20px;
-      border-radius: 10px;
+      padding: 50px;
+      border-radius: 4px;
       box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.75);
+      position: relative;
 
-      h1 {
-        font-size: 18px;
-        font-weight: bold;
-        padding-bottom: 7px;
-        margin-bottom: 17px;
-        border-bottom: 1px solid #000;
-      }
-
-      input {
+      &.wide {
         width: 100%;
-        padding: 12px 10px;
-        outline: none;
-        border-radius: 3px;
-        border: 1px solid #000;
-        margin-bottom: 10px;
-        font-size: 16px;
       }
 
-      button {
-        width: 100px;
-        padding: 10px;
-        outline: none;
-        border-radius: 3px;
-        border: 0;
-        font-size: 16px;
-        background: #469000;
-        color: #fff;
-        font-weight: bold;
+      .close {
+        padding: 5px;
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        text-align: center;
 
-        svg {
-          margin-right: 7px;
+        &:hover,
+        &:focus {
+          cursor: pointer;
+
+          & > .icon {
+            background: #db3b21;
+          }
+        }
+
+        & > .icon {
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          border-radius: 50%;
+          font-size: 18px;
+          background: $dark_grey;
+          color: #fff;
+        }
+      }
+
+      .content {
+        h1 {
+          font-size: 19px;
+          font-weight: bold;
+          padding-bottom: 7px;
+          margin-bottom: 17px;
+          border-bottom: 1px solid $dark_grey;
+        }
+
+        input {
+          width: 100%;
+          padding: 15px 12px;
+          outline: none;
+          border-radius: 4px;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+          margin-bottom: 10px;
+          font-size: 16px;
+          font-family: "Montserrat", sans-serif;
+        }
+
+        button {
+          $button_bg: #70a83b;
+
+          width: 150px;
+          padding: 15px;
+          outline: none;
+          border-radius: 4px;
+          border: 0;
+          font-size: 17px;
+          background: $button_bg;
+          color: #fff;
+          font-family: "Montserrat", sans-serif;
+
+          &:hover,
+          &:focus {
+            cursor: pointer;
+            background: lighten($button_bg, 10%);
+          }
+
+          svg {
+            margin-right: 7px;
+          }
         }
       }
     }
@@ -94,7 +138,7 @@ body {
 
     button {
       height: inherit;
-      font-size: 15px;
+      font-size: 16px;
       border: 0;
       background: transparent;
       color: rgba(255, 255, 255, 0.5);
@@ -108,7 +152,7 @@ body {
       }
 
       svg {
-        margin-right: 7px;
+        margin-right: 8px;
       }
     }
   }
@@ -142,6 +186,11 @@ body {
         color: #fff;
         text-decoration: none;
 
+        &:hover,
+        &:focus {
+          cursor: initial;
+        }
+
         .tab {
           width: 100%;
           height: 100%;
@@ -163,7 +212,7 @@ body {
           .name {
             color: #fff;
             margin-top: 15px;
-            text-shadow: #000000 1px 1px 0px;
+            text-shadow: #000000 1px 1px 1px;
           }
 
           &.add {
@@ -172,11 +221,13 @@ body {
               line-height: $icon_size + 3px;
               color: transparent;
               font-size: 17px;
+              border: 1px solid rgba(255, 255, 255, 0.07);
 
               &:hover,
               &:focus {
                 cursor: pointer;
                 background: rgba(255, 255, 255, 0.5);
+                border: 1px solid rgba(255, 255, 255, 0.52);
                 color: rgba(0, 0, 0, 0.6);
 
                 & + .name {
@@ -208,12 +259,20 @@ body {
               }
 
               .delete {
-                width: 30px;
-                height: 30px;
                 padding: 5px;
                 position: absolute;
                 top: -15px;
                 right: -15px;
+                text-align: center;
+
+                &:hover,
+                &:focus {
+                  cursor: pointer;
+
+                  & > .icon {
+                    background: #db3b21;
+                  }
+                }
 
                 & > .icon {
                   width: 20px;
@@ -221,13 +280,8 @@ body {
                   line-height: 20px;
                   border-radius: 50%;
                   font-size: 14px;
-                  background: #444;
+                  background: $dark_grey;
                   color: #fff;
-
-                  &:hover,
-                  &:focus {
-                    background: #db3b21;
-                  }
                 }
               }
             }
