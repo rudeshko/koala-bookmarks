@@ -3,7 +3,7 @@ import {
   getLocalJson,
   saveLocalJson,
   getChromeJson,
-  setChromeJson
+  // setChromeJson
 } from "./variables";
 
 export const getStoredBookmarks = async () => {
@@ -41,6 +41,7 @@ export const updateStoredBookmark = async (index, bookmark) => {
   if (process.env.NODE_ENV === "development") {
     saveLocalJson("bookmarks", bookmarks);
   } else {
+    // TODO:
   }
 
   return bookmarks;

@@ -15,6 +15,17 @@ body {
   padding: 0px;
   overflow: hidden;
   font-family: "Montserrat", sans-serif;
+
+  &.react-draggable-tranparent-selection {
+    .bookmark {
+      &.react-draggable-dragging {
+        z-index: 50;
+      }
+      &:not(.react-draggable-dragging) {
+        opacity: 0.5;
+      }
+    }
+  }
 }
 
 #root {
@@ -56,23 +67,23 @@ body {
       }
 
       .header {
-        background: darken(#fff, 15%);
-        border-bottom: 1px solid darken(#fff, 75%);
+        background: rgb(244, 245, 247);
         display: flex;
         flex-direction: row;
-        padding: 15px 20px;
+        padding: 18px 20px;
         justify-content: space-between;
         align-items: center;
+        box-shadow: 0 0 2px rgb(66, 82, 110);
 
         .title {
-          font-size: 18px;
+          font-size: 17px;
           font-weight: bold;
-          color: darken(#fff, 75%);
+          color: rgb(66, 82, 110);
         }
 
         .close {
           font-size: 23px;
-          color: darken(#fff, 50%);
+          color: rgb(66, 82, 110);
 
           &:hover,
           &:focus {
@@ -83,7 +94,7 @@ body {
       }
 
       .content {
-        padding: 30px 40px;
+        padding: 25px 30px 30px;
 
         h1 {
           color: $dark_grey;
@@ -98,30 +109,30 @@ body {
           width: 100%;
           padding: 15px 12px;
           outline: none;
-          border-radius: 4px;
-          border: 1px solid rgba(0, 0, 0, 0.3);
+          border-radius: 3px;
+          border: 1px solid rgb(223, 225, 230);
           margin-bottom: 10px;
           font-size: 16px;
           font-family: "Montserrat", sans-serif;
+          color: rgb(66, 82, 110);
         }
 
         button {
-          $button_bg: #70a83b;
-
-          width: 150px;
-          padding: 15px;
+          width: 120px;
+          padding: 10px;
           outline: none;
-          border-radius: 4px;
-          border: 1px solid darken($button_bg, 10%);
-          font-size: 17px;
-          background: $button_bg;
+          border-radius: 3px;
+          border: 0;
+          font-size: 15px;
+          background: $secondary_bg;
           color: #fff;
+          text-shadow: 1px 1px 0 darken($secondary_bg, 15%);
           font-family: "Montserrat", sans-serif;
 
           &:hover,
           &:focus {
             cursor: pointer;
-            background: lighten($button_bg, 10%);
+            background: rgb(0, 101, 255);
           }
 
           svg {
@@ -141,21 +152,24 @@ body {
 
     button {
       height: inherit;
-      font-size: 16px;
+      font-size: 15px;
       border: 0;
       background: transparent;
       color: rgba(255, 255, 255, 0.5);
       padding: 0 10px;
 
-      &:hover,
-      &:focus {
+      &:hover {
         color: #fff;
         cursor: pointer;
+      }
+
+      &:focus {
         outline: none;
       }
 
       svg {
         margin-right: 8px;
+        font-size: 16px;
       }
     }
   }
@@ -175,6 +189,10 @@ body {
           line-height: 50px;
           animation: shake 0.3s;
           animation-iteration-count: infinite;
+
+          &:hover {
+            color: $secondary_bg;
+          }
         }
       }
     }
@@ -266,13 +284,13 @@ body {
               .key {
                 width: 20px;
                 text-align: center;
-                border: 1px solid rgba(255, 255, 255, 0.4);
-                background: rgba(255, 255, 255, 0.15);
-                color: rgba(255, 255, 255, 0.75);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+                color: rgba(255, 255, 255, 0.65);
                 font-size: 12px;
                 line-height: 18px;
-                border-radius: 2px;
-                box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+                border-radius: 3px;
+                box-shadow: 0 3px 1px rgba(0, 0, 0, 0.1);
               }
             }
 
