@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from "react";
+import "../sass/Popup.scss";
 
 const Popup = props => {
   useEffect(() => {
-    console.log(props);
+    console.log("Popup", props);
   });
 
   return (
+    <></>
     // <div className="popup">
     //   <div className="window">
     //     <div className="header">
-    //       <div className="title">Edit Bookmark</div>
+    //       <div className="title">{props.title}</div>
     //       <div
     //         className="close"
     //         onClick={() => {
-    //           setEditBookmarkAtIndex(null);
+    //           setAddBookmarkAtIndex(null);
     //         }}
     //       >
     //         <FontAwesomeIcon icon={faTimesCircle} />
     //       </div>
     //     </div>
     //     <div className="content">
-    //       <form onSubmit={event => editBookmark(event)}>
+    //       <form onSubmit={event => addNewBookmark(event)}>
     //         <div>
     //           <input
     //             type="text"
     //             placeholder="Title"
-    //             onChange={e => setEditName(e.target.value)}
-    //             value={editName}
+    //             onChange={e => setNewName(e.target.value)}
     //             required
     //             autoFocus
     //           />
@@ -35,15 +36,14 @@ const Popup = props => {
     //           <input
     //             type="url"
     //             placeholder="URL"
-    //             onChange={e => setEditUrl(e.target.value)}
-    //             value={editUrl}
     //             required
+    //             onChange={e => setNewUrl(e.target.value)}
     //           />
     //         </div>
     //         <div>
     //           <button>
     //             <FontAwesomeIcon icon={faPlus} />
-    //             Update
+    //             Add
     //           </button>
     //         </div>
     //       </form>
@@ -52,3 +52,5 @@ const Popup = props => {
     // </div>
   );
 };
+
+export default Popup;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
+import AddNewBookmarkPopup from "./AddNewBookmarkPopup";
 import {
   getStoredBookmarks,
   deleteStoredBookmark,
@@ -43,16 +44,16 @@ const App = () => {
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
   const [editBookmarkAtIndex, setEditBookmarkAtIndex] = useState(null);
   const [newName, setNewName] = useState("");
-  const [editName, setEditName] = useState("");
   const [newUrl, setNewUrl] = useState("");
+  const [editName, setEditName] = useState("");
   const [editUrl, setEditUrl] = useState("");
 
   /**
    * Methods
    */
-  const handleKeyUp = event => {
-    console.log(event.keyCode);
-  };
+  // const handleKeyUp = event => {
+  //   console.log(event.keyCode);
+  // };
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -144,6 +145,9 @@ const App = () => {
   return (
     <div className="container">
       {addBookmarkAtIndex !== null && (
+        <AddNewBookmarkPopup></AddNewBookmarkPopup>
+      )}
+      {/* {addBookmarkAtIndex !== null && (
         <div className="popup">
           <div className="window">
             <div className="header">
@@ -186,7 +190,7 @@ const App = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
       {editBookmarkAtIndex !== null && (
         <div className="popup">
           <div className="window">
