@@ -18,7 +18,8 @@ import {
   faPlus,
   faArrowsAlt,
   faLock,
-  faUnlock
+  faUnlock,
+  faStar
 } from "@fortawesome/free-solid-svg-icons";
 import "../sass/App.scss";
 
@@ -34,9 +35,10 @@ const App = () => {
     }
   });
   const [editMode, setEditMode] = useState(false);
-  const [dragEnabled] = useState(false);
+  const [dragEnabled] = useState(true);
   const [hotKeysEnabled] = useState(true);
   const [hotkeyLabelsEnabled] = useState(true);
+  const [upgradeToProEnabled] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
@@ -142,53 +144,7 @@ const App = () => {
    */
   return (
     <div className="container">
-      {addBookmarkAtIndex !== null && (
-        <AddNewBookmarkPopup></AddNewBookmarkPopup>
-      )}
-      {/* {addBookmarkAtIndex !== null && (
-        <div className="popup">
-          <div className="window">
-            <div className="header">
-              <div className="title">Add New Bookmark</div>
-              <div
-                className="close"
-                onClick={() => {
-                  setAddBookmarkAtIndex(null);
-                }}
-              >
-                <FontAwesomeIcon icon={faTimesCircle} />
-              </div>
-            </div>
-            <div className="content">
-              <form onSubmit={event => addNewBookmark(event)}>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    onChange={e => setNewName(e.target.value)}
-                    required
-                    autoFocus
-                  />
-                </div>
-                <div>
-                  <input
-                    type="url"
-                    placeholder="URL"
-                    required
-                    onChange={e => setNewUrl(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <button>
-                    <FontAwesomeIcon icon={faPlus} />
-                    Add
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )} */}
+      <AddNewBookmarkPopup index={addBookmarkAtIndex}></AddNewBookmarkPopup>
       {editBookmarkAtIndex !== null && (
         <div className="popup">
           <div className="window">
@@ -247,13 +203,19 @@ const App = () => {
           <FontAwesomeIcon icon={faCog} />
           Settings
         </button>
+        {upgradeToProEnabled && (
+          <button onClick={() => {}} title="Upgrade to Pro">
+            <FontAwesomeIcon icon={faStar} />
+            Upgrade to Pro
+          </button>
+        )}
       </div>
       <div className={`bookmarks${editMode ? " editMode" : ""}`}>
         {bookmarks.map((value, index) => (
           <Draggable
             handle=".drag"
             bounds="parent"
-            grid={[200, 142]} // TODO: Make dynamic
+            grid={[200, 141.25]} // TODO: Make dynamic
             scale={1}
             disabled={!dragEnabled || !editMode}
             key={index}
