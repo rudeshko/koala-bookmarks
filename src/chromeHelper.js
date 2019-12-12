@@ -3,7 +3,7 @@ import {
   getLocalJson,
   saveLocalJson,
   getChromeJson,
-  // setChromeJson
+  setChromeJson
 } from "./variables";
 
 export const getStoredBookmarks = async () => {
@@ -15,18 +15,16 @@ export const getStoredBookmarks = async () => {
 };
 
 export const deleteStoredBookmark = async index => {
+  const bookmarks = await getStoredBookmarks();
+  bookmarks[index] = emptyBookmark;
+
   if (process.env.NODE_ENV === "development") {
-    console.log("Deleting bookmark at index", index);
-
-    let localBookmarks = getLocalJson("bookmarks");
-    localBookmarks[index] = emptyBookmark;
-
-    saveLocalJson("bookmarks", localBookmarks);
-
-    return localBookmarks;
+    saveLocalJson("bookmarks", bookmarks);
   } else {
-    // await setChromeJson("bookmarks", ...);
+    await setChromeJson("bookmarks", bookmarks);
   }
+
+  return bookmarks;
 };
 
 export const addStoredBookmark = async (index, bookmark) =>
@@ -41,7 +39,7 @@ export const updateStoredBookmark = async (index, bookmark) => {
   if (process.env.NODE_ENV === "development") {
     saveLocalJson("bookmarks", bookmarks);
   } else {
-    // TODO:
+    await setChromeJson("bookmarks", bookmarks);
   }
 
   return bookmarks;

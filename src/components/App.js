@@ -10,7 +10,7 @@ import {
 import { emptyBookmark } from "../variables";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSyncAlt,
+  faSave,
   faWrench,
   faTimesCircle,
   faCog,
@@ -85,6 +85,7 @@ const App = () => {
 
   const deleteBookmark = async (event, index) => {
     event.preventDefault();
+    event.stopPropagation();
 
     const updatedBookmarks = await deleteStoredBookmark(index);
     setBookmarks(updatedBookmarks);
@@ -121,10 +122,10 @@ const App = () => {
       const stored_bookmarks = await getStoredBookmarks();
 
       if (!stored_bookmarks || stored_bookmarks.length === 0) {
+        // TODO: Separate this into a "starter" function and enable a few links by default for the users
         console.log("No bookmarks found, setting empty bookmarks...");
         console.log("Layout:", currentLayout.x, "x", currentLayout.y);
 
-        // TODO: Separate this into a "starter" function and enable a few links by default for the users
         const emptyList = [];
         for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
           emptyList.push(emptyBookmark);
@@ -182,7 +183,7 @@ const App = () => {
                 </div>
                 <div>
                   <button>
-                    <FontAwesomeIcon icon={faSyncAlt} />
+                    <FontAwesomeIcon icon={faSave} />
                     Save
                   </button>
                 </div>

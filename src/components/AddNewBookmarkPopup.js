@@ -20,14 +20,16 @@ const AddNewBookmarkPopup = props => {
   /**
    * On mount effect
    */
-  useEffect(() => {
-    console.log("AddNewBookmarkPopup", data);
-  });
+  useEffect(() => {});
 
   /**
    * Output the component
    */
-  return data.index !== null ? <Popup title="Add New Bookmark"></Popup> : <></>;
+  return data.index !== null ? (
+    <Popup title="Add New Bookmark" index={data.index}></Popup>
+  ) : (
+    true
+  );
 };
 
 export default AddNewBookmarkPopup;
