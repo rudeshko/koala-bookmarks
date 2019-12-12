@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Popup from "./Popup";
 import "../sass/Popup.scss";
 
-const defaultProps = {};
+const defaultProps = {
+  index: null
+};
 
 const AddNewBookmarkPopup = props => {
   /**
@@ -25,7 +27,7 @@ const AddNewBookmarkPopup = props => {
   /**
    * Output the component
    */
-  return <Popup title="Add New Bookmark"></Popup>;
+  return data.index !== null ? <Popup title="Add New Bookmark"></Popup> : <></>;
 };
 
 export default AddNewBookmarkPopup;
