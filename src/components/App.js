@@ -10,7 +10,8 @@ import {
 import { emptyBookmark } from "../variables";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPencilAlt,
+  faSyncAlt,
+  faWrench,
   faTimesCircle,
   faCog,
   faMinus,
@@ -23,21 +24,18 @@ import "../sass/App.scss";
 
 const App = () => {
   /**
-   * Layout Types
+   * Define Hooks
    */
-  const layout = {
+  const [lastUpdated] = useState(new Date()); // TODO: Update this?
+  const [layout] = useState({
     LAYOUT_4x4: {
       x: 4,
       y: 4
     }
-  };
-
-  /**
-   * Define Hooks
-   */
-  const [lastUpdated] = useState(new Date());
+  });
   const [editMode, setEditMode] = useState(false);
   const [dragEnabled] = useState(false);
+  const [hotKeysEnabled] = useState(true);
   const [hotkeyLabelsEnabled] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
@@ -228,8 +226,8 @@ const App = () => {
                 </div>
                 <div>
                   <button>
-                    <FontAwesomeIcon icon={faPencilAlt} />
-                    Update
+                    <FontAwesomeIcon icon={faSyncAlt} />
+                    Save
                   </button>
                 </div>
               </form>
@@ -250,10 +248,7 @@ const App = () => {
           Settings
         </button>
       </div>
-      <div
-        className={`bookmarks${editMode ? " editMode" : ""}`}
-        // onKeyUp={handleKeyUp} TODO:
-      >
+      <div className={`bookmarks${editMode ? " editMode" : ""}`}>
         {bookmarks.map((value, index) => (
           <Draggable
             handle=".drag"
@@ -280,19 +275,25 @@ const App = () => {
                         <FontAwesomeIcon icon={faArrowsAlt} />
                       </div>
                     )}
-                    {hotkeyLabelsEnabled && index < 9 && !editMode && (
-                      <div
-                        className="hotkey"
-                        title={`Press ${index +
-                          1} on the keyboard to open the link`}
-                      >
-                        <div className="key">{index + 1}</div>
-                      </div>
-                    )}
+                    {hotKeysEnabled &&
+                      hotkeyLabelsEnabled &&
+                      index < 9 &&
+                      !editMode && (
+                        <div
+                          className="hotkey"
+                          title={`Press ${index +
+                            1} on the keyboard to open the link`}
+                        >
+                          <div className="key">{index + 1}</div>
+                        </div>
+                      )}
                     <div className="icon">
                       {editMode ? (
                         <>
-                          <FontAwesomeIcon icon={faPencilAlt} />
+                          <FontAwesomeIcon
+                            icon={faWrench}
+                            className="editIcon"
+                          />
                           <div
                             className="delete"
                             title="Delete"

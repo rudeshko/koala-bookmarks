@@ -1,17 +1,37 @@
 import React, { useState, useEffect } from "react";
 import "../sass/Popup.scss";
 
+const defaultProps = {
+  title: ""
+};
+
 const Popup = props => {
+  /**
+   * Define Hooks
+   */
+  const [data] = useState(Object.assign(defaultProps, props));
+
+  /**
+   * Methods
+   */
+  // --- //
+
+  /**
+   * On mount effect
+   */
   useEffect(() => {
-    console.log("Popup", props);
+    console.log("Popup", data);
   });
 
+  /**
+   * Output the component
+   */
   return (
     <></>
     // <div className="popup">
     //   <div className="window">
     //     <div className="header">
-    //       <div className="title">{props.title}</div>
+    //       <div className="title">{data.title}</div>
     //       <div
     //         className="close"
     //         onClick={() => {

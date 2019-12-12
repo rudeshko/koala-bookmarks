@@ -82,12 +82,15 @@ body {
       .tab:not(.add) {
         .icon {
           color: $dark_grey;
-          line-height: 50px;
           animation: shake 0.3s;
           animation-iteration-count: infinite;
 
           &:hover {
             color: $secondary_bg;
+          }
+
+          .editIcon {
+            font-size: 24px;
           }
         }
       }
@@ -216,8 +219,8 @@ body {
               .delete {
                 padding: 5px;
                 position: absolute;
-                top: -15px;
-                right: -15px;
+                top: -16px;
+                right: -16px;
                 text-align: center;
 
                 &:hover,
@@ -234,7 +237,7 @@ body {
                   height: 20px;
                   line-height: 18px;
                   border-radius: 50%;
-                  font-size: 13px;
+                  font-size: 12px;
                   background: $dark_grey;
                   color: #fff;
                 }
