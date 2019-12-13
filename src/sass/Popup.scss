@@ -57,6 +57,11 @@
     .content {
       padding: 30px 30px 35px;
 
+      .no_content {
+        text-align: center;
+        color: #444;
+      }
+
       h1 {
         color: $dark_grey;
         font-size: 17px;

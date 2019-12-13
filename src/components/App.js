@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Draggable from "react-draggable";
-import AddNewBookmarkPopup from "./AddNewBookmarkPopup";
-import {
-  getStoredBookmarks,
-  deleteStoredBookmark,
-  addStoredBookmark,
-  updateStoredBookmark
-} from "../chromeHelper";
+import { getStoredBookmarks, deleteStoredBookmark } from "../chromeHelper";
 import { emptyBookmark } from "../variables";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSave,
   faWrench,
-  faTimesCircle,
   faCog,
   faMinus,
   faPlus,
@@ -21,6 +12,8 @@ import {
   faUnlock,
   faStar
 } from "@fortawesome/free-solid-svg-icons";
+import AddBookmarkPopup from "./AddBookmarkPopup";
+import EditBookmarkPopup from "./EditBookmarkPopup";
 import "../sass/App.scss";
 
 const App = () => {
@@ -43,44 +36,12 @@ const App = () => {
   const [currentLayout] = useState(layout.LAYOUT_4x4);
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
   const [editBookmarkAtIndex, setEditBookmarkAtIndex] = useState(null);
-  const [newName, setNewName] = useState("");
-  const [newUrl, setNewUrl] = useState("");
-  const [editName, setEditName] = useState("");
-  const [editUrl, setEditUrl] = useState("");
 
   /**
    * Methods
    */
-  // const handleKeyUp = event => {
-  //   console.log(event.keyCode);
-  // };
-
   const toggleEditMode = () => {
     setEditMode(!editMode);
-  };
-
-  const addNewBookmark = async event => {
-    event.preventDefault();
-
-    const newBookmarks = await addStoredBookmark(addBookmarkAtIndex, {
-      name: newName,
-      url: newUrl
-    });
-
-    setBookmarks(newBookmarks);
-    setAddBookmarkAtIndex(null);
-  };
-
-  const editBookmark = async event => {
-    event.preventDefault();
-
-    const editBookmarks = await updateStoredBookmark(editBookmarkAtIndex, {
-      name: editName,
-      url: editUrl
-    });
-
-    setBookmarks(editBookmarks);
-    setEditBookmarkAtIndex(null);
   };
 
   const deleteBookmark = async (event, index) => {
@@ -100,14 +61,13 @@ const App = () => {
   const openEditBookmarkPopup = (event, index) => {
     event.preventDefault();
 
-    console.log("TODO: Open Edit Bookmark Popup");
     setEditBookmarkAtIndex(index);
   };
 
-  const handleBookmarkClick = async (event, index) => {
+  const handleBookmarkClick = (event, index) => {
     if (editMode) {
-      setEditName(bookmarks[index].name);
-      setEditUrl(bookmarks[index].url);
+      // setEditName(bookmarks[index].name);
+      // setEditUrl(bookmarks[index].url);
       openEditBookmarkPopup(event, index);
     } else {
       return true;
@@ -145,53 +105,26 @@ const App = () => {
    */
   return (
     <div className="container">
-      <AddNewBookmarkPopup index={addBookmarkAtIndex}></AddNewBookmarkPopup>
-      {editBookmarkAtIndex !== null && (
-        <div className="popup">
-          <div className="window">
-            <div className="header">
-              <div className="title">Edit Bookmark</div>
-              <div
-                className="close"
-                onClick={() => {
-                  setEditBookmarkAtIndex(null);
-                }}
-              >
-                <FontAwesomeIcon icon={faTimesCircle} />
-              </div>
-            </div>
-            <div className="content">
-              <form onSubmit={event => editBookmark(event)}>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    onChange={e => setEditName(e.target.value)}
-                    value={editName}
-                    required
-                    autoFocus
-                  />
-                </div>
-                <div>
-                  <input
-                    type="url"
-                    placeholder="URL"
-                    onChange={e => setEditUrl(e.target.value)}
-                    value={editUrl}
-                    required
-                  />
-                </div>
-                <div>
-                  <button>
-                    <FontAwesomeIcon icon={faSave} />
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
+      <AddBookmarkPopup
+        index={addBookmarkAtIndex}
+        onCreate={updatedBookmarks => {
+          setBookmarks(updatedBookmarks);
+          setAddBookmarkAtIndex(null);
+        }}
+        onClose={() => {
+          setAddBookmarkAtIndex(null);
+        }}
+      ></AddBookmarkPopup>
+      <EditBookmarkPopup
+        index={editBookmarkAtIndex}
+        onEdit={updatedBookmarks => {
+          setBookmarks(updatedBookmarks);
+          setEditBookmarkAtIndex(null);
+        }}
+        onClose={() => {
+          setEditBookmarkAtIndex(null);
+        }}
+      ></EditBookmarkPopup>
       <div className="controls">
         <button
           onClick={toggleEditMode}
@@ -213,85 +146,70 @@ const App = () => {
       </div>
       <div className={`bookmarks${editMode ? " editMode" : ""}`}>
         {bookmarks.map((value, index) => (
-          <Draggable
-            handle=".drag"
-            bounds="parent"
-            grid={[200, 141.25]} // TODO: Make dynamic
-            scale={1}
-            disabled={!dragEnabled || !editMode}
-            key={index}
-            // onStart={this.handleStart}
-            // onDrag={this.handleDrag}
-            // onStop={this.handleStop}
-          >
-            <div className="bookmark">
-              {value.name && value.url ? (
-                <a
-                  href={value.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={event => handleBookmarkClick(event, index)}
-                >
-                  <div className="tab">
-                    {editMode && dragEnabled && (
-                      <div className="drag">
-                        <FontAwesomeIcon icon={faArrowsAlt} />
+          <div className="bookmark" key={index}>
+            {value.name && value.url ? (
+              <a
+                href={value.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={event => handleBookmarkClick(event, index)}
+              >
+                <div className="tab">
+                  {editMode && dragEnabled && (
+                    <div className="drag">
+                      <FontAwesomeIcon icon={faArrowsAlt} />
+                    </div>
+                  )}
+                  {hotKeysEnabled &&
+                    hotkeyLabelsEnabled &&
+                    index < 9 &&
+                    !editMode && (
+                      <div
+                        className="hotkey"
+                        title={`Press ${index +
+                          1} on the keyboard to open the link`}
+                      >
+                        <div className="key">{index + 1}</div>
                       </div>
                     )}
-                    {hotKeysEnabled &&
-                      hotkeyLabelsEnabled &&
-                      index < 9 &&
-                      !editMode && (
+                  <div className="icon">
+                    {editMode ? (
+                      <>
+                        <FontAwesomeIcon icon={faWrench} className="editIcon" />
                         <div
-                          className="hotkey"
-                          title={`Press ${index +
-                            1} on the keyboard to open the link`}
+                          className="delete"
+                          title="Delete"
+                          onClick={event => deleteBookmark(event, index)}
                         >
-                          <div className="key">{index + 1}</div>
-                        </div>
-                      )}
-                    <div className="icon">
-                      {editMode ? (
-                        <>
-                          <FontAwesomeIcon
-                            icon={faWrench}
-                            className="editIcon"
-                          />
-                          <div
-                            className="delete"
-                            title="Delete"
-                            onClick={event => deleteBookmark(event, index)}
-                          >
-                            <div className="icon">
-                              <FontAwesomeIcon icon={faMinus} />
-                            </div>
+                          <div className="icon">
+                            <FontAwesomeIcon icon={faMinus} />
                           </div>
-                        </>
-                      ) : (
-                        <img
-                          src={`https://www.google.com/s2/favicons?domain=${value.url}`}
-                          alt=""
-                        />
-                      )}
-                    </div>
-                    <div className="name">{value.name}</div>
+                        </div>
+                      </>
+                    ) : (
+                      <img
+                        src={`https://www.google.com/s2/favicons?domain=${value.url}`}
+                        alt=""
+                      />
+                    )}
                   </div>
-                </a>
-              ) : (
-                <a href={`#${index}`} onClick={event => event.preventDefault()}>
-                  <div className="tab add">
-                    <div
-                      className="icon"
-                      onClick={event => openAddBookmarkPopup(event, index)}
-                    >
-                      <FontAwesomeIcon icon={faPlus} />
-                    </div>
-                    <div className="name">Add New</div>
+                  <div className="name">{value.name}</div>
+                </div>
+              </a>
+            ) : (
+              <a href={`#${index}`} onClick={event => event.preventDefault()}>
+                <div className="tab add">
+                  <div
+                    className="icon"
+                    onClick={event => openAddBookmarkPopup(event, index)}
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
                   </div>
-                </a>
-              )}
-            </div>
-          </Draggable>
+                  <div className="name">Add New</div>
+                </div>
+              </a>
+            )}
+          </div>
         ))}
       </div>
     </div>

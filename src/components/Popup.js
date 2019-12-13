@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import "../sass/Popup.scss";
 
 const defaultProps = {
-  title: ""
+  visible: false,
+  title: "",
+  children: <div className="no_content">No Content</div>,
+  onClose: () => {}
 };
 
 const Popup = props => {
@@ -19,57 +24,30 @@ const Popup = props => {
   /**
    * On mount effect
    */
-  useEffect(() => {
-    console.log("Popup", data);
-  });
+  useEffect(() => {});
 
   /**
    * Output the component
    */
   return (
-    <></>
-    // <div className="popup">
-    //   <div className="window">
-    //     <div className="header">
-    //       <div className="title">{data.title}</div>
-    //       <div
-    //         className="close"
-    //         onClick={() => {
-    //           setAddBookmarkAtIndex(null);
-    //         }}
-    //       >
-    //         <FontAwesomeIcon icon={faTimesCircle} />
-    //       </div>
-    //     </div>
-    //     <div className="content">
-    //       <form onSubmit={event => addNewBookmark(event)}>
-    //         <div>
-    //           <input
-    //             type="text"
-    //             placeholder="Title"
-    //             onChange={e => setNewName(e.target.value)}
-    //             required
-    //             autoFocus
-    //           />
-    //         </div>
-    //         <div>
-    //           <input
-    //             type="url"
-    //             placeholder="URL"
-    //             required
-    //             onChange={e => setNewUrl(e.target.value)}
-    //           />
-    //         </div>
-    //         <div>
-    //           <button>
-    //             <FontAwesomeIcon icon={faPlus} />
-    //             Add
-    //           </button>
-    //         </div>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
+    data.visible && (
+      <div className="popup">
+        <div className="window">
+          <div className="header">
+            <div className="title">{data.title}</div>
+            <div
+              className="close"
+              onClick={() => {
+                data.onClose();
+              }}
+            >
+              <FontAwesomeIcon icon={faTimesCircle} />
+            </div>
+          </div>
+          <div className="content">{data.children}</div>
+        </div>
+      </div>
+    )
   );
 };
 
