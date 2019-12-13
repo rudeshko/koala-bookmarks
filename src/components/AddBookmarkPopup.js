@@ -46,9 +46,7 @@ const AddBookmarkPopup = props => {
       visible={data.index !== null}
       title="Add New Bookmark"
       index={data.index}
-      onClose={() => {
-        data.onClose();
-      }}
+      onClose={data.onClose}
     >
       <form onSubmit={event => addNewBookmark(event)}>
         <div>
@@ -64,8 +62,8 @@ const AddBookmarkPopup = props => {
           <input
             type="url"
             placeholder="URL"
-            required
             onChange={e => setNewUrl(e.target.value)}
+            required
           />
         </div>
         <div>

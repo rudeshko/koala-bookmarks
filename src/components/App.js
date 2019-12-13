@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
+import SettingsPopup from "./SettingsPopup";
 import "../sass/App.scss";
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
   const [currentLayout] = useState(layout.LAYOUT_4x4);
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
   const [editBookmarkAtIndex, setEditBookmarkAtIndex] = useState(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   /**
    * Methods
@@ -66,8 +68,6 @@ const App = () => {
 
   const handleBookmarkClick = (event, index) => {
     if (editMode) {
-      // setEditName(bookmarks[index].name);
-      // setEditUrl(bookmarks[index].url);
       openEditBookmarkPopup(event, index);
     } else {
       return true;
@@ -117,6 +117,7 @@ const App = () => {
       ></AddBookmarkPopup>
       <EditBookmarkPopup
         index={editBookmarkAtIndex}
+        bookmarks={bookmarks}
         onEdit={updatedBookmarks => {
           setBookmarks(updatedBookmarks);
           setEditBookmarkAtIndex(null);
@@ -125,6 +126,13 @@ const App = () => {
           setEditBookmarkAtIndex(null);
         }}
       ></EditBookmarkPopup>
+      <SettingsPopup
+        visible={settingsOpen}
+        onClose={() => {
+          setSettingsOpen(false);
+        }}
+      ></SettingsPopup>
+
       <div className="controls">
         <button
           onClick={toggleEditMode}
@@ -133,7 +141,7 @@ const App = () => {
           <FontAwesomeIcon icon={editMode ? faUnlock : faLock} />
           Edit Mode
         </button>
-        <button onClick={() => {}} title="Open Settings">
+        <button onClick={() => setSettingsOpen(true)} title="Open Settings">
           <FontAwesomeIcon icon={faCog} />
           Settings
         </button>
@@ -144,7 +152,7 @@ const App = () => {
           </button>
         )}
       </div>
-      <div className={`bookmarks${editMode ? " editMode" : ""}`}>
+      <div className={["bookmarks", editMode ? "editMode" : ""].join(" ")}>
         {bookmarks.map((value, index) => (
           <div className="bookmark" key={index}>
             {value.name && value.url ? (

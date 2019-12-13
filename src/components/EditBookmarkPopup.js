@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { updateStoredBookmark } from "../chromeHelper";
 import Popup from "./Popup";
 import "../sass/Popup.scss";
 
 const defaultProps = {
   index: null,
+  bookmarks: [],
   onEdit: () => {},
   onClose: () => {}
 };
@@ -36,7 +37,13 @@ const EditBookmarkPopup = props => {
   /**
    * On mount effect
    */
-  useEffect(() => {});
+  useEffect(() => {
+    if (data.bookmarks.length > 0 && data.bookmarks[data.index]) {
+      const currentBookmark = data.bookmarks[data.index];
+      setEditName(currentBookmark.name);
+      setEditUrl(currentBookmark.url);
+    }
+  }, [data.bookmarks, data.index]);
 
   /**
    * Output the component
@@ -46,10 +53,7 @@ const EditBookmarkPopup = props => {
       visible={data.index !== null}
       title="Edit Bookmark"
       index={data.index}
-      onClose={() => {
-        console.log("edit component test");
-        data.onClose();
-      }}
+      onClose={data.onClose}
     >
       <form onSubmit={event => editBookmark(event)}>
         <div>
@@ -57,6 +61,7 @@ const EditBookmarkPopup = props => {
             type="text"
             placeholder="Title"
             onChange={e => setEditName(e.target.value)}
+            value={editName}
             required
             autoFocus
           />
@@ -65,13 +70,14 @@ const EditBookmarkPopup = props => {
           <input
             type="url"
             placeholder="URL"
-            required
             onChange={e => setEditUrl(e.target.value)}
+            value={editUrl}
+            required
           />
         </div>
         <div>
           <button>
-            <FontAwesomeIcon icon={faSave} />
+            <FontAwesomeIcon icon={faCheck} />
             Save
           </button>
         </div>
@@ -81,35 +87,3 @@ const EditBookmarkPopup = props => {
 };
 
 export default EditBookmarkPopup;
-
-/*
-<div className="content">
-  <form onSubmit={event => editBookmark(event)}>
-    <div>
-      <input
-        type="text"
-        placeholder="Title"
-        onChange={e => setEditName(e.target.value)}
-        value={editName}
-        required
-        autoFocus
-      />
-    </div>
-    <div>
-      <input
-        type="url"
-        placeholder="URL"
-        onChange={e => setEditUrl(e.target.value)}
-        value={editUrl}
-        required
-      />
-    </div>
-    <div>
-      <button>
-        <FontAwesomeIcon icon={faSave} />
-        Save
-      </button>
-    </div>
-  </form>
-</div>
-*/

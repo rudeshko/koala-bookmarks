@@ -5,6 +5,7 @@ import "../sass/Popup.scss";
 
 const defaultProps = {
   visible: false,
+  wide: false,
   title: "",
   children: <div className="no_content">No Content</div>,
   onClose: () => {}
@@ -19,7 +20,7 @@ const Popup = props => {
   /**
    * Methods
    */
-  // --- //
+  // ...
 
   /**
    * On mount effect
@@ -32,15 +33,10 @@ const Popup = props => {
   return (
     data.visible && (
       <div className="popup">
-        <div className="window">
+        <div className={["window", data.wide ? "wide" : ""].join(" ")}>
           <div className="header">
             <div className="title">{data.title}</div>
-            <div
-              className="close"
-              onClick={() => {
-                data.onClose();
-              }}
-            >
+            <div className="close" onClick={data.onClose}>
               <FontAwesomeIcon icon={faTimesCircle} />
             </div>
           </div>
