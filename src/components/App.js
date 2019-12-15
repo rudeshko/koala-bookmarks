@@ -13,6 +13,7 @@ import {
   faStar
 } from "@fortawesome/free-solid-svg-icons";
 import AddBookmarkPopup from "./AddBookmarkPopup";
+import Bookmark from "./Bookmark";
 import EditBookmarkPopup from "./EditBookmarkPopup";
 import SettingsPopup from "./SettingsPopup";
 import "../sass/App.scss";
@@ -105,17 +106,20 @@ const App = () => {
    */
   return (
     <div className="container">
-      <AddBookmarkPopup
-        index={addBookmarkAtIndex}
-        onCreate={updatedBookmarks => {
-          setBookmarks(updatedBookmarks);
-          setAddBookmarkAtIndex(null);
-        }}
-        onClose={() => {
-          setAddBookmarkAtIndex(null);
-        }}
-      ></AddBookmarkPopup>
-      <EditBookmarkPopup
+      {addBookmarkAtIndex !== null && (
+        <AddBookmarkPopup
+          index={addBookmarkAtIndex}
+          onCreate={updatedBookmarks => {
+            setBookmarks(updatedBookmarks);
+            setAddBookmarkAtIndex(null);
+          }}
+          onClose={() => {
+            setAddBookmarkAtIndex(null);
+          }}
+        ></AddBookmarkPopup>
+      )}
+      {/* TODO: Match Add Popup */}
+      {/* <EditBookmarkPopup
         index={editBookmarkAtIndex}
         bookmarks={bookmarks}
         onEdit={updatedBookmarks => {
@@ -125,13 +129,14 @@ const App = () => {
         onClose={() => {
           setEditBookmarkAtIndex(null);
         }}
-      ></EditBookmarkPopup>
-      <SettingsPopup
-        visible={settingsOpen}
-        onClose={() => {
-          setSettingsOpen(false);
-        }}
-      ></SettingsPopup>
+      ></EditBookmarkPopup> */}
+      {settingsOpen && (
+        <SettingsPopup
+          onClose={() => {
+            setSettingsOpen(false);
+          }}
+        ></SettingsPopup>
+      )}
 
       <div className="controls">
         <button

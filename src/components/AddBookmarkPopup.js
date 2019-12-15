@@ -5,33 +5,21 @@ import { addStoredBookmark } from "../chromeHelper";
 import Popup from "./Popup";
 import "../sass/Popup.scss";
 
-const defaultProps = {
-  index: null,
-  onCreate: () => {},
-  onClose: () => {}
-};
-
 const AddBookmarkPopup = props => {
+  /**
+   * Default Props
+   */
+  const defaultProps = {
+    index: null,
+    onCreate: () => {},
+    onClose: () => {}
+  };
+
   /**
    * Define Hooks
    */
-  const [data] = useState(Object.assign(defaultProps, props));
   const [newName, setNewName] = useState("");
   const [newUrl, setNewUrl] = useState("");
-
-  /**
-   * Methods
-   */
-  const addNewBookmark = async event => {
-    event.preventDefault();
-
-    const updatedBookmarks = await addStoredBookmark(data.index, {
-      name: newName,
-      url: newUrl
-    });
-
-    data.onCreate(updatedBookmarks);
-  };
 
   /**
    * On mount effect
@@ -39,15 +27,24 @@ const AddBookmarkPopup = props => {
   useEffect(() => {});
 
   /**
+   * Methods
+   */
+  const addNewBookmark = async event => {
+    event.preventDefault();
+
+    const updatedBookmarks = await addStoredBookmark(props.index, {
+      name: newName,
+      url: newUrl
+    });
+
+    props.onCreate(updatedBookmarks);
+  };
+
+  /**
    * Output the component
    */
   return (
-    <Popup
-      visible={data.index !== null}
-      title="Add New Bookmark"
-      index={data.index}
-      onClose={data.onClose}
-    >
+    <Popup title="Add New Bookmark" onClose={props.onClose}>
       <form onSubmit={event => addNewBookmark(event)}>
         <div>
           <input

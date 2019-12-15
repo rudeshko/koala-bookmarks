@@ -5,20 +5,34 @@ import { updateStoredBookmark } from "../chromeHelper";
 import Popup from "./Popup";
 import "../sass/Popup.scss";
 
-const defaultProps = {
-  index: null,
-  bookmarks: [],
-  onEdit: () => {},
-  onClose: () => {}
-};
-
 const EditBookmarkPopup = props => {
+  /**
+   * Default Props
+   */
+  const defaultProps = {
+    index: null,
+    bookmarks: [],
+    onEdit: () => {},
+    onClose: () => {}
+  };
+
   /**
    * Define Hooks
    */
   const [data] = useState(Object.assign(defaultProps, props));
   const [editName, setEditName] = useState("");
   const [editUrl, setEditUrl] = useState("");
+
+  /**
+   * On mount effect
+   */
+  useEffect(() => {
+    if (data.bookmarks.length > 0 && data.bookmarks[data.index]) {
+      const currentBookmark = data.bookmarks[data.index];
+      setEditName(currentBookmark.name);
+      setEditUrl(currentBookmark.url);
+    }
+  }, [data.bookmarks, data.index]);
 
   /**
    * Methods
@@ -33,17 +47,6 @@ const EditBookmarkPopup = props => {
 
     data.onEdit(updatedBookmarks);
   };
-
-  /**
-   * On mount effect
-   */
-  useEffect(() => {
-    if (data.bookmarks.length > 0 && data.bookmarks[data.index]) {
-      const currentBookmark = data.bookmarks[data.index];
-      setEditName(currentBookmark.name);
-      setEditUrl(currentBookmark.url);
-    }
-  }, [data.bookmarks, data.index]);
 
   /**
    * Output the component

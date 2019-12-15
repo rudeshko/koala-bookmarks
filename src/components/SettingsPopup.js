@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 import Popup from "./Popup";
 import "../sass/Popup.scss";
 
-const defaultProps = { visible: false, onClose: () => {} };
-
 const SettingsPopup = props => {
   /**
-   * Define Hooks
+   * Default Props
    */
-  const [data] = useState(Object.assign(defaultProps, props));
+  const defaultProps = { visible: false, onClose: () => {} };
 
   /**
-   * Methods
+   * Define Hooks
    */
   // ...
 
@@ -21,16 +19,15 @@ const SettingsPopup = props => {
   useEffect(() => {});
 
   /**
+   * Methods
+   */
+  // ...
+
+  /**
    * Output the component
    */
   return (
-    <Popup
-      visible={data.visible}
-      wide={true}
-      title="Settings"
-      index={data.index}
-      onClose={data.onClose}
-    >
+    <Popup wide={true} title="Settings" onClose={props.onClose}>
       Settings Popup Content...
     </Popup>
   );
