@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Popup from "./Popup";
-import "../sass/Popup.scss";
 
 const SettingsPopup = props => {
   /**

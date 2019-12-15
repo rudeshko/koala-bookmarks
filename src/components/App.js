@@ -13,9 +13,10 @@ import {
   faStar
 } from "@fortawesome/free-solid-svg-icons";
 import AddBookmarkPopup from "./AddBookmarkPopup";
-import Bookmark from "./Bookmark";
 import EditBookmarkPopup from "./EditBookmarkPopup";
 import SettingsPopup from "./SettingsPopup";
+import Bookmark from "./Bookmark";
+
 import "../sass/App.scss";
 
 const App = () => {
@@ -206,6 +207,7 @@ const App = () => {
                       />
                     )}
                   </div>
+                  {/* TODO: Look into what happens when the name is longer than one line */}
                   <div className="name">{value.name}</div>
                 </div>
               </a>

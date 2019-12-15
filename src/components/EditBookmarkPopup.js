@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
+import Popup from "./Popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { updateStoredBookmark } from "../chromeHelper";
-import Popup from "./Popup";
-import "../sass/Popup.scss";
 
 const EditBookmarkPopup = props => {
   /**

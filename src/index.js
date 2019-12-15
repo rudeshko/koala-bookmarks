@@ -1,6 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './sass/reset.scss';
-import App from './components/App';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import "./sass/_reset.scss";
+
+ReactDOM.render(<App />, document.getElementById("root"));
