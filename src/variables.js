@@ -1,10 +1,5 @@
 /* global chrome */
 
-export const emptyBookmark = {
-  name: "",
-  url: ""
-};
-
 export const getLocalJson = key => JSON.parse(localStorage.getItem(key));
 export const saveLocalJson = (key, json) =>
   localStorage.setItem(key, JSON.stringify(json));

@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Popup from "./Popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { addStoredBookmark } from "../chromeHelper";
 
 const AddBookmarkPopup = props => {
-  /**
-   * Default Props
-   */
-  const defaultProps = {
-    index: null,
-    onCreate: () => {},
-    onClose: () => {}
-  };
-
   /**
    * Define Hooks
    */
@@ -71,6 +63,14 @@ const AddBookmarkPopup = props => {
       </form>
     </Popup>
   );
+};
+
+AddBookmarkPopup.defaultProps = {};
+
+AddBookmarkPopup.propTypes = {
+  index: PropTypes.number.isRequired,
+  onCreate: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 export default AddBookmarkPopup;

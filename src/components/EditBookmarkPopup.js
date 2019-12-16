@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Popup from "./Popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -6,19 +7,8 @@ import { updateStoredBookmark } from "../chromeHelper";
 
 const EditBookmarkPopup = props => {
   /**
-   * Default Props
-   */
-  const defaultProps = {
-    index: null,
-    bookmarks: [],
-    onEdit: () => {},
-    onClose: () => {}
-  };
-
-  /**
    * Define Hooks
    */
-  const [data] = useState(Object.assign(defaultProps, props));
   const [editName, setEditName] = useState("");
   const [editUrl, setEditUrl] = useState("");
 
@@ -26,12 +16,12 @@ const EditBookmarkPopup = props => {
    * On mount effect
    */
   useEffect(() => {
-    if (data.bookmarks.length > 0 && data.bookmarks[data.index]) {
-      const currentBookmark = data.bookmarks[data.index];
+    if (props.bookmarks.length > 0 && props.bookmarks[props.index]) {
+      const currentBookmark = props.bookmarks[props.index];
       setEditName(currentBookmark.name);
       setEditUrl(currentBookmark.url);
     }
-  }, [data.bookmarks, data.index]);
+  }, [props.bookmarks, props.index]);
 
   /**
    * Methods
@@ -39,12 +29,12 @@ const EditBookmarkPopup = props => {
   const editBookmark = async event => {
     event.preventDefault();
 
-    const updatedBookmarks = await updateStoredBookmark(data.index, {
+    const updatedBookmarks = await updateStoredBookmark(props.index, {
       name: editName,
       url: editUrl
     });
 
-    data.onEdit(updatedBookmarks);
+    props.onEdit(updatedBookmarks);
   };
 
   /**
@@ -52,10 +42,10 @@ const EditBookmarkPopup = props => {
    */
   return (
     <Popup
-      visible={data.index !== null}
+      visible={props.index !== null}
       title="Edit Bookmark"
-      index={data.index}
-      onClose={data.onClose}
+      index={props.index}
+      onClose={props.onClose}
     >
       <form onSubmit={event => editBookmark(event)}>
         <div>
@@ -86,6 +76,15 @@ const EditBookmarkPopup = props => {
       </form>
     </Popup>
   );
+};
+
+EditBookmarkPopup.defaultProps = {};
+
+EditBookmarkPopup.propTypes = {
+  index: PropTypes.number.isRequired,
+  bookmarks: PropTypes.array.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 export default EditBookmarkPopup;

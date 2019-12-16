@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 import "../sass/Popup.scss";
 
 const Popup = props => {
-  /**
-   * Default Props
-   */
-  const defaultProps = {
-    visible: true,
-    wide: false,
-    title: "Title",
-    children: <div className="no_content">No Content</div>,
-    onClose: () => {}
-  };
-
   /**
    * Define Hooks
    */
@@ -24,7 +14,7 @@ const Popup = props => {
   /**
    * On mount effect
    */
-  useEffect(() => {});
+  // ...
 
   /**
    * Methods
@@ -35,20 +25,29 @@ const Popup = props => {
    * Output the component
    */
   return (
-    props && (
-      <div className="popup">
-        <div className={["window", props.wide ? "wide" : null].join(" ")}>
-          <div className="header">
-            <div className="title">{props.title}</div>
-            <div className="close" onClick={props.onClose}>
-              <FontAwesomeIcon icon={faTimesCircle} />
-            </div>
+    <div className="popup">
+      <div className={["window", props.wide ? "wide" : null].join(" ")}>
+        <div className="header">
+          <div className="title">{props.title}</div>
+          <div className="close" onClick={props.onClose}>
+            <FontAwesomeIcon icon={faTimesCircle} />
           </div>
-          <div className="content">{props.children}</div>
         </div>
+        <div className="content">{props.children}</div>
       </div>
-    )
+    </div>
   );
+};
+
+Popup.defaultProps = {
+  visible: true,
+  wide: false
+};
+
+Popup.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 export default Popup;

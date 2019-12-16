@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { getStoredBookmarks, deleteStoredBookmark } from "../chromeHelper";
-import { emptyBookmark } from "../variables";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faWrench,
-  faCog,
   faMinus,
   faPlus,
-  faArrowsAlt,
-  faLock,
-  faUnlock,
-  faStar
+  faArrowsAlt
 } from "@fortawesome/free-solid-svg-icons";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
 import SettingsPopup from "./SettingsPopup";
+import Controls from "./Controls";
 import Bookmark from "./Bookmark";
 
 import "../sass/App.scss";
@@ -34,7 +30,6 @@ const App = () => {
   const [dragEnabled] = useState(true);
   const [hotKeysEnabled] = useState(true);
   const [hotkeyLabelsEnabled] = useState(true);
-  const [upgradeToProEnabled] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
@@ -42,12 +37,36 @@ const App = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   /**
+   * On mount effect
+   */
+  useEffect(() => {
+    const getBookmarks = async () => {
+      const stored_bookmarks = await getStoredBookmarks();
+      console.log(stored_bookmarks);
+
+      if (!stored_bookmarks || stored_bookmarks.length === 0) {
+        // TODO: Separate this into a "starter" function and enable a few links by default for the users
+        // TODO: Create a migration script to switch from empty bookmark values to null
+        console.log("No bookmarks found, setting empty bookmarks...");
+        console.log("Layout:", currentLayout.x, "x", currentLayout.y);
+
+        const emptyList = [];
+        for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
+          emptyList.push(null);
+        }
+
+        setBookmarks(emptyList);
+      } else {
+        setBookmarks(stored_bookmarks);
+      }
+    };
+
+    getBookmarks();
+  }, [lastUpdated, currentLayout.x, currentLayout.y]);
+
+  /**
    * Methods
    */
-  const toggleEditMode = () => {
-    setEditMode(!editMode);
-  };
-
   const deleteBookmark = async (event, index) => {
     event.preventDefault();
     event.stopPropagation();
@@ -77,32 +96,6 @@ const App = () => {
   };
 
   /**
-   * On mount effect
-   */
-  useEffect(() => {
-    const getBookmarks = async () => {
-      const stored_bookmarks = await getStoredBookmarks();
-
-      if (!stored_bookmarks || stored_bookmarks.length === 0) {
-        // TODO: Separate this into a "starter" function and enable a few links by default for the users
-        console.log("No bookmarks found, setting empty bookmarks...");
-        console.log("Layout:", currentLayout.x, "x", currentLayout.y);
-
-        const emptyList = [];
-        for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
-          emptyList.push(emptyBookmark);
-        }
-
-        setBookmarks(emptyList);
-      } else {
-        setBookmarks(stored_bookmarks);
-      }
-    };
-
-    getBookmarks();
-  }, [lastUpdated, currentLayout.x, currentLayout.y]);
-
-  /**
    * Output the component
    */
   return (
@@ -119,18 +112,19 @@ const App = () => {
           }}
         ></AddBookmarkPopup>
       )}
-      {/* TODO: Match Add Popup */}
-      {/* <EditBookmarkPopup
-        index={editBookmarkAtIndex}
-        bookmarks={bookmarks}
-        onEdit={updatedBookmarks => {
-          setBookmarks(updatedBookmarks);
-          setEditBookmarkAtIndex(null);
-        }}
-        onClose={() => {
-          setEditBookmarkAtIndex(null);
-        }}
-      ></EditBookmarkPopup> */}
+      {editBookmarkAtIndex !== null && (
+        <EditBookmarkPopup
+          index={editBookmarkAtIndex}
+          bookmarks={bookmarks}
+          onEdit={updatedBookmarks => {
+            setBookmarks(updatedBookmarks);
+            setEditBookmarkAtIndex(null);
+          }}
+          onClose={() => {
+            setEditBookmarkAtIndex(null);
+          }}
+        ></EditBookmarkPopup>
+      )}
       {settingsOpen && (
         <SettingsPopup
           onClose={() => {
@@ -138,30 +132,16 @@ const App = () => {
           }}
         ></SettingsPopup>
       )}
-
-      <div className="controls">
-        <button
-          onClick={toggleEditMode}
-          title={`Turn ${editMode ? "off" : "on"} Edit Mode`}
-        >
-          <FontAwesomeIcon icon={editMode ? faUnlock : faLock} />
-          Edit Mode
-        </button>
-        <button onClick={() => setSettingsOpen(true)} title="Open Settings">
-          <FontAwesomeIcon icon={faCog} />
-          Settings
-        </button>
-        {upgradeToProEnabled && (
-          <button onClick={() => {}} title="Upgrade to Pro">
-            <FontAwesomeIcon icon={faStar} />
-            Upgrade to Pro
-          </button>
-        )}
-      </div>
-      <div className={["bookmarks", editMode ? "editMode" : ""].join(" ")}>
+      <Controls
+        editMode={editMode}
+        editModeOnClick={() => setEditMode(!editMode)}
+        settingsOnClick={() => setSettingsOpen(true)}
+      ></Controls>
+      {/* TODO: Add Bookmark component here. Pass layout */}
+      <div className={["bookmarks", editMode ? "editMode" : null].join(" ")}>
         {bookmarks.map((value, index) => (
           <div className="bookmark" key={index}>
-            {value.name && value.url ? (
+            {value !== null ? (
               <a
                 href={value.url}
                 target="_blank"

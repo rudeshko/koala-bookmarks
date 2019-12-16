@@ -1,5 +1,4 @@
 import {
-  emptyBookmark,
   getLocalJson,
   saveLocalJson,
   getChromeJson,
@@ -16,7 +15,7 @@ export const getStoredBookmarks = async () => {
 
 export const deleteStoredBookmark = async index => {
   const bookmarks = await getStoredBookmarks();
-  bookmarks[index] = emptyBookmark;
+  bookmarks[index] = null;
 
   if (process.env.NODE_ENV === "development") {
     saveLocalJson("bookmarks", bookmarks);
