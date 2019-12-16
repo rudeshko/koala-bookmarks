@@ -22,6 +22,7 @@ const AddBookmarkPopup = props => {
    */
   const addNewBookmark = async event => {
     event.preventDefault();
+    event.stopPropagation();
 
     const updatedBookmarks = await addStoredBookmark(props.index, {
       name: newName,

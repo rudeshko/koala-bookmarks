@@ -20,4 +20,17 @@ export const setChromeJson = (key, json) =>
     })
   );
 
+export const initializeBookmarks = layout => {
+  // TODO: Create a migration script to switch from empty bookmark values to null
+  console.log("No bookmarks found, setting empty bookmarks...");
+  console.log("Layout:", layout.x, "x", layout.y);
+
+  const emptyList = [];
+  for (var i = 0; i < layout.x * layout.y; i++) {
+    emptyList.push(null);
+  }
+
+  return emptyList;
+};
+
 export default {};

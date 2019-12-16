@@ -28,6 +28,7 @@ const EditBookmarkPopup = props => {
    */
   const editBookmark = async event => {
     event.preventDefault();
+    event.stopPropagation();
 
     const updatedBookmarks = await updateStoredBookmark(props.index, {
       name: editName,

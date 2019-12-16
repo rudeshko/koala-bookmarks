@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import update from "immutability-helper";
 import {
   getStoredBookmarks,
   saveStoredBookmarks,
   deleteStoredBookmark
 } from "../chromeHelper";
+import { initializeBookmarks } from "../variables";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
 import SettingsPopup from "./SettingsPopup";
@@ -40,15 +42,7 @@ const App = () => {
       const stored_bookmarks = await getStoredBookmarks();
 
       if (!stored_bookmarks || stored_bookmarks.length === 0) {
-        // TODO: Separate this into a "starter" function and enable a few links by default for the users
-        // TODO: Create a migration script to switch from empty bookmark values to null
-        console.log("No bookmarks found, setting empty bookmarks...");
-        console.log("Layout:", currentLayout.x, "x", currentLayout.y);
-
-        const emptyList = [];
-        for (var i = 0; i < currentLayout.x * currentLayout.y; i++) {
-          emptyList.push(null);
-        }
+        const emptyList = initializeBookmarks(currentLayout);
 
         await saveStoredBookmarks(emptyList);
         setBookmarks(emptyList);
@@ -58,7 +52,7 @@ const App = () => {
     };
 
     getBookmarks();
-  }, [currentLayout.x, currentLayout.y]);
+  }, [currentLayout]);
 
   /**
    * Methods
@@ -77,18 +71,27 @@ const App = () => {
     setAddBookmarkAtIndex(index);
   };
 
-  const openEditBookmarkPopup = (event, index) => {
-    event.preventDefault();
-
-    setEditBookmarkAtIndex(index);
-  };
-
   const onBookmarkClick = (event, index) => {
     if (editMode) {
-      openEditBookmarkPopup(event, index);
+      event.preventDefault();
+
+      setEditBookmarkAtIndex(index);
     } else {
       return true;
     }
+  };
+
+  const onMoveBookmark = async (dragIndex, hoverIndex) => {
+    const dragBookmark = bookmarks[dragIndex];
+    const newBookmarks = update(bookmarks, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, dragBookmark]
+      ]
+    });
+
+    setBookmarks(newBookmarks);
+    await saveStoredBookmarks(newBookmarks);
   };
 
   /**
@@ -147,6 +150,7 @@ const App = () => {
             onOpenAddPopup={onOpenAddPopup}
             onDeleteBookmark={onDeleteBookmark}
             onBookmarkClick={onBookmarkClick}
+            onMoveBookmark={onMoveBookmark}
           ></Bookmark>
         ))}
       </div>

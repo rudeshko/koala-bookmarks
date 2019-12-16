@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useImperativeHandle, useRef } from "react";
+import { DragSource, DropTarget } from "react-dnd";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,11 +9,19 @@ import {
   faArrowsAlt
 } from "@fortawesome/free-solid-svg-icons";
 
-const Bookmark = props => {
+const Bookmark = React.forwardRef((props, ref) => {
   /**
    * Define Hooks
    */
-  // ...
+  const { isDragging, connectDragSource, connectDropTarget } = props;
+  const elementRef = useRef(null);
+  const opacity = isDragging ? 0 : 1;
+
+  connectDragSource(elementRef);
+  connectDropTarget(elementRef);
+  useImperativeHandle(ref, () => ({
+    getNode: () => elementRef.current
+  }));
 
   /**
    * On mount effect
@@ -28,7 +37,7 @@ const Bookmark = props => {
    * Output the component
    */
   return (
-    <div className="bookmark">
+    <div className="bookmark" ref={elementRef} style={{ opacity }}>
       {props.bookmark !== null ? (
         <a
           href={props.bookmark.url}
@@ -96,7 +105,45 @@ const Bookmark = props => {
       )}
     </div>
   );
-};
+});
+
+export default DropTarget(
+  "bookmark",
+  {
+    hover(props, monitor, component) {
+      if (!component || !component.getNode()) {
+        return null;
+      }
+
+      const dragIndex = monitor.getItem().index;
+      const hoverIndex = props.index;
+
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+
+      props.onMoveBookmark(dragIndex, hoverIndex);
+      monitor.getItem().index = hoverIndex;
+    }
+  },
+  connect => ({
+    connectDropTarget: connect.dropTarget()
+  })
+)(
+  DragSource(
+    "bookmark",
+    {
+      beginDrag: props => ({
+        bookmark: props.bookmark,
+        index: props.index
+      })
+    },
+    (connect, monitor) => ({
+      connectDragSource: connect.dragSource(),
+      isDragging: monitor.isDragging()
+    })
+  )(Bookmark)
+);
 
 Bookmark.defaultProps = { bookmark: null };
 
@@ -112,7 +159,6 @@ Bookmark.propTypes = {
   hotkeyLabelsEnabled: PropTypes.bool.isRequired,
   onOpenAddPopup: PropTypes.func.isRequired,
   onDeleteBookmark: PropTypes.func.isRequired,
-  onBookmarkClick: PropTypes.func.isRequired
+  onBookmarkClick: PropTypes.func.isRequired,
+  onMoveBookmark: PropTypes.func.isRequired
 };
-
-export default Bookmark;
