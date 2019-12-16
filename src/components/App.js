@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getStoredBookmarks, deleteStoredBookmark } from "../chromeHelper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faWrench,
-  faMinus,
-  faPlus,
-  faArrowsAlt
-} from "@fortawesome/free-solid-svg-icons";
+  getStoredBookmarks,
+  saveStoredBookmarks,
+  deleteStoredBookmark
+} from "../chromeHelper";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
 import SettingsPopup from "./SettingsPopup";
@@ -19,7 +16,6 @@ const App = () => {
   /**
    * Define Hooks
    */
-  const [lastUpdated] = useState(new Date()); // TODO: Update this?
   const [layout] = useState({
     LAYOUT_4x4: {
       x: 4,
@@ -28,7 +24,7 @@ const App = () => {
   });
   const [editMode, setEditMode] = useState(false);
   const [dragEnabled] = useState(true);
-  const [hotKeysEnabled] = useState(true);
+  const [hotKeysEnabled] = useState(false);
   const [hotkeyLabelsEnabled] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
@@ -42,7 +38,6 @@ const App = () => {
   useEffect(() => {
     const getBookmarks = async () => {
       const stored_bookmarks = await getStoredBookmarks();
-      console.log(stored_bookmarks);
 
       if (!stored_bookmarks || stored_bookmarks.length === 0) {
         // TODO: Separate this into a "starter" function and enable a few links by default for the users
@@ -55,6 +50,7 @@ const App = () => {
           emptyList.push(null);
         }
 
+        await saveStoredBookmarks(emptyList);
         setBookmarks(emptyList);
       } else {
         setBookmarks(stored_bookmarks);
@@ -62,12 +58,12 @@ const App = () => {
     };
 
     getBookmarks();
-  }, [lastUpdated, currentLayout.x, currentLayout.y]);
+  }, [currentLayout.x, currentLayout.y]);
 
   /**
    * Methods
    */
-  const deleteBookmark = async (event, index) => {
+  const onDeleteBookmark = async (event, index) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -75,7 +71,7 @@ const App = () => {
     setBookmarks(updatedBookmarks);
   };
 
-  const openAddBookmarkPopup = (event, index) => {
+  const onOpenAddPopup = (event, index) => {
     event.preventDefault();
 
     setAddBookmarkAtIndex(index);
@@ -87,7 +83,7 @@ const App = () => {
     setEditBookmarkAtIndex(index);
   };
 
-  const handleBookmarkClick = (event, index) => {
+  const onBookmarkClick = (event, index) => {
     if (editMode) {
       openEditBookmarkPopup(event, index);
     } else {
@@ -139,72 +135,19 @@ const App = () => {
       ></Controls>
       {/* TODO: Add Bookmark component here. Pass layout */}
       <div className={["bookmarks", editMode ? "editMode" : null].join(" ")}>
-        {bookmarks.map((value, index) => (
-          <div className="bookmark" key={index}>
-            {value !== null ? (
-              <a
-                href={value.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={event => handleBookmarkClick(event, index)}
-              >
-                <div className="tab">
-                  {editMode && dragEnabled && (
-                    <div className="drag">
-                      <FontAwesomeIcon icon={faArrowsAlt} />
-                    </div>
-                  )}
-                  {hotKeysEnabled &&
-                    hotkeyLabelsEnabled &&
-                    index < 9 &&
-                    !editMode && (
-                      <div
-                        className="hotkey"
-                        title={`Press ${index +
-                          1} on the keyboard to open the link`}
-                      >
-                        <div className="key">{index + 1}</div>
-                      </div>
-                    )}
-                  <div className="icon">
-                    {editMode ? (
-                      <>
-                        <FontAwesomeIcon icon={faWrench} className="editIcon" />
-                        <div
-                          className="delete"
-                          title="Delete"
-                          onClick={event => deleteBookmark(event, index)}
-                        >
-                          <div className="icon">
-                            <FontAwesomeIcon icon={faMinus} />
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <img
-                        src={`https://www.google.com/s2/favicons?domain=${value.url}`}
-                        alt=""
-                      />
-                    )}
-                  </div>
-                  {/* TODO: Look into what happens when the name is longer than one line */}
-                  <div className="name">{value.name}</div>
-                </div>
-              </a>
-            ) : (
-              <a href={`#${index}`} onClick={event => event.preventDefault()}>
-                <div className="tab add">
-                  <div
-                    className="icon"
-                    onClick={event => openAddBookmarkPopup(event, index)}
-                  >
-                    <FontAwesomeIcon icon={faPlus} />
-                  </div>
-                  <div className="name">Add New</div>
-                </div>
-              </a>
-            )}
-          </div>
+        {bookmarks.map((bookmark, index) => (
+          <Bookmark
+            key={index}
+            bookmark={bookmark}
+            index={index}
+            editMode={editMode}
+            dragEnabled={dragEnabled}
+            hotKeysEnabled={hotKeysEnabled}
+            hotkeyLabelsEnabled={hotkeyLabelsEnabled}
+            onOpenAddPopup={onOpenAddPopup}
+            onDeleteBookmark={onDeleteBookmark}
+            onBookmarkClick={onBookmarkClick}
+          ></Bookmark>
         ))}
       </div>
     </div>

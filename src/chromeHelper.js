@@ -13,6 +13,14 @@ export const getStoredBookmarks = async () => {
   }
 };
 
+export const saveStoredBookmarks = async bookmarks => {
+  if (process.env.NODE_ENV === "development") {
+    saveLocalJson("bookmarks", bookmarks);
+  } else {
+    await setChromeJson("bookmarks", bookmarks);
+  }
+};
+
 export const deleteStoredBookmark = async index => {
   const bookmarks = await getStoredBookmarks();
   bookmarks[index] = null;

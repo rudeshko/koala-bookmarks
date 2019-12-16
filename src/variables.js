@@ -15,7 +15,7 @@ export const getChromeJson = key =>
 
 export const setChromeJson = (key, json) =>
   new Promise(resolve =>
-    chrome.storage.set({ key, json }, () => {
+    chrome.storage.sync.set({ key, json }, () => {
       resolve(true);
     })
   );

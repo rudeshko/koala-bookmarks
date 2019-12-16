@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 
-import "../sass/Popup.scss";
+import "../sass/Controls.scss";
 
 const Controls = props => {
   /**
