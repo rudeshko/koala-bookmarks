@@ -13,11 +13,27 @@ export const getStoredBookmarks = async () => {
   }
 };
 
+export const getStoredSettings = async () => {
+  if (process.env.NODE_ENV === "development") {
+    return getLocalJson("settings");
+  } else {
+    return getChromeJson("settings");
+  }
+};
+
 export const saveStoredBookmarks = async bookmarks => {
   if (process.env.NODE_ENV === "development") {
     saveLocalJson("bookmarks", bookmarks);
   } else {
     await setChromeJson("bookmarks", bookmarks);
+  }
+};
+
+export const saveStoredSettings = async bookmarks => {
+  if (process.env.NODE_ENV === "development") {
+    saveLocalJson("settings", bookmarks);
+  } else {
+    await setChromeJson("settings", bookmarks);
   }
 };
 

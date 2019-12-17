@@ -37,13 +37,6 @@ body {
     flex-wrap: wrap;
 
     &.editMode {
-      &.dragEnabled {
-        a:hover,
-        .tab:hover {
-          cursor: move;
-        }
-      }
-
       .tab:not(.add) {
         .icon {
           color: $dark_grey;
@@ -52,12 +45,20 @@ body {
 
           &:hover {
             color: $secondary_bg;
+            cursor: pointer;
           }
 
           .editIcon {
             font-size: 21px;
           }
         }
+      }
+    }
+
+    &:not(.editMode) {
+      .tab:not(.add):hover {
+        background: rgba(0, 0, 0, 0.4);
+        cursor: pointer;
       }
     }
 
@@ -129,11 +130,6 @@ body {
           }
 
           &:not(.add) {
-            &:hover {
-              background: rgba(0, 0, 0, 0.4);
-              cursor: pointer;
-            }
-
             .hotkey {
               position: absolute;
               top: 5px;
@@ -154,10 +150,16 @@ body {
 
             .drag {
               position: absolute;
-              top: 10px;
+              top: 5px;
               left: 10px;
               color: rgba(255, 255, 255, 0.5);
               font-size: 20px;
+              opacity: 0.35;
+
+              &:hover {
+                cursor: move;
+                opacity: 1;
+              }
             }
 
             & > .icon {

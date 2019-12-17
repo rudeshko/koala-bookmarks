@@ -7,10 +7,15 @@ import "../sass/Popup.scss";
 
 const Popup = props => {
   /**
+   * Destructure the props
+   */
+  const { className } = props;
+
+  /**
    * Output the component
    */
   return (
-    <div className="popup">
+    <div className={["popup", className ? className : ""].join(" ").trim()}>
       <div className={["window", props.wide ? "wide" : null].join(" ").trim()}>
         <div className="header">
           <div className="title">{props.title}</div>
@@ -30,9 +35,12 @@ Popup.defaultProps = {
 };
 
 Popup.propTypes = {
+  visible: PropTypes.bool,
+  wide: PropTypes.bool,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  className: PropTypes.string
 };
 
 export default Popup;

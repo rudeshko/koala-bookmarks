@@ -12,6 +12,37 @@
   justify-content: center;
   z-index: 100;
 
+  &.settings {
+    .content {
+      .setting {
+        width: 500px;
+        margin: 0 auto 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .label {
+          font-size: 20px;
+        }
+
+        .control {
+          svg {
+            font-size: 26px;
+            color: $secondary_bg;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .window {
     width: 500px;
     height: auto;

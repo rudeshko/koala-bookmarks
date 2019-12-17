@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import update from "immutability-helper";
+// import update from "immutability-helper";
 import {
   getStoredBookmarks,
+  getStoredSettings,
   saveStoredBookmarks,
+  saveStoredSettings,
   deleteStoredBookmark
 } from "../chromeHelper";
-import { initializeBookmarks } from "../variables";
+import { initializeBookmarks, Settings } from "../variables";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
 import SettingsPopup from "./SettingsPopup";
@@ -16,20 +18,23 @@ import "../sass/App.scss";
 
 const App = () => {
   /**
-   * Define Hooks
+   * Define Variables
    */
-  const [layout] = useState({
+  const layout = {
     LAYOUT_4x4: {
       x: 4,
       y: 4
     }
-  });
-  const [editMode, setEditMode] = useState(false);
-  const [dragEnabled] = useState(true);
-  const [hotKeysEnabled] = useState(true);
-  const [hotkeyLabelsEnabled] = useState(true);
-  const [bookmarks, setBookmarks] = useState([]);
+  };
+
+  /**
+   * Define Hooks
+   */
   const [currentLayout] = useState(layout.LAYOUT_4x4);
+  const [editMode, setEditMode] = useState(false);
+  const [bookmarks, setBookmarks] = useState([]);
+  const [settings, setSettings] = useState({});
+
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
   const [editBookmarkAtIndex, setEditBookmarkAtIndex] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -38,8 +43,9 @@ const App = () => {
    * On mount effect
    */
   useEffect(() => {
-    const getBookmarks = async () => {
+    const getStoredItems = async () => {
       const stored_bookmarks = await getStoredBookmarks();
+      const stored_settings = await getStoredSettings();
 
       if (!stored_bookmarks || stored_bookmarks.length === 0) {
         const emptyList = initializeBookmarks(currentLayout);
@@ -49,9 +55,16 @@ const App = () => {
       } else {
         setBookmarks(stored_bookmarks);
       }
+
+      if (!stored_settings) {
+        await saveStoredSettings(Settings);
+        setSettings(Settings);
+      } else {
+        setSettings(stored_settings);
+      }
     };
 
-    getBookmarks();
+    getStoredItems();
   }, [currentLayout]);
 
   /**
@@ -68,6 +81,7 @@ const App = () => {
   const onOpenAddPopup = (event, index) => {
     event.preventDefault();
 
+    setEditMode(false);
     setAddBookmarkAtIndex(index);
   };
 
@@ -82,19 +96,19 @@ const App = () => {
   };
 
   const onMoveBookmark = async (dragIndex, hoverIndex) => {
-    // console.log(dragIndex, hoverIndex);
-    // const tmp = bookmarks[dragIndex];
-    // const newBookmarks = bookmarks;
-    // newBookmarks[dragIndex] = bookmarks[hoverIndex];
-    // newBookmarks[hoverIndex] = tmp;
+    const newBookmarks = JSON.parse(JSON.stringify(bookmarks));
+    const tmp = bookmarks[dragIndex];
+    newBookmarks[dragIndex] = bookmarks[hoverIndex];
+    newBookmarks[hoverIndex] = tmp;
 
-    const dragBookmark = bookmarks[dragIndex];
-    const newBookmarks = update(bookmarks, {
-      $splice: [
-        [dragIndex, 1],
-        [hoverIndex, 0, dragBookmark]
-      ]
-    });
+    // Reorders in place, instead of a swap
+    // const dragBookmark = bookmarks[dragIndex];
+    // const newBookmarks = update(bookmarks, {
+    //   $splice: [
+    //     [dragIndex, 1],
+    //     [hoverIndex, 0, dragBookmark]
+    //   ]
+    // });
 
     setBookmarks(newBookmarks);
     await saveStoredBookmarks(newBookmarks);
@@ -132,8 +146,12 @@ const App = () => {
       )}
       {settingsOpen && (
         <SettingsPopup
+          settings={settings}
           onClose={() => {
             setSettingsOpen(false);
+          }}
+          onSettingChange={setting => {
+            console.log(setting);
           }}
         ></SettingsPopup>
       )}
@@ -146,7 +164,7 @@ const App = () => {
         className={[
           "bookmarks",
           editMode ? "editMode" : "",
-          dragEnabled ? "dragEnabled" : ""
+          settings.dragEnabled ? "dragEnabled" : ""
         ]
           .join(" ")
           .trim()}
@@ -157,9 +175,7 @@ const App = () => {
             bookmark={bookmark}
             index={index}
             editMode={editMode}
-            dragEnabled={dragEnabled}
-            hotKeysEnabled={hotKeysEnabled}
-            hotkeyLabelsEnabled={hotkeyLabelsEnabled}
+            settings={settings}
             onOpenAddPopup={onOpenAddPopup}
             onDeleteBookmark={onDeleteBookmark}
             onBookmarkClick={onBookmarkClick}

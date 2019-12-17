@@ -33,4 +33,10 @@ export const initializeBookmarks = layout => {
   return emptyList;
 };
 
+export const Settings = {
+  dragEnabled: true,
+  hotKeysEnabled: true,
+  hotKeyLabelsEnabled: true
+};
+
 export default {};

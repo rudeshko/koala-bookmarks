@@ -2,7 +2,12 @@ import React, { useImperativeHandle, useRef } from "react";
 import { DragSource, DropTarget } from "react-dnd";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWrench, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faWrench,
+  faMinus,
+  faPlus,
+  faArrowsAlt
+} from "@fortawesome/free-solid-svg-icons";
 
 const Bookmark = React.forwardRef((props, ref) => {
   /**
@@ -12,22 +17,13 @@ const Bookmark = React.forwardRef((props, ref) => {
   const elementRef = useRef(null);
 
   if (editMode && dragEnabled) {
-    connectDragSource(elementRef);
     connectDropTarget(elementRef);
+    connectDragSource(elementRef);
   }
+
   useImperativeHandle(ref, () => ({
     getNode: () => elementRef.current
   }));
-
-  /**
-   * On mount effect
-   */
-  // ...
-
-  /**
-   * Methods
-   */
-  // ...
 
   /**
    * Output the component
@@ -54,6 +50,11 @@ const Bookmark = React.forwardRef((props, ref) => {
                   <div className="key">{props.index + 1}</div>
                 </div>
               )}
+            {editMode && dragEnabled && (
+              <div className="drag">
+                <FontAwesomeIcon icon={faArrowsAlt} />
+              </div>
+            )}
             <div className="icon">
               {props.editMode ? (
                 <>
@@ -102,11 +103,10 @@ export default DropTarget(
   "bookmark",
   {
     hover(props, monitor, component) {
-      if (!component || !component.getNode()) {
+      const node = component.getNode();
+      if (!component || !node) {
         return null;
       }
-
-      // TODO: Might be possible to do vertical replace too, not just horizontal
 
       const dragIndex = monitor.getItem().index;
       const hoverIndex = props.index;
@@ -126,9 +126,9 @@ export default DropTarget(
   DragSource(
     "bookmark",
     {
-      beginDrag: props => ({
-        bookmark: props.bookmark,
-        index: props.index
+      beginDrag: ({ bookmark, index }) => ({
+        bookmark,
+        index
       })
     },
     (connect, monitor) => ({
@@ -147,9 +147,11 @@ Bookmark.propTypes = {
   }),
   index: PropTypes.number.isRequired,
   editMode: PropTypes.bool.isRequired,
-  dragEnabled: PropTypes.bool.isRequired,
-  hotKeysEnabled: PropTypes.bool.isRequired,
-  hotkeyLabelsEnabled: PropTypes.bool.isRequired,
+  settings: PropTypes.shape({
+    dragEnabled: PropTypes.bool,
+    hotKeysEnabled: PropTypes.bool,
+    hotKeyLabelsEnabled: PropTypes.bool
+  }),
   onOpenAddPopup: PropTypes.func.isRequired,
   onDeleteBookmark: PropTypes.func.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
