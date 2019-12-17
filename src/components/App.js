@@ -26,7 +26,7 @@ const App = () => {
   });
   const [editMode, setEditMode] = useState(false);
   const [dragEnabled] = useState(true);
-  const [hotKeysEnabled] = useState(false);
+  const [hotKeysEnabled] = useState(true);
   const [hotkeyLabelsEnabled] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
   const [currentLayout] = useState(layout.LAYOUT_4x4);
@@ -82,6 +82,12 @@ const App = () => {
   };
 
   const onMoveBookmark = async (dragIndex, hoverIndex) => {
+    // console.log(dragIndex, hoverIndex);
+    // const tmp = bookmarks[dragIndex];
+    // const newBookmarks = bookmarks;
+    // newBookmarks[dragIndex] = bookmarks[hoverIndex];
+    // newBookmarks[hoverIndex] = tmp;
+
     const dragBookmark = bookmarks[dragIndex];
     const newBookmarks = update(bookmarks, {
       $splice: [
@@ -136,8 +142,15 @@ const App = () => {
         editModeOnClick={() => setEditMode(!editMode)}
         settingsOnClick={() => setSettingsOpen(true)}
       ></Controls>
-      {/* TODO: Add Bookmark component here. Pass layout */}
-      <div className={["bookmarks", editMode ? "editMode" : null].join(" ")}>
+      <div
+        className={[
+          "bookmarks",
+          editMode ? "editMode" : "",
+          dragEnabled ? "dragEnabled" : ""
+        ]
+          .join(" ")
+          .trim()}
+      >
         {bookmarks.map((bookmark, index) => (
           <Bookmark
             key={index}

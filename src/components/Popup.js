@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
@@ -7,26 +7,11 @@ import "../sass/Popup.scss";
 
 const Popup = props => {
   /**
-   * Define Hooks
-   */
-  // ...
-
-  /**
-   * On mount effect
-   */
-  // ...
-
-  /**
-   * Methods
-   */
-  // ...
-
-  /**
    * Output the component
    */
   return (
     <div className="popup">
-      <div className={["window", props.wide ? "wide" : null].join(" ")}>
+      <div className={["window", props.wide ? "wide" : null].join(" ").trim()}>
         <div className="header">
           <div className="title">{props.title}</div>
           <div className="close" onClick={props.onClose}>

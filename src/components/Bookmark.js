@@ -2,23 +2,19 @@ import React, { useImperativeHandle, useRef } from "react";
 import { DragSource, DropTarget } from "react-dnd";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faWrench,
-  faMinus,
-  faPlus,
-  faArrowsAlt
-} from "@fortawesome/free-solid-svg-icons";
+import { faWrench, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Bookmark = React.forwardRef((props, ref) => {
   /**
    * Define Hooks
    */
-  const { isDragging, connectDragSource, connectDropTarget } = props;
+  const { editMode, dragEnabled, connectDragSource, connectDropTarget } = props;
   const elementRef = useRef(null);
-  const opacity = isDragging ? 0 : 1;
 
-  connectDragSource(elementRef);
-  connectDropTarget(elementRef);
+  if (editMode && dragEnabled) {
+    connectDragSource(elementRef);
+    connectDropTarget(elementRef);
+  }
   useImperativeHandle(ref, () => ({
     getNode: () => elementRef.current
   }));
@@ -37,7 +33,7 @@ const Bookmark = React.forwardRef((props, ref) => {
    * Output the component
    */
   return (
-    <div className="bookmark" ref={elementRef} style={{ opacity }}>
+    <div className="bookmark" ref={elementRef}>
       {props.bookmark !== null ? (
         <a
           href={props.bookmark.url}
@@ -46,11 +42,6 @@ const Bookmark = React.forwardRef((props, ref) => {
           onClick={event => props.onBookmarkClick(event, props.index)}
         >
           <div className="tab">
-            {props.editMode && props.dragEnabled && (
-              <div className="drag">
-                <FontAwesomeIcon icon={faArrowsAlt} />
-              </div>
-            )}
             {props.hotKeysEnabled &&
               props.hotkeyLabelsEnabled &&
               props.index < 9 &&
@@ -114,6 +105,8 @@ export default DropTarget(
       if (!component || !component.getNode()) {
         return null;
       }
+
+      // TODO: Might be possible to do vertical replace too, not just horizontal
 
       const dragIndex = monitor.getItem().index;
       const hoverIndex = props.index;

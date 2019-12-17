@@ -15,17 +15,6 @@ body {
   padding: 0px;
   overflow: hidden;
   font-family: "Montserrat", sans-serif;
-
-  &.react-draggable-tranparent-selection {
-    .bookmark {
-      &.react-draggable-dragging {
-        z-index: 50;
-      }
-      &:not(.react-draggable-dragging) {
-        opacity: 0.5;
-      }
-    }
-  }
 }
 
 #root {
@@ -48,6 +37,13 @@ body {
     flex-wrap: wrap;
 
     &.editMode {
+      &.dragEnabled {
+        a:hover,
+        .tab:hover {
+          cursor: move;
+        }
+      }
+
       .tab:not(.add) {
         .icon {
           color: $dark_grey;
@@ -77,8 +73,7 @@ body {
         color: #fff;
         text-decoration: none;
 
-        &:hover,
-        &:focus {
+        &:hover {
           cursor: initial;
         }
 
@@ -115,8 +110,7 @@ body {
               font-size: 17px;
               border: 1px solid rgba(255, 255, 255, 0.07);
 
-              &:hover,
-              &:focus {
+              &:hover {
                 cursor: pointer;
                 background: rgba(255, 255, 255, 0.3);
                 border: 1px solid rgba(255, 255, 255, 0.4);
@@ -135,14 +129,9 @@ body {
           }
 
           &:not(.add) {
-            &:hover,
-            &:focus {
+            &:hover {
               background: rgba(0, 0, 0, 0.4);
               cursor: pointer;
-
-              .drag {
-                display: block;
-              }
             }
 
             .hotkey {
@@ -165,16 +154,10 @@ body {
 
             .drag {
               position: absolute;
-              top: 5px;
+              top: 10px;
               left: 10px;
-              color: rgba(255, 255, 255, 0.75);
-              font-size: 18px;
-              display: none;
-
-              &:hover,
-              &:focus {
-                cursor: move;
-              }
+              color: rgba(255, 255, 255, 0.5);
+              font-size: 20px;
             }
 
             & > .icon {
@@ -193,8 +176,7 @@ body {
                 right: -16px;
                 text-align: center;
 
-                &:hover,
-                &:focus {
+                &:hover {
                   cursor: pointer;
 
                   & > .icon {
