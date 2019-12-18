@@ -63,20 +63,7 @@ const App = () => {
         setSettings(stored_settings);
       }
 
-      // TODO: Doesn't work dynamically
-      console.log(settings);
-      if (settings.hotKeysEnabled) {
-        document.onkeypress = e => {
-          e = e || window.event;
-          const key = parseInt(String.fromCharCode(e.keyCode));
-
-          if (key >= 1 && key <= 9) {
-            console.log(key);
-          }
-        };
-      } else {
-        document.onkeypress = e => {};
-      }
+      listenToKeys(stored_settings.hotKeysEnabled);
     };
 
     getStoredItems();
@@ -85,6 +72,21 @@ const App = () => {
   /**
    * Methods
    */
+  const listenToKeys = enabled => {
+    if (enabled) {
+      document.onkeypress = e => {
+        e = e || window.event;
+        const key = parseInt(String.fromCharCode(e.keyCode));
+
+        if (key >= 1 && key <= 9) {
+          console.log(key);
+        }
+      };
+    } else {
+      document.onkeypress = () => {};
+    }
+  };
+
   const onDeleteBookmark = async (event, index) => {
     event.preventDefault();
     event.stopPropagation();
@@ -111,6 +113,7 @@ const App = () => {
   };
 
   const onMoveBookmark = async (dragIndex, hoverIndex) => {
+    // Swaps the two items vertically and horizontally
     // const newBookmarks = JSON.parse(JSON.stringify(bookmarks));
     // const tmp = bookmarks[dragIndex];
     // newBookmarks[dragIndex] = bookmarks[hoverIndex];
@@ -132,6 +135,7 @@ const App = () => {
   const onSettingsChange = async newSettings => {
     setSettings(newSettings);
     await saveStoredSettings(newSettings);
+    listenToKeys(newSettings.hotKeysEnabled);
   };
 
   /**
@@ -191,6 +195,7 @@ const App = () => {
           <Bookmark
             key={index}
             bookmark={bookmark}
+            layout={currentLayout}
             index={index}
             editMode={editMode}
             settings={settings}

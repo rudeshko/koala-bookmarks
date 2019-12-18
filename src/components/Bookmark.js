@@ -15,6 +15,7 @@ const Bookmark = React.forwardRef((props, ref) => {
    */
   const {
     editMode,
+    layout,
     settings: { dragEnabled, hotKeysEnabled, hotKeyLabelsEnabled },
     connectDragSource,
     connectDropTarget
@@ -25,6 +26,9 @@ const Bookmark = React.forwardRef((props, ref) => {
   if (editMode && dragEnabled) {
     connectDropTarget(elementRef);
     connectDragSource(elementRef);
+  } else {
+    connectDropTarget(null);
+    connectDragSource(null);
   }
 
   useImperativeHandle(ref, () => ({
@@ -40,7 +44,12 @@ const Bookmark = React.forwardRef((props, ref) => {
    * Output the component
    */
   return (
-    <div className="bookmark" ref={elementRef}>
+    <div
+      className={["bookmark", "layout_" + layout.x + "x" + layout.y]
+        .join(" ")
+        .trim()}
+      ref={elementRef}
+    >
       {props.bookmark !== null ? (
         <a
           href={props.bookmark.url}
@@ -161,6 +170,8 @@ Bookmark.propTypes = {
     name: PropTypes.string,
     url: PropTypes.string
   }),
+  layout: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number })
+    .isRequired,
   index: PropTypes.number.isRequired,
   editMode: PropTypes.bool.isRequired,
   settings: PropTypes.shape({

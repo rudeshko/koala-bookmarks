@@ -46,9 +46,9 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
         </div>
       ))}
       <h1>Layout</h1>
-      Test
+      Coming Soon...
       <h1>Visual</h1>
-      Test
+      Coming Soon...
     </Popup>
   );
 };
