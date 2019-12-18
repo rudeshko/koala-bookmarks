@@ -1,7 +1,7 @@
-# Chrome Desktop Bookmarks
+# Browser Desktop Bookmarks
 
-![Chrome Desktop Bookmarks - CICD](https://github.com/rudeshko/chrome-bookmarks/workflows/Chrome%20Bookmarks%20-%20CICD/badge.svg)
-![version](https://img.shields.io/github/manifest-json/v/rudeshko/chrome-bookmarks?color=0065ff)
+![Browser Desktop Bookmarks - CICD](https://github.com/rudeshko/browser-bookmarks/workflows/Browser%20Bookmarks%20-%20CICD/badge.svg)
+![version](https://img.shields.io/github/manifest-json/v/rudeshko/browser-bookmarks?color=0065ff)
 
 Chrome Bookmarks made easier. Set your favourite websites and access them with the hotkeys.
 
