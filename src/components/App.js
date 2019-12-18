@@ -79,7 +79,10 @@ const App = () => {
         const key = parseInt(String.fromCharCode(e.keyCode));
 
         if (key >= 1 && key <= 9) {
-          console.log(key);
+          const clickableElement = document.getElementById("link_" + key);
+          if (clickableElement) {
+            clickableElement.click();
+          }
         }
       };
     } else {

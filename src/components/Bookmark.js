@@ -55,6 +55,7 @@ const Bookmark = React.forwardRef((props, ref) => {
           href={props.bookmark.url}
           target="_blank"
           rel="noopener noreferrer"
+          id={`link_${props.index + 1}`}
           onClick={event => props.onBookmarkClick(event, props.index)}
         >
           <div className="tab">
@@ -103,7 +104,6 @@ const Bookmark = React.forwardRef((props, ref) => {
                 />
               )}
             </div>
-            {/* TODO: Look into what happens when the name is longer than one line */}
             <div className="name">{props.bookmark.name}</div>
           </div>
         </a>
