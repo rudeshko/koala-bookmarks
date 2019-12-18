@@ -1,7 +1,7 @@
 # Browser Bookmarks
 
 ![Browser Bookmarks - CICD](https://github.com/rudeshko/browser-bookmarks/workflows/Browser%20Bookmarks%20-%20CICD/badge.svg)
-![version](https://img.shields.io/github/manifest-json/v/rudeshko/browser-bookmarks?color=0065ff)
+![version](https://img.shields.io/github/manifest-json/v/rudeshko/browser-bookmarks?color=green)
 
 Browser Bookmarks made easier. Set your favourite websites and access them with the hotkeys.
 

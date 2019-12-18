@@ -56,6 +56,7 @@ const App = () => {
         setBookmarks(stored_bookmarks);
       }
 
+      // TODO: Come up with migration strategy when new keys are added
       if (!stored_settings) {
         await saveStoredSettings(Settings);
         setSettings(Settings);

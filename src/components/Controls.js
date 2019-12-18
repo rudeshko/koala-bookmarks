@@ -14,7 +14,7 @@ const Controls = ({ editModeOnClick, editMode, settingsOnClick }) => {
   /**
    * Define Hooks
    */
-  const [upgradeToProEnabled] = useState(true); // TODO: Will be a setting
+  const [upgradeToProEnabled] = useState(false);
 
   /**
    * Output the component
