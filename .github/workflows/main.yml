@@ -1,4 +1,4 @@
-name: Chrome Desktop Bookmarks - CICD
+name: Browser Desktop Bookmarks - CICD
 
 on:
   push:
