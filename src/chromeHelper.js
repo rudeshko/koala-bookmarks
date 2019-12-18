@@ -54,8 +54,6 @@ export const addStoredBookmark = async (index, bookmark) =>
   updateStoredBookmark(index, bookmark);
 
 export const updateStoredBookmark = async (index, bookmark) => {
-  console.log("Changing bookmark at index", index);
-
   const bookmarks = await getStoredBookmarks();
   bookmarks[index] = bookmark;
 

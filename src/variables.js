@@ -7,7 +7,7 @@ export const saveLocalJson = (key, json) =>
 export const getChromeJson = key =>
   new Promise(resolve =>
     chrome.storage.sync.get(key, obj => {
-      console.log("Got Chrome Storage bookmarks:", obj.bookmarks);
+      console.log("Got Chrome Storage", key, obj);
 
       resolve(obj.bookmarks);
     })
@@ -15,7 +15,7 @@ export const getChromeJson = key =>
 
 export const setChromeJson = (key, json) =>
   new Promise(resolve =>
-    chrome.storage.sync.set({ key, json }, () => {
+    chrome.storage.sync.set({ [key]: json }, () => {
       resolve(true);
     })
   );

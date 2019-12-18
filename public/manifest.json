@@ -13,10 +13,9 @@
     "default_icon": "images/icon.png",
     "default_popup": "index.html"
   },
-  "options_page": "options.html",
   "content_scripts": [
     {
-      "matches": ["http://*/*"],
+      "matches": ["https://*/*"],
       "js": ["blank.js"]
     }
   ]

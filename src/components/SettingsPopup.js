@@ -10,7 +10,7 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
   const labels = {
     dragEnabled: "Drag to Reorder Bookmarks",
     hotKeysEnabled: "Hot Keys",
-    hotKeyLabelsEnabled: "Hot Key Labels"
+    hotKeyLabelsEnabled: "Display Hot Key Labels"
   };
 
   const sections = {
@@ -38,6 +38,7 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           <div className="control">
             <Checkbox
               value={settings[key]}
+              disabled={true}
               onToggle={() => {
                 toggleSetting(key);
               }}

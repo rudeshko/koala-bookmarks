@@ -60,11 +60,11 @@ const App = () => {
       if (!stored_settings) {
         await saveStoredSettings(Settings);
         setSettings(Settings);
+        listenToKeys(Settings.hotKeysEnabled);
       } else {
         setSettings(stored_settings);
+        listenToKeys(stored_settings.hotKeysEnabled);
       }
-
-      listenToKeys(stored_settings.hotKeysEnabled);
     };
 
     getStoredItems();
