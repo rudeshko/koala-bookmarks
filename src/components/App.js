@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import update from "immutability-helper";
+import update from "immutability-helper";
 import {
   getStoredBookmarks,
   getStoredSettings,
@@ -62,6 +62,21 @@ const App = () => {
       } else {
         setSettings(stored_settings);
       }
+
+      // TODO: Doesn't work dynamically
+      console.log(settings);
+      if (settings.hotKeysEnabled) {
+        document.onkeypress = e => {
+          e = e || window.event;
+          const key = parseInt(String.fromCharCode(e.keyCode));
+
+          if (key >= 1 && key <= 9) {
+            console.log(key);
+          }
+        };
+      } else {
+        document.onkeypress = e => {};
+      }
     };
 
     getStoredItems();
@@ -96,22 +111,27 @@ const App = () => {
   };
 
   const onMoveBookmark = async (dragIndex, hoverIndex) => {
-    const newBookmarks = JSON.parse(JSON.stringify(bookmarks));
-    const tmp = bookmarks[dragIndex];
-    newBookmarks[dragIndex] = bookmarks[hoverIndex];
-    newBookmarks[hoverIndex] = tmp;
+    // const newBookmarks = JSON.parse(JSON.stringify(bookmarks));
+    // const tmp = bookmarks[dragIndex];
+    // newBookmarks[dragIndex] = bookmarks[hoverIndex];
+    // newBookmarks[hoverIndex] = tmp;
 
     // Reorders in place, instead of a swap
-    // const dragBookmark = bookmarks[dragIndex];
-    // const newBookmarks = update(bookmarks, {
-    //   $splice: [
-    //     [dragIndex, 1],
-    //     [hoverIndex, 0, dragBookmark]
-    //   ]
-    // });
+    const dragBookmark = bookmarks[dragIndex];
+    const newBookmarks = update(bookmarks, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, dragBookmark]
+      ]
+    });
 
     setBookmarks(newBookmarks);
     await saveStoredBookmarks(newBookmarks);
+  };
+
+  const onSettingsChange = async newSettings => {
+    setSettings(newSettings);
+    await saveStoredSettings(newSettings);
   };
 
   /**
@@ -150,9 +170,7 @@ const App = () => {
           onClose={() => {
             setSettingsOpen(false);
           }}
-          onSettingChange={setting => {
-            console.log(setting);
-          }}
+          onSettingsChange={onSettingsChange}
         ></SettingsPopup>
       )}
       <Controls

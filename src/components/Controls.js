@@ -10,21 +10,11 @@ import PropTypes from "prop-types";
 
 import "../sass/Controls.scss";
 
-const Controls = props => {
+const Controls = ({ editModeOnClick, editMode, settingsOnClick }) => {
   /**
    * Define Hooks
    */
   const [upgradeToProEnabled] = useState(true); // TODO: Will be a setting
-
-  /**
-   * On mount effect
-   */
-  // ...
-
-  /**
-   * Methods
-   */
-  // ...
 
   /**
    * Output the component
@@ -32,13 +22,13 @@ const Controls = props => {
   return (
     <div className="controls">
       <button
-        onClick={props.editModeOnClick}
-        title={`Turn ${props.editMode ? "off" : "on"} Edit Mode`}
+        onClick={editModeOnClick}
+        title={`Turn ${editMode ? "off" : "on"} Edit Mode`}
       >
-        <FontAwesomeIcon icon={props.editMode ? faUnlock : faLock} />
+        <FontAwesomeIcon icon={editMode ? faUnlock : faLock} />
         Edit Mode
       </button>
-      <button onClick={props.settingsOnClick} title="Open Settings">
+      <button onClick={settingsOnClick} title="Open Settings">
         <FontAwesomeIcon icon={faCog} />
         Settings
       </button>

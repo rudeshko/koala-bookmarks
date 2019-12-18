@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef } from "react";
+import React, { useEffect, useImperativeHandle, useRef } from "react";
 import { DragSource, DropTarget } from "react-dnd";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,9 +13,15 @@ const Bookmark = React.forwardRef((props, ref) => {
   /**
    * Define Hooks
    */
-  const { editMode, dragEnabled, connectDragSource, connectDropTarget } = props;
+  const {
+    editMode,
+    settings: { dragEnabled, hotKeysEnabled, hotKeyLabelsEnabled },
+    connectDragSource,
+    connectDropTarget
+  } = props;
   const elementRef = useRef(null);
 
+  // TODO: Does not work dynamically
   if (editMode && dragEnabled) {
     connectDropTarget(elementRef);
     connectDragSource(elementRef);
@@ -24,6 +30,11 @@ const Bookmark = React.forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     getNode: () => elementRef.current
   }));
+
+  /**
+   * On mount effect
+   */
+  useEffect(() => {});
 
   /**
    * Output the component
@@ -38,8 +49,8 @@ const Bookmark = React.forwardRef((props, ref) => {
           onClick={event => props.onBookmarkClick(event, props.index)}
         >
           <div className="tab">
-            {props.hotKeysEnabled &&
-              props.hotkeyLabelsEnabled &&
+            {hotKeysEnabled &&
+              hotKeyLabelsEnabled &&
               props.index < 9 &&
               !props.editMode && (
                 <div
@@ -58,6 +69,11 @@ const Bookmark = React.forwardRef((props, ref) => {
             <div className="icon">
               {props.editMode ? (
                 <>
+                  <img
+                    src={`https://www.google.com/s2/favicons?domain=${props.bookmark.url}`}
+                    className="favicon"
+                    alt=""
+                  />
                   <FontAwesomeIcon icon={faWrench} className="editIcon" />
                   <div
                     className="delete"

@@ -46,10 +46,23 @@ body {
           &:hover {
             color: $secondary_bg;
             cursor: pointer;
+
+            .favicon {
+              display: none;
+            }
+
+            .editIcon {
+              display: initial;
+            }
+          }
+
+          .favicon {
+            display: initial;
           }
 
           .editIcon {
             font-size: 21px;
+            display: none;
           }
         }
       }

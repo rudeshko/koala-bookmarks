@@ -1,48 +1,54 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Popup from "./Popup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faCheckCircle } from "@fortawesome/free-regular-svg-icons";
+import Checkbox from "./Checkbox";
 
-const SettingsPopup = props => {
+const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
   /**
    * Define Variables
    */
   const labels = {
-    dragEnabled: "Dragging Bookmarks",
+    dragEnabled: "Drag to Reorder Bookmarks",
     hotKeysEnabled: "Hot Keys",
     hotKeyLabelsEnabled: "Hot Key Labels"
+  };
+
+  const sections = {
+    enabledFeatures: ["dragEnabled", "hotKeysEnabled", "hotKeyLabelsEnabled"]
   };
 
   /**
    * Methods
    */
   const toggleSetting = key => {
-    console.log("Toggling", key);
+    const newSettings = JSON.parse(JSON.stringify(settings));
+    newSettings[key] = !newSettings[key];
+    onSettingsChange(newSettings);
   };
-
-  /**
-   * Destructure the props
-   */
-  const { settings, onClose, onSettingChange } = props;
 
   /**
    * Output the component
    */
   return (
-    <Popup wide={true} className="settings" title="Settings" onClose={onClose}>
-      {Object.keys(settings).map(key => (
+    <Popup className="settings" title="Settings" onClose={onClose}>
+      <h1>Enabled Features</h1>
+      {sections.enabledFeatures.map(key => (
         <div className="setting" key={key}>
           <div className="label">{labels[key]}</div>
           <div className="control">
-            <FontAwesomeIcon
-              icon={settings[key] ? faCheckCircle : faCircle}
-              onClick={() => toggleSetting(key)}
+            <Checkbox
+              value={settings[key]}
+              onToggle={() => {
+                toggleSetting(key);
+              }}
             />
           </div>
         </div>
       ))}
-      {/* <FontAwesomeIcon icon={faCheckCircle} /> */}
+      <h1>Layout</h1>
+      Test
+      <h1>Visual</h1>
+      Test
     </Popup>
   );
 };
@@ -56,7 +62,7 @@ SettingsPopup.propTypes = {
     hotKeyLabelsEnabled: PropTypes.bool
   }),
   onClose: PropTypes.func.isRequired,
-  onSettingChange: PropTypes.func.isRequired
+  onSettingsChange: PropTypes.func.isRequired
 };
 
 export default SettingsPopup;
