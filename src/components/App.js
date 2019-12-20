@@ -5,9 +5,11 @@ import {
   getStoredSettings,
   saveStoredBookmarks,
   saveStoredSettings,
-  deleteStoredBookmark
-} from "../chromeHelper";
-import { initializeBookmarks, Settings } from "../variables";
+  deleteStoredBookmark,
+  initializeBookmarks,
+  migrationChecker,
+  Settings
+} from "../helpers";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
 import SettingsPopup from "./SettingsPopup";
@@ -21,7 +23,7 @@ const App = () => {
    * Define Variables
    */
   const layout = {
-    LAYOUT_4x4: {
+    x4y4: {
       x: 4,
       y: 4
     }
@@ -30,7 +32,7 @@ const App = () => {
   /**
    * Define Hooks
    */
-  const [currentLayout] = useState(layout.LAYOUT_4x4);
+  const [currentLayout] = useState(layout.x4y4);
   const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [settings, setSettings] = useState({});
@@ -47,6 +49,12 @@ const App = () => {
       const stored_bookmarks = await getStoredBookmarks();
       const stored_settings = await getStoredSettings();
 
+      await migrationChecker({
+        bookmarks: stored_bookmarks,
+        settings: stored_settings
+      });
+
+      // TODO: move this to the migration checker
       if (!stored_bookmarks || stored_bookmarks.length === 0) {
         const emptyList = initializeBookmarks(currentLayout);
 
@@ -56,7 +64,6 @@ const App = () => {
         setBookmarks(stored_bookmarks);
       }
 
-      // TODO: Come up with migration strategy when new keys are added
       if (!stored_settings) {
         await saveStoredSettings(Settings);
         setSettings(Settings);

@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useRef } from "react";
+import React, { useImperativeHandle, useRef } from "react";
 import { DragSource, DropTarget } from "react-dnd";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,138 +9,140 @@ import {
   faArrowsAlt
 } from "@fortawesome/free-solid-svg-icons";
 
-const Bookmark = React.forwardRef((props, ref) => {
-  /**
-   * Define Hooks
-   */
-  const {
-    editMode,
-    layout,
-    settings: { dragEnabled, hotKeysEnabled, hotKeyLabelsEnabled },
-    connectDragSource,
-    connectDropTarget
-  } = props;
-  const elementRef = useRef(null);
+const Bookmark = React.forwardRef(
+  (
+    {
+      bookmark,
+      settings,
+      layout,
+      index,
+      editMode,
+      onOpenAddPopup,
+      onDeleteBookmark,
+      onBookmarkClick,
+      connectDragSource,
+      connectDropTarget
+    },
+    ref
+  ) => {
+    /**
+     * Define Hooks
+     */
+    const elementRef = useRef(null);
+    if (editMode && settings.dragEnabled) {
+      connectDropTarget(elementRef);
+      connectDragSource(elementRef);
+    } else {
+      connectDropTarget(null);
+      connectDragSource(null);
+    }
 
-  // TODO: Does not work dynamically
-  if (editMode && dragEnabled) {
-    connectDropTarget(elementRef);
-    connectDragSource(elementRef);
-  } else {
-    connectDropTarget(null);
-    connectDragSource(null);
-  }
+    useImperativeHandle(ref, () => ({
+      getNode: () => elementRef.current
+    }));
 
-  useImperativeHandle(ref, () => ({
-    getNode: () => elementRef.current
-  }));
-
-  /**
-   * On mount effect
-   */
-  useEffect(() => {});
-
-  /**
-   * Output the component
-   */
-  return (
-    <div
-      className={["bookmark", "layout_" + layout.x + "x" + layout.y]
-        .join(" ")
-        .trim()}
-      ref={elementRef}
-    >
-      {props.bookmark !== null ? (
-        <a
-          href={props.bookmark.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          id={`link_${props.index + 1}`}
-          onClick={event => props.onBookmarkClick(event, props.index)}
-        >
-          <div className="tab">
-            {hotKeysEnabled &&
-              hotKeyLabelsEnabled &&
-              props.index < 9 &&
-              !props.editMode && (
-                <div
-                  className="hotkey"
-                  title={`Press ${props.index +
-                    1} on the keyboard to open the link`}
-                >
-                  <div className="key">{props.index + 1}</div>
+    /**
+     * Output the component
+     */
+    return (
+      <div
+        className={["bookmark"].join(" ").trim()}
+        ref={elementRef}
+        style={{
+          width: 100 / layout.x + "%",
+          height: 100 / layout.y + "%"
+        }}
+      >
+        {bookmark !== null ? (
+          <a
+            href={bookmark.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            id={`link_${index + 1}`}
+            onClick={event => onBookmarkClick(event, index)}
+          >
+            <div className="tab">
+              {settings.hotKeysEnabled &&
+                settings.hotKeyLabelsEnabled &&
+                index < 9 &&
+                !editMode && (
+                  <div
+                    className="hotkey"
+                    title={`Press ${index +
+                      1} on the keyboard to open the link`}
+                  >
+                    <div className="key">{index + 1}</div>
+                  </div>
+                )}
+              {editMode && settings.dragEnabled && (
+                <div className="drag">
+                  <FontAwesomeIcon icon={faArrowsAlt} />
                 </div>
               )}
-            {editMode && dragEnabled && (
-              <div className="drag">
-                <FontAwesomeIcon icon={faArrowsAlt} />
-              </div>
-            )}
-            <div className="icon">
-              {props.editMode ? (
-                <>
+              <div className="icon">
+                {editMode ? (
+                  <>
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${bookmark.url}`}
+                      className="favicon"
+                      alt=""
+                    />
+                    <FontAwesomeIcon icon={faWrench} className="editIcon" />
+                    <div
+                      className="delete"
+                      title="Delete"
+                      onClick={event => onDeleteBookmark(event, index)}
+                    >
+                      <div className="icon">
+                        <FontAwesomeIcon icon={faMinus} />
+                      </div>
+                    </div>
+                  </>
+                ) : (
                   <img
-                    src={`https://www.google.com/s2/favicons?domain=${props.bookmark.url}`}
-                    className="favicon"
+                    src={`https://www.google.com/s2/favicons?domain=${bookmark.url}`}
                     alt=""
                   />
-                  <FontAwesomeIcon icon={faWrench} className="editIcon" />
-                  <div
-                    className="delete"
-                    title="Delete"
-                    onClick={event =>
-                      props.onDeleteBookmark(event, props.index)
-                    }
-                  >
-                    <div className="icon">
-                      <FontAwesomeIcon icon={faMinus} />
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <img
-                  src={`https://www.google.com/s2/favicons?domain=${props.bookmark.url}`}
-                  alt=""
-                />
-              )}
+                )}
+              </div>
+              <div className="name">{bookmark.name}</div>
             </div>
-            <div className="name">{props.bookmark.name}</div>
-          </div>
-        </a>
-      ) : (
-        <a href={`#${props.index}`} onClick={event => event.preventDefault()}>
-          <div className="tab add">
-            <div
-              className="icon"
-              onClick={event => props.onOpenAddPopup(event, props.index)}
-            >
-              <FontAwesomeIcon icon={faPlus} />
+          </a>
+        ) : (
+          <a href={`#${index}`} onClick={event => event.preventDefault()}>
+            <div className="tab add">
+              <div
+                className="icon"
+                onClick={event => onOpenAddPopup(event, index)}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </div>
+              <div className="name">Add New</div>
             </div>
-            <div className="name">Add New</div>
-          </div>
-        </a>
-      )}
-    </div>
-  );
-});
+          </a>
+        )}
+      </div>
+    );
+  }
+);
 
 export default DropTarget(
   "bookmark",
   {
-    hover(props, monitor, component) {
+    hover({ index, onMoveBookmark }, monitor, component) {
       const node = component.getNode();
       if (!component || !node) {
         return null;
       }
 
       const dragIndex = monitor.getItem().index;
-      const hoverIndex = props.index;
+      const hoverIndex = index;
 
       if (dragIndex === hoverIndex) {
         return;
       }
 
-      props.onMoveBookmark(dragIndex, hoverIndex);
+      onMoveBookmark(dragIndex, hoverIndex);
       monitor.getItem().index = hoverIndex;
     }
   },
@@ -163,22 +165,22 @@ export default DropTarget(
   )(Bookmark)
 );
 
-Bookmark.defaultProps = { bookmark: null };
+Bookmark.defaultProps = { bookmark: null, settings: null };
 
 Bookmark.propTypes = {
   bookmark: PropTypes.shape({
     name: PropTypes.string,
     url: PropTypes.string
   }),
-  layout: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number })
-    .isRequired,
-  index: PropTypes.number.isRequired,
-  editMode: PropTypes.bool.isRequired,
   settings: PropTypes.shape({
     dragEnabled: PropTypes.bool,
     hotKeysEnabled: PropTypes.bool,
     hotKeyLabelsEnabled: PropTypes.bool
   }),
+  layout: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number })
+    .isRequired,
+  index: PropTypes.number.isRequired,
+  editMode: PropTypes.bool.isRequired,
   onOpenAddPopup: PropTypes.func.isRequired,
   onDeleteBookmark: PropTypes.func.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,

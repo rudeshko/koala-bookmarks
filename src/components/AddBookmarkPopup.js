@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Popup from "./Popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { addStoredBookmark } from "../chromeHelper";
+import { addStoredBookmark } from "../helpers";
 
 const AddBookmarkPopup = props => {
   /**

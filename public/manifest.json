@@ -1,6 +1,6 @@
 {
   "name": "Desktop Bookmarks",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "manifest_version": 2,
   "description": "Desktop Bookmarks for easier access to the websites.",
   "icons": { "128": "images/icon_128.png" },

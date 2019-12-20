@@ -8,7 +8,7 @@ html {
 body {
   width: $extension_width;
   height: $extension_height;
-  background: url("/images/bg.png") #000000;
+  background: url("/images/backgrounds/default.png") #000000;
   background-size: cover;
   background-repeat: no-repeat;
   margin: 0px;
@@ -81,13 +81,6 @@ body {
       align-self: flex-start;
       $icon_size: 50px;
 
-      &.layout {
-        &_4x4 {
-          width: 25%;
-          height: 25%;
-        }
-      }
-
       a {
         color: #fff;
         text-decoration: none;
@@ -122,6 +115,7 @@ body {
             text-shadow: #000000 1px 1px 1px;
             max-width: 100%;
             overflow: hidden;
+            font-size: 15px;
           }
 
           &.add {

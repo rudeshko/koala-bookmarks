@@ -1,9 +1,22 @@
-import {
-  getLocalJson,
-  saveLocalJson,
-  getChromeJson,
-  setChromeJson
-} from "./variables";
+/* global chrome */
+
+export const getLocalJson = key => JSON.parse(localStorage.getItem(key));
+export const saveLocalJson = (key, json) =>
+  localStorage.setItem(key, JSON.stringify(json));
+
+export const getChromeJson = key =>
+  new Promise(resolve =>
+    chrome.storage.sync.get(key, obj => {
+      resolve(obj.bookmarks);
+    })
+  );
+
+export const setChromeJson = (key, json) =>
+  new Promise(resolve =>
+    chrome.storage.sync.set({ [key]: json }, () => {
+      resolve(true);
+    })
+  );
 
 export const getStoredBookmarks = async () => {
   if (process.env.NODE_ENV === "development") {
@@ -64,6 +77,41 @@ export const updateStoredBookmark = async (index, bookmark) => {
   }
 
   return bookmarks;
+};
+
+export const initializeBookmarks = layout => {
+  console.log("No bookmarks found, setting empty bookmarks...");
+  console.log("Layout:", layout.x, "x", layout.y);
+
+  const emptyList = [];
+  for (var i = 0; i < layout.x * layout.y; i++) {
+    emptyList.push(null);
+  }
+
+  return emptyList;
+};
+
+export const migrationChecker = async storageItems => {
+  /**
+   * @version v0.* --> v1:
+   * - Empty bookmarks { name: "", url: "" } --> null
+   */
+  console.log(storageItems);
+};
+
+/**
+ * Storage definitions
+ */
+export const Settings = {
+  version: "1.0.0",
+  dragEnabled: true,
+  hotKeysEnabled: true,
+  hotKeyLabelsEnabled: true,
+  bookmarkLabelfontSize: 15,
+  bookmarkBorderRadius: 10,
+  layoutX: 4,
+  layoutY: 4,
+  backgroundImageName: "default.png"
 };
 
 export default {};
