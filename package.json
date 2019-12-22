@@ -1,5 +1,10 @@
 {
-  "name": "browser-bookmarks",
+  "name": "bookmarks-extension",
+  "homepage": "https://rudeshko.net/bookmarks-extension",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/rudeshko/bookmarks-extension"
+  },
   "version": "1.0.0",
   "private": true,
   "dependencies": {

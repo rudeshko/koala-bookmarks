@@ -1,8 +1,8 @@
 {
-  "name": "Desktop Bookmarks",
+  "name": "Bookmarks Extension",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "Desktop Bookmarks for easier access to the websites.",
+  "description": "Extension for easier access to your favorite websites.",
   "icons": { "128": "images/icon_128.png" },
   "permissions": ["storage", "https://www.googleapis.com/"],
   "oauth2": {

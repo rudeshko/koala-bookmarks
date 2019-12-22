@@ -1,18 +1,17 @@
-# Browser Bookmarks
+# Bookmarks Extension
 
-![Browser Bookmarks - CICD](https://github.com/rudeshko/browser-bookmarks/workflows/Browser%20Bookmarks%20-%20CICD/badge.svg)
-![version](https://img.shields.io/github/manifest-json/v/rudeshko/browser-bookmarks?color=green)
+![Bookmarks Extension - CICD](https://github.com/rudeshko/bookmarks-extension/workflows/Bookmarks%20Extension%20-%20CICD/badge.svg)
+![version](https://img.shields.io/github/manifest-json/v/rudeshko/bookmarks-extension?color=green)
 
 Browser Bookmarks made easier. Set your favourite websites and access them with the hotkeys.
 
-## Support
+## Browser Support
 
-![Chrome - supported](https://img.shields.io/badge/Chrome-supported-green)
+![Chrome - supported](https://img.shields.io/badge/Chrome-supported-green) - [Link to the Google Web Store](https://chrome.google.com/webstore/detail/desktop-bookmarks/dppepokpjgoaooihcnelbjhbhnggpblo)
+
 ![Firefox - coming soon](https://img.shields.io/badge/Firefox-coming%20soon-orange)
 ![Edge - coming soon](https://img.shields.io/badge/Edge-coming%20soon-orange)
 ![Opera - coming soon](https://img.shields.io/badge/Opera-coming%20soon-orange)
-
-Chrome Extension - [Link to the Google Web Store](https://chrome.google.com/webstore/detail/desktop-bookmarks/dppepokpjgoaooihcnelbjhbhnggpblo)
 
 # Tools Used
 

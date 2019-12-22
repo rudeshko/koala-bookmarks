@@ -1,4 +1,4 @@
-name: Browser Bookmarks - CICD
+name: Bookmarks Extension - CICD
 
 on:
   push:
