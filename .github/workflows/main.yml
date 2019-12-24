@@ -2,6 +2,8 @@ name: Bookmarks Extension - CICD
 
 on:
   push:
+    branches:
+      - master
     tags:
       - '*.*.*'
 

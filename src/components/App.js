@@ -7,6 +7,7 @@ import {
   saveStoredSettings,
   deleteStoredBookmark,
   initializeBookmarks,
+  listenToKeys,
   migrationChecker,
   Settings
 } from "../helpers";
@@ -25,7 +26,8 @@ const App = () => {
   const layout = {
     x4y4: {
       x: 4,
-      y: 4
+      y: 4,
+      className: "default"
     }
   };
 
@@ -49,29 +51,19 @@ const App = () => {
       const stored_bookmarks = await getStoredBookmarks();
       const stored_settings = await getStoredSettings();
 
-      await migrationChecker({
+      const {
+        processedBookmarks,
+        processedSettings,
+        isNewUser,
+        isNewVersion
+      } = await migrationChecker({
         bookmarks: stored_bookmarks,
         settings: stored_settings
       });
 
-      // TODO: move this to the migration checker
-      if (!stored_bookmarks || stored_bookmarks.length === 0) {
-        const emptyList = initializeBookmarks(currentLayout);
-
-        await saveStoredBookmarks(emptyList);
-        setBookmarks(emptyList);
-      } else {
-        setBookmarks(stored_bookmarks);
-      }
-
-      if (!stored_settings) {
-        await saveStoredSettings(Settings);
-        setSettings(Settings);
-        listenToKeys(Settings.hotKeysEnabled);
-      } else {
-        setSettings(stored_settings);
-        listenToKeys(stored_settings.hotKeysEnabled);
-      }
+      console.log(processedBookmarks, processedSettings);
+      setBookmarks(processedBookmarks);
+      setSettings(processedSettings);
     };
 
     getStoredItems();
@@ -80,24 +72,6 @@ const App = () => {
   /**
    * Methods
    */
-  const listenToKeys = enabled => {
-    if (enabled) {
-      document.onkeypress = e => {
-        e = e || window.event;
-        const key = parseInt(String.fromCharCode(e.keyCode));
-
-        if (key >= 1 && key <= 9) {
-          const clickableElement = document.getElementById("link_" + key);
-          if (clickableElement) {
-            clickableElement.click();
-          }
-        }
-      };
-    } else {
-      document.onkeypress = () => {};
-    }
-  };
-
   const onDeleteBookmark = async (event, index) => {
     event.preventDefault();
     event.stopPropagation();
@@ -197,25 +171,28 @@ const App = () => {
         className={[
           "bookmarks",
           editMode ? "editMode" : "",
-          settings.dragEnabled ? "dragEnabled" : ""
+          settings.dragEnabled ? "dragEnabled" : "",
+          currentLayout.className ? currentLayout.className : ""
         ]
           .join(" ")
           .trim()}
       >
-        {bookmarks.map((bookmark, index) => (
-          <Bookmark
-            key={index}
-            bookmark={bookmark}
-            layout={currentLayout}
-            index={index}
-            editMode={editMode}
-            settings={settings}
-            onOpenAddPopup={onOpenAddPopup}
-            onDeleteBookmark={onDeleteBookmark}
-            onBookmarkClick={onBookmarkClick}
-            onMoveBookmark={onMoveBookmark}
-          ></Bookmark>
-        ))}
+        {bookmarks
+          .slice(0, currentLayout.x * currentLayout.y)
+          .map((bookmark, index) => (
+            <Bookmark
+              key={index}
+              bookmark={bookmark}
+              layout={currentLayout}
+              index={index}
+              editMode={editMode}
+              settings={settings}
+              onOpenAddPopup={onOpenAddPopup}
+              onDeleteBookmark={onDeleteBookmark}
+              onBookmarkClick={onBookmarkClick}
+              onMoveBookmark={onMoveBookmark}
+            ></Bookmark>
+          ))}
       </div>
     </div>
   );

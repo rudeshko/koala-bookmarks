@@ -7,10 +7,16 @@ Browser Bookmarks made easier. Set your favourite websites and access them with 
 
 ## Browser Support
 
-![Chrome - supported](https://img.shields.io/badge/Chrome-supported-green) - [Link to the Google Web Store](https://chrome.google.com/webstore/detail/desktop-bookmarks/dppepokpjgoaooihcnelbjhbhnggpblo)
+![Chrome - supported](https://img.shields.io/badge/Chrome-supported-green)
+
+[Download at the Google Web Store](https://chrome.google.com/webstore/detail/desktop-bookmarks/dppepokpjgoaooihcnelbjhbhnggpblo)
+
+---
 
 ![Firefox - coming soon](https://img.shields.io/badge/Firefox-coming%20soon-orange)
+
 ![Edge - coming soon](https://img.shields.io/badge/Edge-coming%20soon-orange)
+
 ![Opera - coming soon](https://img.shields.io/badge/Opera-coming%20soon-orange)
 
 # Tools Used

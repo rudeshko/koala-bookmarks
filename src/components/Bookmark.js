@@ -53,7 +53,7 @@ const Bookmark = React.forwardRef(
           height: 100 / layout.y + "%"
         }}
       >
-        {bookmark !== null ? (
+        {bookmark ? (
           <a
             href={bookmark.url}
             target="_blank"

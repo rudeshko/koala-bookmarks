@@ -79,24 +79,79 @@ export const updateStoredBookmark = async (index, bookmark) => {
   return bookmarks;
 };
 
-export const initializeBookmarks = layout => {
-  console.log("No bookmarks found, setting empty bookmarks...");
-  console.log("Layout:", layout.x, "x", layout.y);
+export const listenToKeys = enabled => {
+  if (enabled) {
+    document.onkeypress = e => {
+      e = e || window.event;
+      const key = parseInt(String.fromCharCode(e.keyCode));
 
-  const emptyList = [];
-  for (var i = 0; i < layout.x * layout.y; i++) {
-    emptyList.push(null);
+      if (key >= 1 && key <= 9) {
+        const clickableElement = document.getElementById("link_" + key);
+        if (clickableElement) {
+          clickableElement.click();
+        }
+      }
+    };
+  } else {
+    document.onkeypress = () => {};
   }
-
-  return emptyList;
 };
 
-export const migrationChecker = async storageItems => {
+export const migrationChecker = async ({ bookmarks, settings }) => {
   /**
-   * @version v0.* --> v1:
-   * - Empty bookmarks { name: "", url: "" } --> null
+   * @migration v0.*.* --> v1.0.0:
+   * - Change { name: "", url: "" } --> undefined
+   * - Change bookmarks.bookmarks --> bookmarks
+   * - Check if version is in storage, if not create it to track for future migrations
+   * - Adding `settings` storage item
+   * - Add popup with version changes, Suggest setting a shortcut for the extension (Ctrl+1)
    */
-  console.log(storageItems);
+  const bookmarkArrayLength = 100;
+  let processedBookmarks,
+    processedSettings,
+    isNewUser = false,
+    isNewVersion = false;
+
+  /**
+   * Settings
+   */
+  if (processedSettings && processedSettings.version !== Settings.version) {
+    /**
+     * Existing User
+     */
+    isNewVersion = true;
+  } else if (processedBookmarks && processedBookmarks.bookmarks) {
+    /**
+     * Legacy User
+     * - Change { name: "", url: "" } --> null
+     * - Change bookmarks.bookmarks --> bookmarks
+     */
+    isNewVersion = true;
+    processedBookmarks = bookmarks.bookmarks.map(bookmark => {
+      if (bookmark.name === "" || bookmark.url === "") {
+        return null;
+      }
+
+      return bookmark;
+    });
+    processedBookmarks.length = bookmarkArrayLength;
+  } else {
+    /**
+     * New User
+     */
+    isNewUser = true;
+    processedBookmarks = new Array(bookmarkArrayLength);
+    processedSettings = Settings;
+  }
+
+  if (isNewUser || isNewVersion) {
+    await saveStoredBookmarks(processedBookmarks);
+    await saveStoredSettings(processedSettings);
+  }
+
+  listenToKeys(processedSettings);
+
+  return { processedBookmarks, processedSettings };
 };
 
 /**
@@ -107,10 +162,9 @@ export const Settings = {
   dragEnabled: true,
   hotKeysEnabled: true,
   hotKeyLabelsEnabled: true,
-  bookmarkLabelfontSize: 15,
+  bookmarkLabelFontSize: 15,
   bookmarkBorderRadius: 10,
-  layoutX: 4,
-  layoutY: 4,
+  layou: { x: 4, y: 4 },
   backgroundImageName: "default.png"
 };
 
