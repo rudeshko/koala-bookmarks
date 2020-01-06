@@ -61,7 +61,6 @@ const App = () => {
         settings: stored_settings
       });
 
-      console.log(processedBookmarks, processedSettings);
       setBookmarks(processedBookmarks);
       setSettings(processedSettings);
     };

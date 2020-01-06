@@ -107,41 +107,53 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
    * - Add popup with version changes, Suggest setting a shortcut for the extension (Ctrl+1)
    */
   const bookmarkArrayLength = 100;
-  let processedBookmarks,
-    processedSettings,
+  let processedBookmarks = [],
+    processedSettings = {},
     isNewUser = false,
     isNewVersion = false;
 
-  /**
-   * Settings
-   */
-  if (processedSettings && processedSettings.version !== Settings.version) {
+  if (!settings) {
+    if (!bookmarks) {
+      /**
+       * New User
+       */
+      isNewUser = true;
+      processedBookmarks = new Array(bookmarkArrayLength);
+      processedBookmarks.fill(null, 0);
+      processedSettings = Settings;
+    } else if (!settings && bookmarks.bookmarks) {
+      /**
+       * Existing, Legacy User
+       * - Change { name: "", url: "" } --> null
+       * - Change bookmarks.bookmarks --> bookmarks
+       */
+      isNewVersion = true;
+      processedBookmarks = bookmarks.bookmarks.map(bookmark => {
+        if (bookmark.name === "" || bookmark.url === "") {
+          return null;
+        }
+
+        return bookmark;
+      });
+
+      processedBookmarks.length = bookmarkArrayLength;
+      processedBookmarks.fill(null, 16);
+      processedSettings = Settings;
+    }
+  } else if (settings.version !== Settings.version) {
+    /**
+     * Existing User, New Version
+     */
+    isNewVersion = true;
+
+    // Further migration tasks for the new versions
+    // ...
+  } else {
     /**
      * Existing User
      */
-    isNewVersion = true;
-  } else if (processedBookmarks && processedBookmarks.bookmarks) {
-    /**
-     * Legacy User
-     * - Change { name: "", url: "" } --> null
-     * - Change bookmarks.bookmarks --> bookmarks
-     */
-    isNewVersion = true;
-    processedBookmarks = bookmarks.bookmarks.map(bookmark => {
-      if (bookmark.name === "" || bookmark.url === "") {
-        return null;
-      }
-
-      return bookmark;
-    });
-    processedBookmarks.length = bookmarkArrayLength;
-  } else {
-    /**
-     * New User
-     */
-    isNewUser = true;
-    processedBookmarks = new Array(bookmarkArrayLength);
-    processedSettings = Settings;
+    processedBookmarks = bookmarks;
+    processedSettings = settings;
   }
 
   if (isNewUser || isNewVersion) {
