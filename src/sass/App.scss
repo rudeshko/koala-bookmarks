@@ -75,6 +75,11 @@ body {
       }
     }
 
+    &.layout {
+      &_4x4 {
+      }
+    }
+
     .bookmark {
       padding: 5px;
       flex-grow: 1;

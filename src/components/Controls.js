@@ -5,7 +5,8 @@ import {
   faCog,
   faLock,
   faUnlock,
-  faStar
+  faStar,
+  faQuestionCircle
 } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 
@@ -15,7 +16,8 @@ const Controls = ({ editModeOnClick, editMode, settingsOnClick }) => {
   /**
    * Define Hooks
    */
-  const [upgradeToProEnabled] = useState(true);
+  const [upgradeToProEnabled] = useState(false);
+  const [helpEnabled] = useState(false);
 
   /**
    * Output the component
@@ -23,14 +25,8 @@ const Controls = ({ editModeOnClick, editMode, settingsOnClick }) => {
   return (
     <div className="controls">
       <div className="left">
-        <a
-          href="https://rudeshko.net"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FontAwesomeIcon icon={faCubes} />
-          Bookmarks
-        </a>
+        <FontAwesomeIcon icon={faCubes} />
+        Bookmarks
       </div>
       <div className="right">
         <button
@@ -44,6 +40,12 @@ const Controls = ({ editModeOnClick, editMode, settingsOnClick }) => {
           <FontAwesomeIcon icon={faCog} />
           Settings
         </button>
+        {helpEnabled && (
+          <button onClick={() => {}} title="Help and Tips">
+            <FontAwesomeIcon icon={faQuestionCircle} />
+            Help
+          </button>
+        )}
         {upgradeToProEnabled && (
           <button onClick={() => {}} title="Upgrade to Pro">
             <FontAwesomeIcon icon={faStar} />

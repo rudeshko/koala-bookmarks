@@ -31,7 +31,7 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
    */
   return (
     <Popup className="settings" title="Settings" onClose={onClose}>
-      <h1>Enabled Features</h1>
+      <h1>General</h1>
       {sections.enabledFeatures.map(key => (
         <div className="setting" key={key}>
           <div className="label">{labels[key]}</div>
@@ -50,6 +50,10 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
       Coming Soon...
       <h1>Visual</h1>
       Coming Soon...
+      {/* <div className="upgradeToPro">
+        <FontAwesomeIcon icon={faStar} />
+        Upgrade to Pro to enable all of the features
+      </div> */}
     </Popup>
   );
 };

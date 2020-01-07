@@ -120,7 +120,7 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
       isNewUser = true;
       processedBookmarks = new Array(bookmarkArrayLength);
       processedBookmarks.fill(null, 0);
-      processedSettings = Settings;
+      processedSettings = DefaultSettings;
     } else if (!settings && bookmarks.bookmarks) {
       /**
        * Existing, Legacy User
@@ -138,9 +138,9 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
 
       processedBookmarks.length = bookmarkArrayLength;
       processedBookmarks.fill(null, 16);
-      processedSettings = Settings;
+      processedSettings = DefaultSettings;
     }
-  } else if (settings.version !== Settings.version) {
+  } else if (settings.version !== DefaultSettings.version) {
     /**
      * Existing User, New Version
      */
@@ -167,16 +167,25 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
 };
 
 /**
- * Storage definitions
+ * Constants
  */
-export const Settings = {
+export const Layouts = {
+  x4y4: {
+    x: 4,
+    y: 4
+  }
+};
+
+export const DefaultSettings = {
   version: "1.0.0",
   dragEnabled: true,
   hotKeysEnabled: true,
   hotKeyLabelsEnabled: true,
+  // TODO:,
+  autoHideControls: false,
   bookmarkLabelFontSize: 15,
   bookmarkBorderRadius: 10,
-  layou: { x: 4, y: 4 },
+  layout: Layouts.x4y4,
   backgroundImageName: "default.png"
 };
 

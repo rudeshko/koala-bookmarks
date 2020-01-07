@@ -6,10 +6,9 @@ import {
   saveStoredBookmarks,
   saveStoredSettings,
   deleteStoredBookmark,
-  initializeBookmarks,
   listenToKeys,
   migrationChecker,
-  Settings
+  Layouts
 } from "../helpers";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
@@ -21,20 +20,9 @@ import "../sass/App.scss";
 
 const App = () => {
   /**
-   * Define Variables
-   */
-  const layout = {
-    x4y4: {
-      x: 4,
-      y: 4,
-      className: "default"
-    }
-  };
-
-  /**
    * Define Hooks
    */
-  const [currentLayout] = useState(layout.x4y4);
+  const [currentLayout] = useState(Layouts.x4y4);
   const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [settings, setSettings] = useState({});
@@ -63,6 +51,17 @@ const App = () => {
 
       setBookmarks(processedBookmarks);
       setSettings(processedSettings);
+
+      if (isNewUser) {
+        // TODO: Display a Welcome popup
+        console.log("Displaying new user popup...");
+      } else if (isNewVersion) {
+        // TODO: Display version update changes
+        console.log(
+          "Displaying new version popup... version:",
+          processedSettings.version
+        );
+      }
     };
 
     getStoredItems();
@@ -171,7 +170,7 @@ const App = () => {
           "bookmarks",
           editMode ? "editMode" : "",
           settings.dragEnabled ? "dragEnabled" : "",
-          currentLayout.className ? currentLayout.className : ""
+          `layout_${currentLayout.x}x${currentLayout.y}`
         ]
           .join(" ")
           .trim()}
