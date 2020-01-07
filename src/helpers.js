@@ -156,6 +156,8 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
     processedSettings = settings;
   }
 
+  // TODO: BUG: Saves as settings->settings and bookmarks->bookmarks in chrome storage
+
   if (isNewUser || isNewVersion) {
     await saveStoredBookmarks(processedBookmarks);
     await saveStoredSettings(processedSettings);
