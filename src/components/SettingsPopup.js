@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Popup from "./Popup";
 import Checkbox from "./Checkbox";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
 
 const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
   /**
@@ -46,22 +48,10 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           </div>
         </div>
       ))}
-      <h1>Layout</h1>
-      Coming Soon...
-      <h1>Visual</h1>
-      Coming Soon...
-      <h1>Layout</h1>
-      Coming Soon...
-      <h1>Visual</h1>
-      Coming Soon...
-      <h1>Layout</h1>
-      Coming Soon...
-      <h1>Visual</h1>
-      Coming Soon...
-      <h1>Layout</h1>
-      Coming Soon...
-      <h1>Visual</h1>
-      Coming Soon...
+      <div className="comingSoon">
+        <FontAwesomeIcon icon={faBullhorn} />
+        Many more features are Coming Soon...
+      </div>
       {/* <div className="upgradeToPro">
         <FontAwesomeIcon icon={faStar} />
         Upgrade to Pro to enable all of the features

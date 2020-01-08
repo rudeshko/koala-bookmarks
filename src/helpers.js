@@ -112,8 +112,6 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
     isNewUser = false,
     isNewVersion = false;
 
-  console.log("Migration Checker...");
-
   if (!settings) {
     if (!bookmarks) {
       /**
@@ -184,11 +182,20 @@ export const DefaultSettings = {
   hotKeysEnabled: true,
   hotKeyLabelsEnabled: true,
   // TODO:
+  pageSize: {
+    width: "100%",
+    height: "100%"
+  },
   autoHideControls: false,
-  bookmarkLabelFontSize: 15,
-  bookmarkBorderRadius: 10,
+  displayLabels: true,
+  faviconBackground: "#ffffff",
+  bookmarkLabelFontSizePx: 15,
+  bookmarkBorderRadiusPx: 10,
   layout: Layouts.x4y4,
-  backgroundImageName: "default.png"
+  background: {
+    value: "default.png",
+    type: "image"
+  }
 };
 
 export default {};
