@@ -6,8 +6,8 @@ export const saveLocalJson = (key, json) =>
 
 export const getChromeJson = key =>
   new Promise(resolve =>
-    chrome.storage.sync.get(key, obj => {
-      resolve(obj.bookmarks);
+    chrome.storage.sync.get([key], obj => {
+      resolve(obj[key]);
     })
   );
 
@@ -112,6 +112,8 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
     isNewUser = false,
     isNewVersion = false;
 
+  console.log("Migration Checker...");
+
   if (!settings) {
     if (!bookmarks) {
       /**
@@ -120,15 +122,14 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
       isNewUser = true;
       processedBookmarks = new Array(bookmarkArrayLength);
       processedBookmarks.fill(null, 0);
-      processedSettings = DefaultSettings;
-    } else if (!settings && bookmarks.bookmarks) {
+    } else {
       /**
-       * Existing, Legacy User
-       * - Change { name: "", url: "" } --> null
-       * - Change bookmarks.bookmarks --> bookmarks
+       * Legacy User
+       * Convert { name: "", url: "" } to null
+       * Make array length 100, instead of 16
        */
       isNewVersion = true;
-      processedBookmarks = bookmarks.bookmarks.map(bookmark => {
+      processedBookmarks = bookmarks.map(bookmark => {
         if (bookmark.name === "" || bookmark.url === "") {
           return null;
         }
@@ -138,8 +139,9 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
 
       processedBookmarks.length = bookmarkArrayLength;
       processedBookmarks.fill(null, 16);
-      processedSettings = DefaultSettings;
     }
+
+    processedSettings = DefaultSettings;
   } else if (settings.version !== DefaultSettings.version) {
     /**
      * Existing User, New Version
@@ -155,8 +157,6 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
     processedBookmarks = bookmarks;
     processedSettings = settings;
   }
-
-  // TODO: BUG: Saves as settings->settings and bookmarks->bookmarks in chrome storage
 
   if (isNewUser || isNewVersion) {
     await saveStoredBookmarks(processedBookmarks);
@@ -183,7 +183,7 @@ export const DefaultSettings = {
   dragEnabled: true,
   hotKeysEnabled: true,
   hotKeyLabelsEnabled: true,
-  // TODO:,
+  // TODO:
   autoHideControls: false,
   bookmarkLabelFontSize: 15,
   bookmarkBorderRadius: 10,
