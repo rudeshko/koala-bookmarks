@@ -57,7 +57,7 @@ const App = () => {
       setBookmarks(processedBookmarks);
       setSettings(processedSettings);
       setIsNewUser(isNewUser);
-      setIsNewVersion(isNewVersion);
+      setIsNewVersion(isNewVersion || true);
       setCurrentLayout(processedSettings.layout);
     };
 
@@ -135,6 +135,7 @@ const App = () => {
           onClose={() => {
             setIsNewVersion(false);
           }}
+          version={settings.version}
         />
       )}
       {addBookmarkAtIndex !== null && (

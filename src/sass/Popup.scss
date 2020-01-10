@@ -32,7 +32,7 @@
         .control {
           &.text-only {
             font-size: 16px;
-            
+            line-height: 28px;
           }
         }
       }
@@ -51,11 +51,12 @@
     }
   }
 
-  &.newUser {
+  &.newUser,
+  &.newVersion {
     .window .content {
-      h2 {
-        font-family: "Montserrat-Thin", sans-serif;
-        font-size: 24px;
+      h1 {
+        font-family: "Montserrat-Light", sans-serif;
+        font-size: 26px;
         margin-bottom: 20px;
 
         small {
@@ -65,9 +66,58 @@
         }
       }
 
+      h2 {
+        font-family: "Montserrat-Regular", sans-serif;
+        font-size: 20px;
+        padding-bottom: 7px;
+        margin-bottom: 10px;
+      }
+
       h3 {
         font-family: "Montserrat-Light", sans-serif;
         font-size: 18px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  &.settings {
+    .window .content {
+      h1 {
+        color: $dark_grey;
+        font-size: 18px;
+        font-weight: bold;
+        padding-bottom: 7px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid $dark_grey;
+
+        &:not(:first-child) {
+          margin-top: 30px;
+        }
+      }
+
+      h2 {
+        color: $dark_grey;
+        font-weight: bold;
+        padding-bottom: 7px;
+        margin-bottom: 10px;
+        line-height: 1.25;
+
+        &:not(:first-child) {
+          margin-top: 20px;
+        }
+      }
+
+      h3 {
+        color: $dark_grey;
+        font-weight: bold;
+        padding-bottom: 7px;
+        margin-bottom: 5px;
+        line-height: 1.25;
+
+        &:not(:first-child) {
+          margin-top: 10px;
+        }
       }
     }
   }
@@ -76,6 +126,7 @@
     width: 500px;
     height: auto;
     max-width: $extension_width - 40px;
+    max-height: $extension_height - 40px;
     background: #fff;
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.75);
     position: relative;
@@ -114,7 +165,7 @@
     }
 
     .content {
-      max-height: $extension_height - 150px;
+      // max-height: $extension_height - 150px;
       padding: 30px 30px 35px;
       overflow-y: auto;
 
@@ -125,43 +176,6 @@
 
       b {
         font-weight: bold;
-      }
-
-      h1 {
-        color: $dark_grey;
-        font-size: 18px;
-        font-weight: bold;
-        padding-bottom: 7px;
-        margin-bottom: 15px;
-        border-bottom: 1px solid $dark_grey;
-
-        &:not(:first-child) {
-          margin-top: 30px;
-        }
-      }
-
-      h2 {
-        color: $dark_grey;
-        font-weight: bold;
-        padding-bottom: 7px;
-        margin-bottom: 10px;
-        line-height: 1.25;
-
-        &:not(:first-child) {
-          margin-top: 20px;
-        }
-      }
-
-      h3 {
-        color: $dark_grey;
-        font-weight: bold;
-        padding-bottom: 7px;
-        margin-bottom: 5px;
-        line-height: 1.25;
-
-        &:not(:first-child) {
-          margin-top: 10px;
-        }
       }
 
       ul {

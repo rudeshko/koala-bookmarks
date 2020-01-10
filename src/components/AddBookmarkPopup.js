@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Popup from "./Popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,11 +11,6 @@ const AddBookmarkPopup = props => {
    */
   const [newName, setNewName] = useState("");
   const [newUrl, setNewUrl] = useState("");
-
-  /**
-   * On mount effect
-   */
-  useEffect(() => {});
 
   /**
    * Methods
@@ -36,7 +31,7 @@ const AddBookmarkPopup = props => {
    * Output the component
    */
   return (
-    <Popup title="Add New Bookmark" onClose={props.onClose}>
+    <Popup className="addBookmark" title="Add New Bookmark" onClose={props.onClose}>
       <form onSubmit={event => addNewBookmark(event)}>
         <div>
           <input

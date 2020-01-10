@@ -43,6 +43,7 @@ const EditBookmarkPopup = props => {
    */
   return (
     <Popup
+      className="editBookmark"
       visible={props.index !== null}
       title="Edit Bookmark"
       index={props.index}

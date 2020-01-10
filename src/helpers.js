@@ -147,7 +147,6 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
       processedBookmarks.length = bookmarkArrayLength;
       processedBookmarks.fill(null, 16);
 
-      processedSettings.legacyUser = true;
       processedSettings.layout = Layouts.x4y4;
       processedSettings.joinedVersion = "<1.0.0";
     }
@@ -156,6 +155,12 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
      * Existing User, New Version
      */
     isNewVersion = true;
+
+    processedBookmarks = bookmarks;
+    processedSettings = settings;
+
+    processedSettings.updatedFromVersion = processedSettings.version;
+    processedSettings.version = DefaultSettings.version;
 
     // Further migration tasks for the new versions
     // ...
@@ -193,11 +198,11 @@ export const Layouts = {
 
 export const DefaultSettings = {
   version: "1.0.0",
+  updatedFromVersion: null,
   joinedVersion: null,
   dragEnabled: true,
   hotKeysEnabled: true,
   hotKeyLabelsEnabled: true,
-  legacyUser: false,
   // TODO:
   pageSize: {
     width: "100%",

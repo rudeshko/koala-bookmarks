@@ -16,12 +16,14 @@ const Popup = ({ wide, title, children, onClose, className }) => {
         .trim()}
     >
       <div className={["window", wide ? "wide" : null].join(" ").trim()}>
-        <div className="header">
-          <div className="title">{title}</div>
-          <div className="close" onClick={onClose}>
-            <FontAwesomeIcon icon={faTimesCircle} />
+        {title !== null && (
+          <div className="header">
+            <div className="title">{title}</div>
+            <div className="close" onClick={onClose}>
+              <FontAwesomeIcon icon={faTimesCircle} />
+            </div>
           </div>
-        </div>
+        )}
         <div className="content">{children}</div>
       </div>
     </div>
@@ -29,12 +31,13 @@ const Popup = ({ wide, title, children, onClose, className }) => {
 };
 
 Popup.defaultProps = {
-  wide: false
+  wide: false,
+  title: null
 };
 
 Popup.propTypes = {
   wide: PropTypes.bool,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   children: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
   className: PropTypes.string

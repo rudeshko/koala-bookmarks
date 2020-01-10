@@ -14,19 +14,19 @@ const NewUserPopup = ({ onClose }) => {
    * Output the component
    */
   return (
-    <Popup className="newUser" title="Welcome!" wide onClose={onClose}>
-      <h2>
+    <Popup className="newUser" wide onClose={onClose}>
+      <h1>
         Welcome to an extension that allows you to access and manage your
         favorite bookmarks with ease.
         <br />
         <small>Here are some tips to get you started...</small>
-      </h2>
+      </h1>
       <h3>Accessing your websites</h3>
       <ul>
         <li>
           If you have <b>Hot Keys</b> setting enabled, your first 9 links can be
           opened by pressing a number (1-9) on your keyboard while the extension
-          is open. You can disable this feature in{" "}
+          is open. You can enable and disable this feature in{" "}
           <b>
             <FontAwesomeIcon icon={faCog} />
             Settings
@@ -34,15 +34,12 @@ const NewUserPopup = ({ onClose }) => {
           .
         </li>
         <li>
-          You can set a shortcut to open the extension by going to{" "}
+          You can set a keyboard shortcut to open the extension by visiting{" "}
           <b className="link">chrome://extensions/shortcuts</b> and setting a
           value for <b>Activate the extension</b>. For example,{" "}
           <b>Ctrl+1 (Cmd+1)</b> can be used to open the extension while in
-          Chrome.
-        </li>
-        <li>
-          If you combine the above two tips, you can access your first websites
-          by <b>Ctrl+1 (Cmd+1) + 1...9</b>
+          Chrome. You can then access your websites by pressing{" "}
+          <b>Ctrl+1 (Cmd+1) and 1...9</b>
         </li>
       </ul>
       <h3>Managing your bookmarks</h3>
@@ -85,6 +82,9 @@ const NewUserPopup = ({ onClose }) => {
           soon.
         </li>
       </ul>
+      <button className="get-started" onClick={onClose}>
+        Get Started
+      </button>
     </Popup>
   );
 };
