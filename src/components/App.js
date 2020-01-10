@@ -12,6 +12,8 @@ import {
 } from "../helpers";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
+import NewUserPopup from "./NewUserPopup";
+import NewVersionPopup from "./NewVersionPopup";
 import SettingsPopup from "./SettingsPopup";
 import Controls from "./Controls";
 import Bookmark from "./Bookmark";
@@ -22,7 +24,7 @@ const App = () => {
   /**
    * Define Hooks
    */
-  const [currentLayout] = useState(Layouts.x4y4);
+  const [currentLayout] = useState(Layouts.x3y3);
   const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [settings, setSettings] = useState({});
@@ -30,6 +32,9 @@ const App = () => {
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
   const [editBookmarkAtIndex, setEditBookmarkAtIndex] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const [isNewUser, setIsNewUser] = useState(false);
+  const [isNewVersion, setIsNewVersion] = useState(false);
 
   /**
    * On mount effect
@@ -51,17 +56,8 @@ const App = () => {
 
       setBookmarks(processedBookmarks);
       setSettings(processedSettings);
-
-      if (isNewUser) {
-        // TODO: Display a Welcome popup
-        console.log("Displaying new user popup...");
-      } else if (isNewVersion) {
-        // TODO: Display version update changes
-        console.log(
-          "Displaying new version popup... version:",
-          processedSettings.version
-        );
-      }
+      setIsNewUser(isNewUser);
+      setIsNewVersion(isNewVersion);
     };
 
     getStoredItems();
@@ -126,6 +122,20 @@ const App = () => {
    */
   return (
     <div className="container">
+      {isNewUser && (
+        <NewUserPopup
+          onClose={() => {
+            setIsNewUser(false);
+          }}
+        />
+      )}
+      {isNewVersion && (
+        <NewVersionPopup
+          onClose={() => {
+            setIsNewVersion(false);
+          }}
+        />
+      )}
       {addBookmarkAtIndex !== null && (
         <AddBookmarkPopup
           index={addBookmarkAtIndex}
@@ -136,7 +146,7 @@ const App = () => {
           onClose={() => {
             setAddBookmarkAtIndex(null);
           }}
-        ></AddBookmarkPopup>
+        />
       )}
       {editBookmarkAtIndex !== null && (
         <EditBookmarkPopup
@@ -149,7 +159,7 @@ const App = () => {
           onClose={() => {
             setEditBookmarkAtIndex(null);
           }}
-        ></EditBookmarkPopup>
+        />
       )}
       {settingsOpen && (
         <SettingsPopup
@@ -158,13 +168,13 @@ const App = () => {
             setSettingsOpen(false);
           }}
           onSettingsChange={onSettingsChange}
-        ></SettingsPopup>
+        />
       )}
       <Controls
         editMode={editMode}
         editModeOnClick={() => setEditMode(!editMode)}
         settingsOnClick={() => setSettingsOpen(true)}
-      ></Controls>
+      />
       <div
         className={[
           "bookmarks",

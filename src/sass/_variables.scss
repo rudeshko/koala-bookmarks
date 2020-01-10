@@ -11,6 +11,21 @@ $secondary_bg: #0065ff;
   src: url("/fonts/Montserrat-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url("/fonts/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-Light";
+  src: url("/fonts/Montserrat-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-Thin";
+  src: url("/fonts/Montserrat-Thin.ttf") format("truetype");
+}
+
 @keyframes shake {
   0% {
     transform: rotate(0deg);

@@ -11,7 +11,7 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
    */
   const labels = {
     dragEnabled: "Drag to Reorder Bookmarks",
-    hotKeysEnabled: "Hot Keys",
+    hotKeysEnabled: "Enable Hot Keys (1-9)",
     hotKeyLabelsEnabled: "Display Hot Key Labels"
   };
 
@@ -48,6 +48,11 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           </div>
         </div>
       ))}
+      <h1>Layout</h1>
+      <div className="setting">
+        <div className="label">Layout</div>
+        <div className="control text-only">{`${settings.layout.x}x${settings.layout.y}`}</div>
+      </div>
       <div className="comingSoon">
         <FontAwesomeIcon icon={faBullhorn} />
         Many more features are Coming Soon...

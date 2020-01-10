@@ -106,13 +106,17 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
    * - Adding `settings` storage item
    * - Add popup with version changes, Suggest setting a shortcut for the extension (Ctrl+1)
    */
-  const bookmarkArrayLength = 100;
+  const bookmarkArrayLength = 120;
   let processedBookmarks = [],
     processedSettings = {},
     isNewUser = false,
     isNewVersion = false;
 
+  console.log(bookmarks, settings);
+
   if (!settings) {
+    processedSettings = DefaultSettings;
+
     if (!bookmarks) {
       /**
        * New User
@@ -120,11 +124,18 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
       isNewUser = true;
       processedBookmarks = new Array(bookmarkArrayLength);
       processedBookmarks.fill(null, 0);
+      processedBookmarks[0] = {
+        name: "Test Website",
+        url:
+          "https://chrome.google.com/webstore/detail/desktop-bookmarks/dppepokpjgoaooihcnelbjhbhnggpblo"
+      };
+
+      processedSettings.joinedVersion = DefaultSettings.version;
     } else {
       /**
        * Legacy User
        * Convert { name: "", url: "" } to null
-       * Make array length 100, instead of 16
+       * Make array length 120, instead of 16
        */
       isNewVersion = true;
       processedBookmarks = bookmarks.map(bookmark => {
@@ -137,9 +148,11 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
 
       processedBookmarks.length = bookmarkArrayLength;
       processedBookmarks.fill(null, 16);
-    }
 
-    processedSettings = DefaultSettings;
+      processedSettings.legacyUser = true;
+      processedSettings.layout = Layouts.x4y4;
+      processedSettings.joinedVersion = "<1.0.0";
+    }
   } else if (settings.version !== DefaultSettings.version) {
     /**
      * Existing User, New Version
@@ -163,13 +176,17 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
 
   listenToKeys(processedSettings);
 
-  return { processedBookmarks, processedSettings };
+  return { processedBookmarks, processedSettings, isNewUser, isNewVersion };
 };
 
 /**
  * Constants
  */
 export const Layouts = {
+  x3y3: {
+    x: 3,
+    y: 3
+  },
   x4y4: {
     x: 4,
     y: 4
@@ -178,9 +195,11 @@ export const Layouts = {
 
 export const DefaultSettings = {
   version: "1.0.0",
+  joinedVersion: null,
   dragEnabled: true,
   hotKeysEnabled: true,
   hotKeyLabelsEnabled: true,
+  legacyUser: false,
   // TODO:
   pageSize: {
     width: "100%",
@@ -191,7 +210,7 @@ export const DefaultSettings = {
   faviconBackground: "#ffffff",
   bookmarkLabelFontSizePx: 15,
   bookmarkBorderRadiusPx: 10,
-  layout: Layouts.x4y4,
+  layout: Layouts.x3y3,
   background: {
     value: "default.png",
     type: "image"
