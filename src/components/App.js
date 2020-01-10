@@ -24,7 +24,7 @@ const App = () => {
   /**
    * Define Hooks
    */
-  const [currentLayout] = useState(Layouts.x3y3);
+  const [currentLayout, setCurrentLayout] = useState(Layouts.x3y3);
   const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [settings, setSettings] = useState({});
@@ -58,6 +58,7 @@ const App = () => {
       setSettings(processedSettings);
       setIsNewUser(isNewUser);
       setIsNewVersion(isNewVersion);
+      setCurrentLayout(processedSettings.layout);
     };
 
     getStoredItems();

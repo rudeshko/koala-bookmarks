@@ -62,6 +62,11 @@ const Bookmark = React.forwardRef(
             onClick={event => onBookmarkClick(event, index)}
           >
             <div className="tab">
+              {editMode && settings.dragEnabled && (
+                <div className="drag">
+                  <FontAwesomeIcon icon={faArrowsAlt} title="Drag & Drop" />
+                </div>
+              )}
               {settings.hotKeysEnabled &&
                 settings.hotKeyLabelsEnabled &&
                 index < 9 &&
@@ -74,11 +79,6 @@ const Bookmark = React.forwardRef(
                     <div className="key">{index + 1}</div>
                   </div>
                 )}
-              {editMode && settings.dragEnabled && (
-                <div className="drag">
-                  <FontAwesomeIcon icon={faArrowsAlt} />
-                </div>
-              )}
               <div className="icon">
                 {editMode ? (
                   <>
@@ -87,7 +87,11 @@ const Bookmark = React.forwardRef(
                       className="favicon"
                       alt=""
                     />
-                    <FontAwesomeIcon icon={faWrench} className="editIcon" />
+                    <FontAwesomeIcon
+                      icon={faWrench}
+                      className="editIcon"
+                      title="Edit"
+                    />
                     <div
                       className="delete"
                       title="Delete"

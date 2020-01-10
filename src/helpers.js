@@ -112,8 +112,6 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
     isNewUser = false,
     isNewVersion = false;
 
-  console.log(bookmarks, settings);
-
   if (!settings) {
     processedSettings = DefaultSettings;
 
