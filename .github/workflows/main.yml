@@ -2,10 +2,8 @@ name: Bookmarks Extension - CICD
 
 on:
   push:
-    tags:
-      - "*.*.*"
-    branches:
-      - master
+    tags: 
+      - "refs/tags/*.*.*"
 
 jobs:
   cicd:
