@@ -1,9 +1,11 @@
-name: Browser Bookmarks - CICD
+name: Bookmarks Extension - CICD
 
 on:
   push:
+    branches:
+      - master
     tags:
-      - '*.*.*'
+      - "*.*.*"
 
 jobs:
   cicd:
@@ -26,9 +28,12 @@ jobs:
             echo "**************************************************************************"
             exit 1
           fi
+      - name: Build the project
+        run: |
+          npm run build
       - name: Prepare the zip file for the extension
         run: |
-          zip -rq extension.zip .
+          cd build && zip -rq extension.zip . && cd ..
       - name: Get Access Token for the Google Web Store
         run: |
           REFRESH_TOKEN_RESPONSE=$(curl "https://accounts.google.com/o/oauth2/token" --silent -d "refresh_token=$REFRESH_TOKEN&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&grant_type=refresh_token")
@@ -36,7 +41,7 @@ jobs:
       - name: Upload to the Google Web Store
         run: |
           source .vars
-          curl -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -X PUT -T "./extension.zip" --silent https://www.googleapis.com/upload/chromewebstore/v1.1/items/$APP_ID
+          curl -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2" -X PUT -T "./build/extension.zip" --silent https://www.googleapis.com/upload/chromewebstore/v1.1/items/$APP_ID
       - name: Publish the Item
         run: |
           source .vars

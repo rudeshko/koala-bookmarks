@@ -1,0 +1,243 @@
+@import "_variables";
+
+.component.popup {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  font-size: 16px;
+
+  &.settings {
+    .content {
+      .setting {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .label {
+          line-height: 28px;
+        }
+
+        .control {
+          &.text-only {
+            font-size: 16px;
+            line-height: 28px;
+          }
+        }
+      }
+
+      .comingSoon,
+      .upgradeToPro {
+        text-align: center;
+        font-size: 18px;
+        margin: 30px 0 0;
+        color: #bb7d09;
+
+        svg {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  &.newUser,
+  &.newVersion {
+    .window .content {
+      h1 {
+        font-family: "Montserrat-Light", sans-serif;
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: $secondary_bg;
+      }
+
+      h2 {
+        font-family: "Montserrat-Regular", sans-serif;
+        font-size: 20px;
+        padding-bottom: 7px;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        font-family: "Montserrat-Light", sans-serif;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  &.settings {
+    .window .content {
+      h1 {
+        color: $dark_grey;
+        font-size: 18px;
+        font-weight: bold;
+        padding-bottom: 7px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid $dark_grey;
+
+        &:not(:first-child) {
+          margin-top: 30px;
+        }
+      }
+
+      h2 {
+        color: $dark_grey;
+        font-weight: bold;
+        padding-bottom: 7px;
+        margin-bottom: 10px;
+        line-height: 1.25;
+
+        &:not(:first-child) {
+          margin-top: 20px;
+        }
+      }
+
+      h3 {
+        color: $dark_grey;
+        font-weight: bold;
+        padding-bottom: 7px;
+        margin-bottom: 5px;
+        line-height: 1.25;
+
+        &:not(:first-child) {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  .window {
+    $header_height: 60px;
+    $padding: 40px;
+
+    width: 500px;
+    height: auto;
+    max-width: $extension_width - $padding;
+    max-height: $extension_height - $padding;
+    background: #fff;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.75);
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+
+    &.wide {
+      width: 100%;
+    }
+
+    .header {
+      background: #f4f5f7;
+      display: flex;
+      flex-direction: row;
+      padding: 18px 20px;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 2px #444;
+
+      .title {
+        font-size: 17px;
+        font-weight: bold;
+        color: #444;
+      }
+
+      .close {
+        font-size: 23px;
+        color: #444;
+
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          color: $dark_grey;
+        }
+      }
+    }
+
+    .content {
+      padding: 30px 30px 35px;
+      overflow-y: auto;
+
+      &.fullscreen {
+        // Overwriting parent height if it's fullscreen
+        // TODO: There is a better way to do this, figure it out...
+        $header_height: 0;
+      }
+
+      max-height: $extension_height - $padding - $header_height;
+
+      .no_content {
+        text-align: center;
+        color: #444;
+      }
+
+      b {
+        font-weight: bold;
+      }
+
+      ul {
+        list-style: disc;
+        margin-left: 20px;
+
+        &:not(:last-child) {
+          margin-bottom: 15px;
+        }
+
+        li {
+          font-size: 16px;
+          line-height: 1.5;
+
+          svg {
+            font-size: 18px;
+            margin-right: 5px;
+          }
+        }
+      }
+
+      input {
+        width: 100%;
+        padding: 15px 12px;
+        outline: none;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-family: "Montserrat", sans-serif;
+        color: rgb(66, 82, 110);
+      }
+
+      button {
+        min-width: 120px;
+        max-width: 300px;
+        padding: 12px;
+        outline: none;
+        border-radius: 3px;
+        border: 0;
+        font-size: 15px;
+        background: $secondary_bg;
+        color: #fff;
+        text-shadow: 1px 1px 0 darken($secondary_bg, 10%);
+        font-family: "Montserrat", sans-serif;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.25) inset;
+
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          background: lighten($secondary_bg, 5%);
+        }
+
+        svg {
+          margin-right: 7px;
+        }
+      }
+    }
+  }
+}

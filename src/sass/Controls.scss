@@ -1,0 +1,47 @@
+.controls {
+  width: 100%;
+  height: 33px;
+  background: rgba(0, 0, 0, 0.25);
+  flex-grow: 0;
+  margin-bottom: 5px;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .left {
+    padding: 0 10px;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.5);
+
+    svg {
+      margin-right: 5px;
+      font-size: 16px;
+    }
+  }
+
+  .right {
+    button {
+      height: inherit;
+      font-size: 15px;
+      border: 0;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 0 10px;
+
+      &:hover {
+        color: #fff;
+        cursor: pointer;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      svg {
+        margin-right: 8px;
+        font-size: 16px;
+      }
+    }
+  }
+}

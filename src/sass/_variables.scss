@@ -1,0 +1,49 @@
+/**
+ * Variables
+ */
+$extension_width: 800px;
+$extension_height: 600px;
+$dark_grey: #2a2a2a;
+$secondary_bg: #0065ff;
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url("/fonts/Montserrat-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-Light";
+  src: url("/fonts/Montserrat-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat-Thin";
+  src: url("/fonts/Montserrat-Thin.ttf") format("truetype");
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3.5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-3.5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
