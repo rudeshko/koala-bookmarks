@@ -20,7 +20,7 @@ const NewVersionPopup = ({ onClose, version }) => {
         <>
           <h2>
             Version 1 is Finally Here! There are lots of refactoring and
-            performance improvements
+            performance improvements.
           </h2>
           <h2>Here are some highlights...</h2>
           <h3>Accessing your websites</h3>

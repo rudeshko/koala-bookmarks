@@ -57,12 +57,12 @@ const App = () => {
       setBookmarks(processedBookmarks);
       setSettings(processedSettings);
       setIsNewUser(isNewUser);
-      setIsNewVersion(isNewVersion || true);
+      setIsNewVersion(isNewVersion);
       setCurrentLayout(processedSettings.layout);
     };
 
     getStoredItems();
-  }, [currentLayout]);
+  }, []);
 
   /**
    * Methods

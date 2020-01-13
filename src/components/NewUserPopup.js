@@ -18,9 +18,8 @@ const NewUserPopup = ({ onClose }) => {
       <h1>
         Welcome to an extension that allows you to access and manage your
         favorite bookmarks with ease.
-        <br />
-        <small>Here are some tips to get you started...</small>
       </h1>
+      <h2>Here are some tips to get you started...</h2>
       <h3>Accessing your websites</h3>
       <ul>
         <li>

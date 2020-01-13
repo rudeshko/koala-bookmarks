@@ -24,7 +24,13 @@ const Popup = ({ wide, title, children, onClose, className }) => {
             </div>
           </div>
         )}
-        <div className="content">{children}</div>
+        <div
+          className={["content", title == null ? "fullscreen" : ""]
+            .join(" ")
+            .trim()}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
