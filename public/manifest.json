@@ -1,6 +1,6 @@
 {
   "name": "Bookmarks Extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 2,
   "description": "Extension for easier access to your favorite websites.",
   "icons": { "128": "images/icon_128.png" },
