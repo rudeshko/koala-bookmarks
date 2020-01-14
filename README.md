@@ -6,19 +6,17 @@
 
 Browser Bookmarks made easier. Set your favourite websites and access them with the hotkeys.
 
-## Browser Support
+# Browser Support
 
-![Chrome - supported](https://img.shields.io/badge/Chrome-supported-green)
+## Chrome ![Chrome - supported](https://img.shields.io/badge/-supported-green)
 
 [Download at the Google Web Store](https://chrome.google.com/webstore/detail/desktop-bookmarks/dppepokpjgoaooihcnelbjhbhnggpblo)
 
----
+## Firefox ![Firefox - coming soon](https://img.shields.io/badge/-coming%20soon-orange)
 
-![Firefox - coming soon](https://img.shields.io/badge/Firefox-coming%20soon-orange)
+## Edge ![Edge - coming soon](https://img.shields.io/badge/-coming%20soon-orange)
 
-![Edge - coming soon](https://img.shields.io/badge/Edge-coming%20soon-orange)
-
-![Opera - coming soon](https://img.shields.io/badge/Opera-coming%20soon-orange)
+## Opera ![Opera - coming soon](https://img.shields.io/badge/-coming%20soon-orange)
 
 # Tools Used
 
