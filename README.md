@@ -1,7 +1,8 @@
 # Bookmarks Extension
 
 ![Bookmarks Extension - CICD](https://github.com/rudeshko/bookmarks-extension/workflows/Bookmarks%20Extension%20-%20CICD/badge.svg)
-![version](https://img.shields.io/github/package-json/v/rudeshko/bookmarks-extension?color=green)
+![version](https://img.shields.io/github/package-json/v/rudeshko/bookmarks-extension?color=green&label=Development%20Version)
+![version](https://img.shields.io/github/v/tag/rudeshko/bookmarks-extension?color=green&label=Published%20Version)
 
 Browser Bookmarks made easier. Set your favourite websites and access them with the hotkeys.
 
