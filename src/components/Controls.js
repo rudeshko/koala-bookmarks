@@ -26,7 +26,7 @@ const Controls = ({ editModeOnClick, editMode, settingsOnClick }) => {
     <div className="controls">
       <div className="left">
         <FontAwesomeIcon icon={faChrome} />
-        Bookmarks
+        Koala
       </div>
       <div className="right">
         <button

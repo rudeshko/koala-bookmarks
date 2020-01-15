@@ -24,7 +24,6 @@ const App = () => {
   /**
    * Define Hooks
    */
-  const [currentLayout, setCurrentLayout] = useState(Layouts.x3y3);
   const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [settings, setSettings] = useState({});
@@ -58,7 +57,6 @@ const App = () => {
       setSettings(processedSettings);
       setIsNewUser(isNewUser);
       setIsNewVersion(isNewVersion);
-      setCurrentLayout(processedSettings.layout);
     };
 
     getStoredItems();
@@ -177,33 +175,34 @@ const App = () => {
         editModeOnClick={() => setEditMode(!editMode)}
         settingsOnClick={() => setSettingsOpen(true)}
       />
-      <div
-        className={[
-          "bookmarks",
-          editMode ? "editMode" : "",
-          settings.dragEnabled ? "dragEnabled" : "",
-          `layout_${currentLayout.x}x${currentLayout.y}`
-        ]
-          .join(" ")
-          .trim()}
-      >
-        {bookmarks
-          .slice(0, currentLayout.x * currentLayout.y)
-          .map((bookmark, index) => (
-            <Bookmark
-              key={index}
-              bookmark={bookmark}
-              layout={currentLayout}
-              index={index}
-              editMode={editMode}
-              settings={settings}
-              onOpenAddPopup={onOpenAddPopup}
-              onDeleteBookmark={onDeleteBookmark}
-              onBookmarkClick={onBookmarkClick}
-              onMoveBookmark={onMoveBookmark}
-            ></Bookmark>
-          ))}
-      </div>
+      {settings.layout && (
+        <div
+          className={[
+            "bookmarks",
+            editMode ? "editMode" : "",
+            settings.dragEnabled ? "dragEnabled" : "",
+            `layout_${settings.layout.x}x${settings.layout.y}`
+          ]
+            .join(" ")
+            .trim()}
+        >
+          {bookmarks
+            .slice(0, settings.layout.x * settings.layout.y)
+            .map((bookmark, index) => (
+              <Bookmark
+                key={index}
+                bookmark={bookmark}
+                index={index}
+                editMode={editMode}
+                settings={settings}
+                onOpenAddPopup={onOpenAddPopup}
+                onDeleteBookmark={onDeleteBookmark}
+                onBookmarkClick={onBookmarkClick}
+                onMoveBookmark={onMoveBookmark}
+              ></Bookmark>
+            ))}
+        </div>
+      )}
     </div>
   );
 };

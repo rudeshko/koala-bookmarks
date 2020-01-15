@@ -4,6 +4,7 @@ import Popup from "./Popup";
 import Checkbox from "./Checkbox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
+import { Layouts } from "../helpers";
 
 const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
   /**
@@ -12,11 +13,19 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
   const labels = {
     dragEnabled: "Drag to Reorder Bookmarks",
     hotKeysEnabled: "Enable Hot Keys (1-9)",
-    hotKeyLabelsEnabled: "Display Hot Key Labels"
+    hotKeyLabelsEnabled: "Display Hot Key Labels",
+    showAddNewPlaceholder: 'Show Placeholder for "Add New"',
+    displayLabels: "Display Bookmark Labels"
   };
 
   const sections = {
-    enabledFeatures: ["dragEnabled", "hotKeysEnabled", "hotKeyLabelsEnabled"]
+    enabledFeatures: [
+      "dragEnabled",
+      "hotKeysEnabled",
+      "hotKeyLabelsEnabled",
+      "showAddNewPlaceholder",
+      "displayLabels"
+    ]
   };
 
   /**
@@ -25,6 +34,12 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
   const toggleSetting = key => {
     const newSettings = JSON.parse(JSON.stringify(settings));
     newSettings[key] = !newSettings[key];
+    onSettingsChange(newSettings);
+  };
+
+  const changeSettingValue = (key, value) => {
+    const newSettings = JSON.parse(JSON.stringify(settings));
+    newSettings[key] = value;
     onSettingsChange(newSettings);
   };
 
@@ -48,7 +63,80 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           </div>
         </div>
       ))}
-      <h1>Layout</h1>
+      <h1>Visual</h1>
+      {/* <div className="setting">
+        <div className="label">Icon Radius</div>
+        <div className="control">
+          <input
+            type="number"
+            min="0"
+            max="50"
+            step="5"
+            value={settings.iconRadiusPercentage}
+            onChange={e => {
+              changeSettingValue("iconRadiusPercentage", Number.parseInt(e.target.value))
+            }}
+          />
+        </div>
+      </div> */}
+      {/* <div className="setting">
+        <div className="label">Bookmark Label Font Size</div>
+        <div className="control">
+          <input
+            type="number"
+            min="10"
+            max="25"
+            step="1"
+            value={settings.bookmarkLabelFontSizePx}
+            onChange={e => {
+              changeSettingValue("bookmarkLabelFontSizePx", Number.parseInt(e.target.value))
+            }}
+          />
+        </div>
+      </div> */}
+      {/* <div className="setting">
+        <div className="label">Layout</div>
+        <div className="control">
+          <input
+            type="number"
+            min="3"
+            max="6"
+            value={settings.layout.x}
+            onChange={e => {
+              changeSettingValue("layout", {
+                x: Number.parseInt(e.target.value),
+                y: settings.layout.y
+              });
+            }}
+          />
+          By
+          <input
+            type="number"
+            min="3"
+            max="5"
+            value={settings.layout.y}
+            onChange={e => {
+              changeSettingValue("layout", {
+                x: settings.layout.x,
+                y: Number.parseInt(e.target.value)
+              });
+            }}
+          />
+          <select
+            onChange={e => {
+              console.log(Layouts[e.target.value]);
+              changeSettingValue("layout", Layouts[e.target.value]);
+            }}
+            value={`x${settings.layout.x}y${settings.layout.y}`}
+          >
+            {Object.keys(Layouts).map((layout, index) => (
+              <option value={layout} key={index}>
+                {`${Layouts[layout].x}x${Layouts[layout].y}`}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div> */}
       <div className="setting">
         <div className="label">Layout</div>
         <div className="control text-only">{`${settings.layout.x}x${settings.layout.y}`}</div>
@@ -72,6 +160,7 @@ SettingsPopup.propTypes = {
     dragEnabled: PropTypes.bool,
     hotKeysEnabled: PropTypes.bool,
     hotKeyLabelsEnabled: PropTypes.bool
+    // TODO:
   }),
   onClose: PropTypes.func.isRequired,
   onSettingsChange: PropTypes.func.isRequired

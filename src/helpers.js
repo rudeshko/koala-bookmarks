@@ -163,7 +163,11 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
     processedSettings.version = DefaultSettings.version;
 
     // Further migration tasks for the new versions
-    // ...
+    if (settings.version === "1.0.1") {
+      settings.iconRadiusPercentage = DefaultSettings.iconRadiusPercentage;
+      settings.showAddNewPlaceholder = DefaultSettings.showAddNewPlaceholder;
+      delete settings.bookmarkBorderRadiusPx;
+    }
   } else {
     /**
      * Existing User
@@ -185,6 +189,7 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
 /**
  * Constants
  */
+// TODO: Make x/y manual numbers, no need for predefined sets
 export const Layouts = {
   x3y3: {
     x: 3,
@@ -203,16 +208,18 @@ export const DefaultSettings = {
   dragEnabled: true,
   hotKeysEnabled: true,
   hotKeyLabelsEnabled: true,
+  // New in 1.0.1
+  iconRadiusPercentage: 20,
+  bookmarkLabelFontSizePx: 15,
+  showAddNewPlaceholder: true,
+  displayLabels: true,
   // TODO:
   pageSize: {
     width: "100%",
     height: "100%"
   },
   autoHideControls: false,
-  displayLabels: true,
   faviconBackground: "#ffffff",
-  bookmarkLabelFontSizePx: 15,
-  bookmarkBorderRadiusPx: 10,
   layout: Layouts.x3y3,
   background: {
     value: "default.png",

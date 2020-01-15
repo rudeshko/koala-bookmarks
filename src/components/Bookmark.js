@@ -9,12 +9,13 @@ import {
   faArrowsAlt
 } from "@fortawesome/free-solid-svg-icons";
 
+import "../sass/Bookmark.scss";
+
 const Bookmark = React.forwardRef(
   (
     {
       bookmark,
       settings,
-      layout,
       index,
       editMode,
       onOpenAddPopup,
@@ -46,11 +47,11 @@ const Bookmark = React.forwardRef(
      */
     return (
       <div
-        className={["bookmark"].join(" ").trim()}
+        className={["component bookmark"].join(" ").trim()}
         ref={elementRef}
         style={{
-          width: 100 / layout.x + "%",
-          height: 100 / layout.y + "%"
+          width: 100 / settings.layout.x + "%",
+          height: 100 / settings.layout.y + "%"
         }}
       >
         {bookmark ? (
@@ -79,7 +80,12 @@ const Bookmark = React.forwardRef(
                     <div className="key">{index + 1}</div>
                   </div>
                 )}
-              <div className="icon">
+              <div
+                className="icon"
+                style={{
+                  borderRadius: `${settings.iconRadiusPercentage}%`
+                }}
+              >
                 {editMode ? (
                   <>
                     <img
@@ -109,19 +115,41 @@ const Bookmark = React.forwardRef(
                   />
                 )}
               </div>
-              <div className="name">{bookmark.name}</div>
+              {settings.displayLabels && (
+                <div
+                  className="name"
+                  style={{
+                    fontSize: `${settings.bookmarkLabelFontSizePx}px`
+                  }}
+                >
+                  {bookmark.name}
+                </div>
+              )}
             </div>
           </a>
         ) : (
           <a href={`#${index}`} onClick={event => event.preventDefault()}>
             <div className="tab add">
               <div
-                className="icon"
+                className={[
+                  "icon",
+                  settings.showAddNewPlaceholder ? "" : "hidePlaceholder"
+                ].join(" ")}
                 onClick={event => onOpenAddPopup(event, index)}
+                style={{
+                  borderRadius: `${settings.iconRadiusPercentage}%`
+                }}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </div>
-              <div className="name">Add New</div>
+              <div
+                className="name"
+                style={{
+                  fontSize: `${settings.bookmarkLabelFontSizePx}px`
+                }}
+              >
+                Add New
+              </div>
             </div>
           </a>
         )}
@@ -181,8 +209,6 @@ Bookmark.propTypes = {
     hotKeysEnabled: PropTypes.bool,
     hotKeyLabelsEnabled: PropTypes.bool
   }),
-  layout: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number })
-    .isRequired,
   index: PropTypes.number.isRequired,
   editMode: PropTypes.bool.isRequired,
   onOpenAddPopup: PropTypes.func.isRequired,

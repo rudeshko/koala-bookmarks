@@ -1,5 +1,6 @@
 {
   "name": "Bookmarks Extension",
+  "short_name": "Bookmarks Extension",
   "version": "1.0.1",
   "manifest_version": 2,
   "description": "Extension for easier access to your favorite websites.",
