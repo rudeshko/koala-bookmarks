@@ -14,8 +14,14 @@ const Popup = ({ wide, title, children, onClose, className }) => {
       className={["component popup", className ? className : ""]
         .join(" ")
         .trim()}
+      onClick={onClose}
     >
-      <div className={["window", wide ? "wide" : null].join(" ").trim()}>
+      <div
+        className={["window", wide ? "wide" : null].join(" ").trim()}
+        onClick={e => {
+          e.stopPropagation();
+        }}
+      >
         {title !== null && (
           <div className="header">
             <div className="title">{title}</div>
@@ -24,13 +30,7 @@ const Popup = ({ wide, title, children, onClose, className }) => {
             </div>
           </div>
         )}
-        <div
-          className={["content", title == null ? "fullscreen" : ""]
-            .join(" ")
-            .trim()}
-        >
-          {children}
-        </div>
+        <div className="content">{children}</div>
       </div>
     </div>
   );

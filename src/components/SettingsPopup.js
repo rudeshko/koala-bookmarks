@@ -63,7 +63,7 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           </div>
         </div>
       ))}
-      <h1>Visual</h1>
+      {/* <h1>Visual</h1> */}
       {/* <div className="setting">
         <div className="label">Icon Radius</div>
         <div className="control">
@@ -113,7 +113,7 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           <input
             type="number"
             min="3"
-            max="5"
+            max="6"
             value={settings.layout.y}
             onChange={e => {
               changeSettingValue("layout", {
@@ -137,10 +137,6 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           </select>
         </div>
       </div> */}
-      <div className="setting">
-        <div className="label">Layout</div>
-        <div className="control text-only">{`${settings.layout.x}x${settings.layout.y}`}</div>
-      </div>
       <div className="comingSoon">
         <FontAwesomeIcon icon={faBullhorn} />
         Many more features are Coming Soon...

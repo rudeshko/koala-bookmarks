@@ -55,8 +55,9 @@ const App = () => {
 
       setBookmarks(processedBookmarks);
       setSettings(processedSettings);
-      setIsNewUser(isNewUser);
-      setIsNewVersion(isNewVersion);
+
+      if (isNewUser) openPopup("newUser", isNewUser);
+      if (isNewVersion) openPopup("newVersion", isNewVersion);
     };
 
     getStoredItems();
@@ -77,17 +78,50 @@ const App = () => {
     event.preventDefault();
 
     setEditMode(false);
-    setAddBookmarkAtIndex(index);
+    openPopup("addBookmark", index);
   };
 
   const onBookmarkClick = (event, index) => {
     if (editMode) {
       event.preventDefault();
 
-      setEditBookmarkAtIndex(index);
+      openPopup("editBookmark", index);
     } else {
       return true;
     }
+  };
+
+  const openPopup = (type, value = null) => {
+    listenToKeys(false);
+
+    switch (type) {
+      case "newUser":
+        setIsNewUser(true);
+        break;
+      case "newVersion":
+        setIsNewVersion(true);
+        break;
+      case "addBookmark":
+        setAddBookmarkAtIndex(value);
+        break;
+      case "editBookmark":
+        setEditBookmarkAtIndex(value);
+        break;
+      case "settings":
+        setSettingsOpen(true);
+        break;
+      default:
+    }
+  };
+
+  const closePopup = () => {
+    listenToKeys(settings.hotKeysEnabled);
+
+    setIsNewUser(false);
+    setIsNewVersion(false);
+    setAddBookmarkAtIndex(null);
+    setEditBookmarkAtIndex(null);
+    setSettingsOpen(false);
   };
 
   const onMoveBookmark = async (dragIndex, hoverIndex) => {
@@ -113,7 +147,6 @@ const App = () => {
   const onSettingsChange = async newSettings => {
     setSettings(newSettings);
     await saveStoredSettings(newSettings);
-    listenToKeys(newSettings.hotKeysEnabled);
   };
 
   /**
@@ -124,14 +157,14 @@ const App = () => {
       {isNewUser && (
         <NewUserPopup
           onClose={() => {
-            setIsNewUser(false);
+            closePopup();
           }}
         />
       )}
       {isNewVersion && (
         <NewVersionPopup
           onClose={() => {
-            setIsNewVersion(false);
+            closePopup();
           }}
           version={settings.version}
         />
@@ -141,10 +174,10 @@ const App = () => {
           index={addBookmarkAtIndex}
           onCreate={updatedBookmarks => {
             setBookmarks(updatedBookmarks);
-            setAddBookmarkAtIndex(null);
+            closePopup();
           }}
           onClose={() => {
-            setAddBookmarkAtIndex(null);
+            closePopup();
           }}
         />
       )}
@@ -154,10 +187,10 @@ const App = () => {
           bookmarks={bookmarks}
           onEdit={updatedBookmarks => {
             setBookmarks(updatedBookmarks);
-            setEditBookmarkAtIndex(null);
+            closePopup();
           }}
           onClose={() => {
-            setEditBookmarkAtIndex(null);
+            closePopup();
           }}
         />
       )}
@@ -165,15 +198,19 @@ const App = () => {
         <SettingsPopup
           settings={settings}
           onClose={() => {
-            setSettingsOpen(false);
+            closePopup();
           }}
           onSettingsChange={onSettingsChange}
         />
       )}
       <Controls
         editMode={editMode}
-        editModeOnClick={() => setEditMode(!editMode)}
-        settingsOnClick={() => setSettingsOpen(true)}
+        editModeOnClick={() => {
+          setEditMode(!editMode);
+        }}
+        settingsOnClick={() => {
+          openPopup("settings");
+        }}
       />
       {settings.layout && (
         <div

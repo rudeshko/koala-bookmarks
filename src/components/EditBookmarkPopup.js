@@ -30,9 +30,15 @@ const EditBookmarkPopup = props => {
     event.preventDefault();
     event.stopPropagation();
 
+    let processedUrl = editUrl;
+    if (editUrl.indexOf("https://") !== 0 && editUrl.indexOf("http://") !== 0) {
+      processedUrl = "https://" + editUrl;
+      setEditUrl(processedUrl);
+    }
+
     const updatedBookmarks = await updateStoredBookmark(props.index, {
       name: editName,
-      url: editUrl
+      url: processedUrl
     });
 
     props.onEdit(updatedBookmarks);
@@ -62,7 +68,7 @@ const EditBookmarkPopup = props => {
         </div>
         <div>
           <input
-            type="url"
+            type="text"
             placeholder="URL"
             onChange={e => setEditUrl(e.target.value)}
             value={editUrl}

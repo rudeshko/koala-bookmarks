@@ -19,9 +19,15 @@ const AddBookmarkPopup = props => {
     event.preventDefault();
     event.stopPropagation();
 
+    let processedUrl = newUrl;
+    if (newUrl.indexOf("https://") !== 0 && newUrl.indexOf("http://") !== 0) {
+      processedUrl = "https://" + newUrl;
+      setNewUrl(processedUrl);
+    }
+
     const updatedBookmarks = await addStoredBookmark(props.index, {
       name: newName,
-      url: newUrl
+      url: processedUrl
     });
 
     props.onCreate(updatedBookmarks);
@@ -31,22 +37,34 @@ const AddBookmarkPopup = props => {
    * Output the component
    */
   return (
-    <Popup className="addBookmark" title="Add New Bookmark" onClose={props.onClose}>
-      <form onSubmit={event => addNewBookmark(event)}>
+    <Popup
+      className="addBookmark"
+      title="Add New Bookmark"
+      onClose={props.onClose}
+    >
+      <form
+        onSubmit={event => {
+          addNewBookmark(event);
+        }}
+      >
         <div>
           <input
             type="text"
             placeholder="Title"
-            onChange={e => setNewName(e.target.value)}
+            onChange={e => {
+              setNewName(e.target.value);
+            }}
             required
             autoFocus
           />
         </div>
         <div>
           <input
-            type="url"
+            type="text"
             placeholder="URL"
-            onChange={e => setNewUrl(e.target.value)}
+            onChange={e => {
+              setNewUrl(e.target.value);
+            }}
             required
           />
         </div>

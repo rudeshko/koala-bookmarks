@@ -2,7 +2,7 @@ name: Bookmarks Extension - CICD
 
 on:
   push:
-    tags: 
+    tags:
       - "*.*.*"
 
 jobs:
@@ -15,15 +15,16 @@ jobs:
       REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
     steps:
       - uses: actions/checkout@v1
-      - name: Ensure that the branch is tagged, and matches the manifest version
+      - name: Ensure that the branch is tagged, and matches the manifest and package versions
         run: |
           MANIFEST_VERSION=$(cat public/manifest.json | jq --raw-output .version)
+          PACKAGE_VERSION=$(cat package.json | jq --raw-output .version)
           TAG_VERSION=$(git tag --points-at HEAD)
 
-          if [ "$MANIFEST_VERSION" != "$TAG_VERSION" ]; then
-            echo "**************************************************************************"
-            echo "* Manifest and Git tag versions do not match, skipping the publishing... *"
-            echo "**************************************************************************"
+          if [[ "$MANIFEST_VERSION" != "$TAG_VERSION" || "$PACKAGE_VERSION" != "$TAG_VERSION" ]]; then
+            echo "*********************************************************************************************"
+            echo "* manifest.json, package.json and Git tag versions do not match, skipping the publishing... *"
+            echo "*********************************************************************************************"
             exit 1
           fi
       - name: Install the packages

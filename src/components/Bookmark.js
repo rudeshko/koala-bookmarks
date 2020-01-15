@@ -142,14 +142,16 @@ const Bookmark = React.forwardRef(
               >
                 <FontAwesomeIcon icon={faPlus} />
               </div>
-              <div
-                className="name"
-                style={{
-                  fontSize: `${settings.bookmarkLabelFontSizePx}px`
-                }}
-              >
-                Add New
-              </div>
+              {settings.displayLabels && (
+                <div
+                  className="name"
+                  style={{
+                    fontSize: `${settings.bookmarkLabelFontSizePx}px`
+                  }}
+                >
+                  Add New
+                </div>
+              )}
             </div>
           </a>
         )}
