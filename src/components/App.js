@@ -7,8 +7,7 @@ import {
   saveStoredSettings,
   deleteStoredBookmark,
   listenToKeys,
-  migrationChecker,
-  Layouts
+  migrationChecker
 } from "../helpers";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
@@ -27,6 +26,7 @@ const App = () => {
   const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [settings, setSettings] = useState({});
+  const [draggingBookmarkIndex, setDraggingBookmarkIndex] = useState(false);
 
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
   const [editBookmarkAtIndex, setEditBookmarkAtIndex] = useState(null);
@@ -218,6 +218,7 @@ const App = () => {
             "bookmarks",
             editMode ? "editMode" : "",
             settings.dragEnabled ? "dragEnabled" : "",
+            draggingBookmarkIndex ? "dragging" : "",
             `layout_${settings.layout.x}x${settings.layout.y}`
           ]
             .join(" ")
@@ -236,6 +237,12 @@ const App = () => {
                 onDeleteBookmark={onDeleteBookmark}
                 onBookmarkClick={onBookmarkClick}
                 onMoveBookmark={onMoveBookmark}
+                beginDrag={index => {
+                  setDraggingBookmarkIndex(index);
+                }}
+                endDrag={index => {
+                  setDraggingBookmarkIndex(null);
+                }}
               ></Bookmark>
             ))}
         </div>

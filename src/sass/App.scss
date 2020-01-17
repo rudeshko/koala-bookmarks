@@ -70,6 +70,12 @@ body {
       }
     }
 
+    &.dragging {
+      .bookmark:not(.active) {
+        opacity: 0.75; // TODO: Make current dragging bookmark active
+      }
+    }
+
     &:not(.editMode) {
       .tab:not(.add):hover {
         background: rgba(0, 0, 0, 0.4);

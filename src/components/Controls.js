@@ -7,7 +7,6 @@ import {
   faStar,
   faQuestionCircle
 } from "@fortawesome/free-solid-svg-icons";
-import { faChrome } from "@fortawesome/free-brands-svg-icons";
 import PropTypes from "prop-types";
 
 import "../sass/Controls.scss";
@@ -25,8 +24,7 @@ const Controls = ({ editModeOnClick, editMode, settingsOnClick }) => {
   return (
     <div className="controls">
       <div className="left">
-        <FontAwesomeIcon icon={faChrome} />
-        Koala Bookmarks
+        <b>Koala</b> Bookmarks
       </div>
       <div className="right">
         <button

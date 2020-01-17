@@ -4,7 +4,6 @@ import Popup from "./Popup";
 import Checkbox from "./Checkbox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
-import { Layouts } from "../helpers";
 
 const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
   /**
@@ -15,7 +14,7 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
     hotKeysEnabled: "Enable Hot Keys (1-9)",
     hotKeyLabelsEnabled: "Display Hot Key Labels",
     showAddNewPlaceholder: 'Show Placeholder for "Add New"',
-    displayLabels: "Display Bookmark Labels"
+    displayLabels: "Display Bookmark Titles"
   };
 
   const sections = {
@@ -37,11 +36,11 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
     onSettingsChange(newSettings);
   };
 
-  const changeSettingValue = (key, value) => {
-    const newSettings = JSON.parse(JSON.stringify(settings));
-    newSettings[key] = value;
-    onSettingsChange(newSettings);
-  };
+  // const changeSettingValue = (key, value) => {
+  //   const newSettings = JSON.parse(JSON.stringify(settings));
+  //   newSettings[key] = value;
+  //   onSettingsChange(newSettings);
+  // };
 
   /**
    * Output the component
@@ -145,6 +144,7 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
         <FontAwesomeIcon icon={faStar} />
         Upgrade to Pro to enable all of the features
       </div> */}
+      <div className="version">v{settings.version}</div>
     </Popup>
   );
 };

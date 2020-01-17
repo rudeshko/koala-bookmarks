@@ -11,12 +11,19 @@
 
   .left {
     padding: 0 10px;
-    font-size: 15px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.5);
+    line-height: 33px;
 
-    svg {
+    b {
+      font-family: "Montserrat-Bold";
+    }
+
+    img {
+      margin-top: 4px;
       margin-right: 5px;
-      font-size: 16px;
+      height: 25px;
+      display: inline-block;
     }
   }
 

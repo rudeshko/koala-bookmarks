@@ -178,6 +178,11 @@ export default DropTarget(
 
       onMoveBookmark(dragIndex, hoverIndex);
       monitor.getItem().index = hoverIndex;
+    },
+    drop({ index, endDrag }) {
+      // TODO: This is working on drop
+      // TODO: Disable for empty bookmarks
+      endDrag(index);
     }
   },
   connect => ({
@@ -187,10 +192,14 @@ export default DropTarget(
   DragSource(
     "bookmark",
     {
-      beginDrag: ({ bookmark, index }) => ({
-        bookmark,
-        index
-      })
+      beginDrag: ({ bookmark, index, beginDrag }) => {
+        beginDrag(index);
+
+        return {
+          bookmark,
+          index
+        };
+      }
     },
     (connect, monitor) => ({
       connectDragSource: connect.dragSource(),
