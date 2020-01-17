@@ -40,6 +40,10 @@ body {
 
     &.editMode {
       .tab:not(.add) {
+        &.dragEnabled {
+          cursor: move;
+        }
+
         .icon {
           color: $dark_grey;
           animation: shake 0.3s;
@@ -71,8 +75,14 @@ body {
     }
 
     &.dragging {
-      .bookmark:not(.active) {
-        opacity: 0.75; // TODO: Make current dragging bookmark active
+      .bookmark {
+        &:not(.active) {
+          opacity: 0.75; // TODO: Make current dragging bookmark active
+        }
+
+        .tab {
+          border: 1px dashed rgba(255, 255, 255, 0.5);
+        }
       }
     }
 

@@ -22,7 +22,7 @@ const Controls = ({ editModeOnClick, editMode, settingsOnClick }) => {
    * Output the component
    */
   return (
-    <div className="controls">
+    <div className="component controls">
       <div className="left">
         <b>Koala</b> Bookmarks
       </div>

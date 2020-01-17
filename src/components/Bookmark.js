@@ -2,12 +2,7 @@ import React, { useImperativeHandle, useRef } from "react";
 import { DragSource, DropTarget } from "react-dnd";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faWrench,
-  faMinus,
-  faPlus,
-  faArrowsAlt
-} from "@fortawesome/free-solid-svg-icons";
+import { faWrench, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import "../sass/Bookmark.scss";
 
@@ -62,12 +57,12 @@ const Bookmark = React.forwardRef(
             id={`link_${index + 1}`}
             onClick={event => onBookmarkClick(event, index)}
           >
-            <div className="tab">
-              {editMode && settings.dragEnabled && (
-                <div className="drag">
-                  <FontAwesomeIcon icon={faArrowsAlt} title="Drag & Drop" />
-                </div>
-              )}
+            <div
+              className={[
+                "tab",
+                settings.dragEnabled ? "dragEnabled" : ""
+              ].join(" ")}
+            >
               {settings.hotKeysEnabled &&
                 settings.hotKeyLabelsEnabled &&
                 index < 9 &&

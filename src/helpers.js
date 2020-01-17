@@ -128,7 +128,7 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
           "https://chrome.google.com/webstore/detail/desktop-bookmarks/dppepokpjgoaooihcnelbjhbhnggpblo"
       };
 
-      processedSettings.joinedVersion = DefaultSettings.version;
+      processedSettings.stats.joinedVersion = DefaultSettings.version;
     } else {
       /**
        * Legacy User
@@ -148,7 +148,7 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
       processedBookmarks.fill(null, 16);
 
       processedSettings.layout = Layouts.x4y4;
-      processedSettings.joinedVersion = "<1.0.0";
+      processedSettings.stats.joinedVersion = "<1.0.0";
     }
   } else if (settings.version !== DefaultSettings.version) {
     /**
@@ -166,6 +166,9 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
     if (settings.version === "1.0.1") {
       settings.iconRadiusPercentage = DefaultSettings.iconRadiusPercentage;
       settings.showAddNewPlaceholder = DefaultSettings.showAddNewPlaceholder;
+      settings.stats = DefaultSettings.stats;
+      settings.stats.joinedVersion = settings.joinedVersion;
+      delete settings.joinedVersion;
       delete settings.bookmarkBorderRadiusPx;
     }
   } else {
@@ -204,7 +207,6 @@ export const Layouts = {
 export const DefaultSettings = {
   version: "1.0.1",
   updatedFromVersion: null,
-  joinedVersion: null,
   dragEnabled: true,
   hotKeysEnabled: true,
   hotKeyLabelsEnabled: true,
@@ -213,6 +215,11 @@ export const DefaultSettings = {
   bookmarkLabelFontSizePx: 15,
   showAddNewPlaceholder: true,
   displayLabels: true,
+  stats: {
+    installedOn: null,
+    extensionOpenedTimes: 0,
+    joinedVersion: null
+  },
   // TODO:
   pageSize: {
     width: "100%",

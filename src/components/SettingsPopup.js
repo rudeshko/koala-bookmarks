@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Popup from "./Popup";
 import Checkbox from "./Checkbox";
+import InputNumber from "./InputNumber";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
 
@@ -36,11 +37,11 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
     onSettingsChange(newSettings);
   };
 
-  // const changeSettingValue = (key, value) => {
-  //   const newSettings = JSON.parse(JSON.stringify(settings));
-  //   newSettings[key] = value;
-  //   onSettingsChange(newSettings);
-  // };
+  const changeSettingValue = (key, value) => {
+    const newSettings = JSON.parse(JSON.stringify(settings));
+    newSettings[key] = value;
+    onSettingsChange(newSettings);
+  };
 
   /**
    * Output the component
@@ -78,21 +79,20 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           />
         </div>
       </div> */}
-      {/* <div className="setting">
+      <div className="setting">
         <div className="label">Bookmark Label Font Size</div>
         <div className="control">
-          <input
-            type="number"
-            min="10"
-            max="25"
-            step="1"
+          <InputNumber
             value={settings.bookmarkLabelFontSizePx}
-            onChange={e => {
-              changeSettingValue("bookmarkLabelFontSizePx", Number.parseInt(e.target.value))
+            min={9}
+            max={25}
+            postfix="px"
+            onChange={newValue => {
+              changeSettingValue("bookmarkLabelFontSizePx", newValue);
             }}
           />
         </div>
-      </div> */}
+      </div>
       {/* <div className="setting">
         <div className="label">Layout</div>
         <div className="control">
@@ -144,7 +144,9 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
         <FontAwesomeIcon icon={faStar} />
         Upgrade to Pro to enable all of the features
       </div> */}
-      <div className="version">v{settings.version}</div>
+      <div className="version">
+        &copy; 2020 Koala Bookmarks | v{settings.version}
+      </div>
     </Popup>
   );
 };

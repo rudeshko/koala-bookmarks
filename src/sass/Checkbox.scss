@@ -1,7 +1,7 @@
 @import "_variables";
 
 .component.checkbox {
-  $size: 28px;
+  $size: 28px; // TODO: Globalize it
 
   width: $size;
   height: $size;

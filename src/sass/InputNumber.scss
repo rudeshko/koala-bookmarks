@@ -1,0 +1,40 @@
+@import "_variables";
+
+.component.inputNumber {
+  $size: 40px;
+
+  display: flex;
+  flex-direction: row;
+
+  .value {
+    height: $size;
+    line-height: $size + 2px;
+    font-family: "Montserrat-Bold";
+    margin-right: 10px;
+  }
+
+  .controls {
+    width: 20px;
+    height: $size;
+    display: flex;
+    flex-direction: column;
+
+    .control {
+      height: $size / 2;
+      text-align: center;
+      color: $secondary_bg;
+      font-size: 18px;
+      border-radius: 25%;
+
+      &:hover:not(.disabled) {
+        background: $secondary_bg;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      &.disabled {
+        color: $light_grey;
+      }
+    }
+  }
+}
