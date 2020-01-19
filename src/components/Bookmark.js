@@ -16,6 +16,7 @@ const Bookmark = React.forwardRef(
       onOpenAddPopup,
       onDeleteBookmark,
       onBookmarkClick,
+      className,
       connectDragSource,
       connectDropTarget
     },
@@ -42,7 +43,7 @@ const Bookmark = React.forwardRef(
      */
     return (
       <div
-        className={["component bookmark"].join(" ").trim()}
+        className={["component bookmark", className].join(" ").trim()}
         ref={elementRef}
         style={{
           width: 100 / settings.layout.x + "%",
@@ -164,7 +165,7 @@ const Bookmark = React.forwardRef(
 export default DropTarget(
   "bookmark",
   {
-    hover({ index, onMoveBookmark }, monitor, component) {
+    hover({ index, onMoveBookmark, hoverDrag }, monitor, component) {
       const node = component.getNode();
       if (!component || !node) {
         return null;
@@ -179,10 +180,9 @@ export default DropTarget(
 
       onMoveBookmark(dragIndex, hoverIndex);
       monitor.getItem().index = hoverIndex;
+      hoverDrag(hoverIndex);
     },
     drop({ index, endDrag }) {
-      // TODO: This is working on drop
-      // TODO: Disable for empty bookmarks
       endDrag(index);
     }
   },
@@ -209,7 +209,7 @@ export default DropTarget(
   )(Bookmark)
 );
 
-Bookmark.defaultProps = { bookmark: null, settings: null };
+Bookmark.defaultProps = { bookmark: null, settings: null, className: "" };
 
 Bookmark.propTypes = {
   bookmark: PropTypes.shape({
@@ -226,5 +226,9 @@ Bookmark.propTypes = {
   onOpenAddPopup: PropTypes.func.isRequired,
   onDeleteBookmark: PropTypes.func.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
-  onMoveBookmark: PropTypes.func.isRequired
+  onMoveBookmark: PropTypes.func.isRequired,
+  beginDrag: PropTypes.func.isRequired,
+  endDrag: PropTypes.func.isRequired,
+  hoverDrag: PropTypes.func.isRequired,
+  className: PropTypes.string
 };

@@ -67,7 +67,7 @@ body {
           }
 
           .editIcon {
-            font-size: 21px;
+            font-size: 19px;
             display: none;
           }
         }
@@ -76,12 +76,17 @@ body {
 
     &.dragging {
       .bookmark {
-        &:not(.active) {
-          opacity: 0.75; // TODO: Make current dragging bookmark active
+        &.active .tab {
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.25);
         }
 
-        .tab {
-          border: 1px dashed rgba(255, 255, 255, 0.5);
+        &:not(.active) {
+          opacity: 0.25;
+
+          .tab {
+            border: 1px dashed #fff;
+          }
         }
       }
     }

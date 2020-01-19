@@ -26,7 +26,7 @@ const App = () => {
   const [editMode, setEditMode] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [settings, setSettings] = useState({});
-  const [draggingBookmarkIndex, setDraggingBookmarkIndex] = useState(false);
+  const [draggingBookmarkIndex, setDraggingBookmarkIndex] = useState(null);
 
   const [addBookmarkAtIndex, setAddBookmarkAtIndex] = useState(null);
   const [editBookmarkAtIndex, setEditBookmarkAtIndex] = useState(null);
@@ -218,7 +218,7 @@ const App = () => {
             "bookmarks",
             editMode ? "editMode" : "",
             settings.dragEnabled ? "dragEnabled" : "",
-            draggingBookmarkIndex ? "dragging" : "",
+            draggingBookmarkIndex !== null ? "dragging" : "",
             `layout_${settings.layout.x}x${settings.layout.y}`
           ]
             .join(" ")
@@ -240,9 +240,18 @@ const App = () => {
                 beginDrag={index => {
                   setDraggingBookmarkIndex(index);
                 }}
-                endDrag={index => {
+                endDrag={() => {
                   setDraggingBookmarkIndex(null);
                 }}
+                hoverDrag={index => {
+                  setDraggingBookmarkIndex(index);
+                }}
+                className={
+                  draggingBookmarkIndex !== null &&
+                  draggingBookmarkIndex === index
+                    ? "active"
+                    : ""
+                }
               ></Bookmark>
             ))}
         </div>
