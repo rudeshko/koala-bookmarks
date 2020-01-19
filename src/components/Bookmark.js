@@ -78,6 +78,9 @@ const Bookmark = React.forwardRef(
               <div
                 className="icon"
                 style={{
+                  width: `${settings.bookmarkBackgroundSizePx}px`,
+                  height: `${settings.bookmarkBackgroundSizePx}px`,
+                  lineHeight: `${settings.bookmarkBackgroundSizePx + 5}px`,
                   borderRadius: `${settings.iconRadiusPercentage}%`
                 }}
               >
@@ -132,6 +135,9 @@ const Bookmark = React.forwardRef(
                 ].join(" ")}
                 onClick={event => onOpenAddPopup(event, index)}
                 style={{
+                  width: `${settings.bookmarkBackgroundSizePx}px`,
+                  height: `${settings.bookmarkBackgroundSizePx}px`,
+                  lineHeight: `${settings.bookmarkBackgroundSizePx + 5}px`,
                   borderRadius: `${settings.iconRadiusPercentage}%`
                 }}
               >

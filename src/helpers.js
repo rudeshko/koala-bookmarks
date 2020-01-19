@@ -166,6 +166,7 @@ export const migrationChecker = async ({ bookmarks, settings }) => {
     if (settings.version === "1.0.1") {
       settings.iconRadiusPercentage = DefaultSettings.iconRadiusPercentage;
       settings.showAddNewPlaceholder = DefaultSettings.showAddNewPlaceholder;
+      settings.bookmarkBackgroundSizePx = DefaultSettings.bookmarkBackgroundSizePx;
       settings.stats = DefaultSettings.stats;
       settings.stats.joinedVersion = settings.joinedVersion;
       delete settings.joinedVersion;
@@ -213,6 +214,7 @@ export const DefaultSettings = {
   // New in 1.0.1
   iconRadiusPercentage: 20,
   bookmarkLabelFontSizePx: 15,
+  bookmarkBackgroundSizePx: 50,
   showAddNewPlaceholder: true,
   displayLabels: true,
   stats: {

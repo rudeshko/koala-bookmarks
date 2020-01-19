@@ -93,6 +93,20 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           />
         </div>
       </div>
+      <div className="setting">
+        <div className="label">Bookmark Icon Size</div>
+        <div className="control">
+          <InputNumber
+            value={settings.bookmarkBackgroundSizePx}
+            min={20}
+            max={70}
+            postfix="px"
+            onChange={newValue => {
+              changeSettingValue("bookmarkBackgroundSizePx", newValue);
+            }}
+          />
+        </div>
+      </div>
       {/* <div className="setting">
         <div className="label">Layout</div>
         <div className="control">

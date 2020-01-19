@@ -1,4 +1,4 @@
-name: Bookmarks Extension - CICD
+name: Koala Bookmarks - CICD
 
 on:
   push:

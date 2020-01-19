@@ -1,10 +1,10 @@
 {
-  "name": "Bookmarks Extension",
-  "short_name": "Bookmarks Extension",
+  "name": "Koala Bookmarks",
+  "short_name": "Koala",
   "version": "1.0.1",
   "manifest_version": 2,
   "description": "Extension for easier access to your favorite websites.",
-  "icons": { "128": "images/icon_128.png" },
+  "icons": { "128": "images/koala_128.png" },
   "permissions": ["storage", "https://www.googleapis.com/"],
   "oauth2": {
     "client_id": "136776124756-pvjjqoua8e86tj56l4gq92j8ovvlihnv.apps.googleusercontent.com",
