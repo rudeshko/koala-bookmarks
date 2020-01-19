@@ -3,7 +3,7 @@
   "short_name": "Koala",
   "version": "1.0.1",
   "manifest_version": 2,
-  "description": "Extension for easier access to your favorite websites.",
+  "description": "Browser Bookmarks made easier. Set up your favorite bookmarks and access them with hotkeys to improve your productivity.",
   "icons": { "128": "images/koala_128.png" },
   "permissions": ["storage", "https://www.googleapis.com/"],
   "oauth2": {
