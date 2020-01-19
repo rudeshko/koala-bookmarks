@@ -10,6 +10,8 @@
 
 Browser Bookmarks made easier. Set up your favorite bookmarks and access them with hotkeys to improve your productivity.
 
+Author: [rudeshko.net](https://rudeshko.net/)
+
 # Browser Support
 
 ## Chrome ![Chrome - supported](https://img.shields.io/badge/-supported-green)
