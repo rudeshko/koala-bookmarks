@@ -5,6 +5,9 @@
 
   display: flex;
   flex-direction: row;
+  border: 1px solid #eee;
+  padding: 3px 5px 3px 10px;
+  border-radius: 6px;
 
   .value {
     height: $size;

@@ -13,8 +13,33 @@
   z-index: 100;
   font-size: 16px;
 
+  &.newUser,
+  &.newVersion {
+    .window .content {
+      h1 {
+        font-family: "Montserrat-Light", sans-serif;
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: $secondary_bg;
+      }
+
+      h2 {
+        font-family: "Montserrat-Regular", sans-serif;
+        font-size: 20px;
+        padding-bottom: 7px;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        font-family: "Montserrat-Light", sans-serif;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
   &.settings {
-    .content {
+    .window .content {
       .setting {
         margin-bottom: 20px;
         display: flex;
@@ -26,6 +51,7 @@
         }
 
         .label {
+          min-height: 40px;
           line-height: 28px;
         }
 
@@ -56,36 +82,7 @@
         text-align: center;
         margin-top: 20px;
       }
-    }
-  }
 
-  &.newUser,
-  &.newVersion {
-    .window .content {
-      h1 {
-        font-family: "Montserrat-Light", sans-serif;
-        font-size: 26px;
-        margin-bottom: 20px;
-        color: $secondary_bg;
-      }
-
-      h2 {
-        font-family: "Montserrat-Regular", sans-serif;
-        font-size: 20px;
-        padding-bottom: 7px;
-        margin-bottom: 10px;
-      }
-
-      h3 {
-        font-family: "Montserrat-Light", sans-serif;
-        font-size: 18px;
-        margin-bottom: 10px;
-      }
-    }
-  }
-
-  &.settings {
-    .window .content {
       h1 {
         color: $dark_grey;
         font-size: 16px;

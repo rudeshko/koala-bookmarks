@@ -63,22 +63,22 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           </div>
         </div>
       ))}
-      {/* <h1>Visual</h1> */}
-      {/* <div className="setting">
+      <h1>Visual</h1>
+      <div className="setting">
         <div className="label">Icon Radius</div>
         <div className="control">
-          <input
-            type="number"
-            min="0"
-            max="50"
-            step="5"
+          <InputNumber
             value={settings.iconRadiusPercentage}
-            onChange={e => {
-              changeSettingValue("iconRadiusPercentage", Number.parseInt(e.target.value))
+            min={0}
+            max={50}
+            step={5}
+            postfix="%"
+            onChange={newValue => {
+              changeSettingValue("iconRadiusPercentage", newValue);
             }}
           />
         </div>
-      </div> */}
+      </div>
       <div className="setting">
         <div className="label">Bookmark Label Font Size</div>
         <div className="control">

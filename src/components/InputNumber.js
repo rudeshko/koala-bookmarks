@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 import "../sass/InputNumber.scss";
 
-const InputNumber = ({ min, max, value, postfix, onChange }) => {
+const InputNumber = ({ min, max, step, value, postfix, onChange }) => {
   /**
    * Define Hooks
    */
@@ -18,7 +18,7 @@ const InputNumber = ({ min, max, value, postfix, onChange }) => {
       return false;
     }
 
-    onChange(++value);
+    onChange(value + step); // TODO: Add step instead of 1
   };
 
   const handleClickDown = () => {
@@ -26,7 +26,7 @@ const InputNumber = ({ min, max, value, postfix, onChange }) => {
       return false;
     }
 
-    onChange(--value);
+    onChange(value - step); // TODO: Add step instead of 1
   };
 
   /**
@@ -55,34 +55,17 @@ const InputNumber = ({ min, max, value, postfix, onChange }) => {
       </div>
     </div>
   );
-  // <input
-  //   type="number"
-  //   min="9"
-  //   max="25"
-  //   step="1"
-  //   value={value}
-  //   onChange={e => {
-  //     let value = Number.parseInt(e.target.value);
-  //     if (!value) {
-  //       value = DefaultSettings.bookmarkLabelFontSizePx;
-  //     } else if (value < 9) {
-  //       value = 9;
-  //     } else if (value > 25) {
-  //       value = 25;
-  //     }
-
-  //     changeSettingValue("bookmarkLabelFontSizePx", value);
-  //   }}
-  // />
 };
 
 InputNumber.defaultProps = {
-  postfix: ""
+  postfix: "",
+  step: 1
 };
 
 InputNumber.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
+  step: PropTypes.number,
   value: PropTypes.number.isRequired,
   postfix: PropTypes.string,
   onChange: PropTypes.func.isRequired
