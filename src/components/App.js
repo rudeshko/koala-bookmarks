@@ -6,9 +6,9 @@ import {
   saveStoredBookmarks,
   saveStoredSettings,
   deleteStoredBookmark,
-  listenToKeys,
-  migrationChecker
+  listenToKeys
 } from "../helpers";
+import migrate from "../migrate";
 import AddBookmarkPopup from "./AddBookmarkPopup";
 import EditBookmarkPopup from "./EditBookmarkPopup";
 import NewUserPopup from "./NewUserPopup";
@@ -43,12 +43,15 @@ const App = () => {
       const stored_bookmarks = await getStoredBookmarks();
       const stored_settings = await getStoredSettings();
 
+      // TODO: Can avoid the following with an if statement:
+      // settings.version !== DefaultSettings.version
+
       const {
         processedBookmarks,
         processedSettings,
         isNewUser,
         isNewVersion
-      } = await migrationChecker({
+      } = await migrate({
         bookmarks: stored_bookmarks,
         settings: stored_settings
       });

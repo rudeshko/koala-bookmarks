@@ -1,7 +1,7 @@
 {
   "name": "Koala Bookmarks",
   "short_name": "Koala",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "manifest_version": 2,
   "description": "Browser Bookmarks made easier. Set up your favorite bookmarks and access them with hotkeys to improve your productivity.",
   "icons": { "128": "images/koala_128.png" },
