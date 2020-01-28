@@ -107,49 +107,41 @@ const SettingsPopup = ({ settings, onClose, onSettingsChange }) => {
           />
         </div>
       </div>
-      {/* <div className="setting">
+      <div className="setting">
         <div className="label">Layout</div>
-        <div className="control">
-          <input
-            type="number"
-            min="3"
-            max="6"
+        <div
+          className="control"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center"
+          }}
+        >
+          <InputNumber
             value={settings.layout.x}
-            onChange={e => {
+            min={3}
+            max={6}
+            onChange={newValue => {
               changeSettingValue("layout", {
-                x: Number.parseInt(e.target.value),
+                x: Number.parseInt(newValue),
                 y: settings.layout.y
               });
             }}
           />
-          By
-          <input
-            type="number"
-            min="3"
-            max="6"
+          {` By `}
+          <InputNumber
             value={settings.layout.y}
-            onChange={e => {
+            min={3}
+            max={6}
+            onChange={newValue => {
               changeSettingValue("layout", {
                 x: settings.layout.x,
-                y: Number.parseInt(e.target.value)
+                y: Number.parseInt(newValue)
               });
             }}
           />
-          <select
-            onChange={e => {
-              console.log(Layouts[e.target.value]);
-              changeSettingValue("layout", Layouts[e.target.value]);
-            }}
-            value={`x${settings.layout.x}y${settings.layout.y}`}
-          >
-            {Object.keys(Layouts).map((layout, index) => (
-              <option value={layout} key={index}>
-                {`${Layouts[layout].x}x${Layouts[layout].y}`}
-              </option>
-            ))}
-          </select>
         </div>
-      </div> */}
+      </div>
       <div className="comingSoon">
         <FontAwesomeIcon icon={faBullhorn} />
         Many more features are Coming Soon...

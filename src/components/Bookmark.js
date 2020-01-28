@@ -49,6 +49,7 @@ const Bookmark = React.forwardRef(
           width: 100 / settings.layout.x + "%",
           height: 100 / settings.layout.y + "%"
         }}
+        tabIndex={bookmark ? 1 : -1}
       >
         {bookmark ? (
           <a
@@ -111,6 +112,7 @@ const Bookmark = React.forwardRef(
                   <img
                     src={`https://www.google.com/s2/favicons?domain=${bookmark.url}`}
                     alt=""
+                    id={`bookmark_${index}`}
                   />
                 )}
               </div>
