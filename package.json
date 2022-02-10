@@ -17,7 +17,7 @@
     "@testing-library/user-event": "^7.1.2",
     "fast-average-color": "^6.0.1",
     "immutability-helper": "^3.0.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "react": "^16.12.0",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",
